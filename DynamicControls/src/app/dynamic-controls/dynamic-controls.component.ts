@@ -6,7 +6,13 @@ import { DynamicControl } from '../core/models';
 @Component({
   standalone: false,
   selector: 'app-dynamic-controls',
-  templateUrl: './dynamic-controls.component.html',
+  template: `
+  <div *ngIf="(dynamicControls$ | async) as dynamicControls">
+    <div *ngFor="let dynamicControl of dynamicControls">
+        <app-dynamic-control [data]="dynamicControl"></app-dynamic-control>
+    </div>
+  </div>
+  `,
   styleUrl: './dynamic-controls.component.css'
 })
 export class DynamicControlsComponent implements OnInit {
