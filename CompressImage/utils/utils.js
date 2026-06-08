@@ -3,6 +3,27 @@ const path = require("path");
 const fs = require("fs");
 const sharp = require("sharp");
 const UPLOAD_DIR = path.join(__dirname, process.env.UPLOAD_PATH);
+
+const CHAR_SET = "abcdefghijklmnopqrstuvwxyz";
+
+const getRandom = (function () {
+  let randomName = function (length = 5) {
+    try {
+      const chars = Array.from(
+        { length },
+        () => CHAR_SET[Math.floor(Math.random() * CHAR_SET.length)],
+      );
+      return makeFirstCharCapital(chars.join(""));
+    } catch (error) {
+      throw error;
+    }
+  };
+  return { randomName };
+})();
+
+const makeFirstCharCapital = function (str) {
+  return str.charAt(0).toUpperCase() + str.slice(1);
+};
 const destination = function (req, file, cb) {
   cb(null, UPLOAD_DIR);
 };
@@ -13,7 +34,20 @@ const filename = function (req, file, cb) {
 
 const multerDiskstorage = { destination, filename };
 const storage = multer.diskStorage(multerDiskstorage);
-
+const uploadFields = [
+  {
+    name: "images",
+    maxCount: Number(process.env.MAX_IMAGE_UPLOAD_COUNT),
+  },
+  {
+    name: "videos",
+    maxCount: Number(process.env.MAX_VIDEO_UPLOAD_COUNT),
+  },
+  {
+    name: "documents",
+    maxCount: Number(process.env.MAX_DOCUMENT_UPLOAD_COUNT),
+  },
+];
 const compressImages = async function (files) {
   try {
     const allFiles = Object.values(files).filter(Boolean).flat();
@@ -57,4 +91,5 @@ module.exports = {
   storage,
   compressImages,
   asyncHandler,
+  uploadFields,
 };
