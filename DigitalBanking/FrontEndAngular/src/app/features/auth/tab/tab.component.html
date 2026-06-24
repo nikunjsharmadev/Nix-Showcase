@@ -1,0 +1,19 @@
+<div class="auth-tab-row" role="tablist" aria-label="Account Authorization">
+  <bnk-button
+    (click)="onTabChange(authTab.Login)"
+    [active]="activeTab === authTab.Login"
+    buttonClass="tab-btn"
+    aria-controls="section-login"
+  >
+    Secure Sign In
+  </bnk-button>
+
+  <bnk-button
+    (click)="onTabChange(authTab.Register)"
+    [active]="activeTab === authTab.Register"
+    buttonClass="tab-btn"
+    aria-controls="section-register"
+  >
+    Register Profile
+  </bnk-button>
+</div>

@@ -1,0 +1,10 @@
+{
+    "request_create_user": {
+        "firstName": "Nikunj",
+        "lastName": "Sharma",
+        "email": "nix@example.com",
+        "phone": "+1-902-555-1234",
+        "password": "MySecurePassword123!",
+        "role": "customer"
+    }
+}

@@ -1,0 +1,408 @@
+/* You can add global styles to this file, and also import other style files */
+/* ==========================================================================
+   ENTERPRISE DESIGN SYSTEMS TOKENS SYSTEM
+   ========================================================================== */
+:root {
+  /* Brand Identity Values */
+  --rbc-corporate: #0051a2;
+  --rbc-accent-gold: #ffd200;
+  --dark-slate-base: #0f172a;
+
+  /* Interface Surfaces Colors */
+  --surface-app-bg: #f8fafc;
+  --surface-card-bg: #ffffff;
+  --surface-border: #e2e8f0;
+
+  /* Font Color Scales */
+  --text-dark-primary: #1e293b;
+  --text-dark-muted: #64748b;
+  --text-light-pure: #ffffff;
+
+  /* Behavioral Color Feedback Profiles */
+  --feedback-success: #16a34a;
+  --feedback-success-bg: #f0fdf4;
+  --feedback-danger: #dc2626;
+  --feedback-danger-bg: #fef2f2;
+  --feedback-alert: #d97706;
+  --feedback-alert-bg: #fffbeb;
+
+  /* Architectural Tolerances */
+  --radius-enterprise-card: 12px;
+  --radius-enterprise-input: 6px;
+  --shadow-subtle-elevation:
+    0 1px 3px 0 rgba(0, 0, 0, 0.05), 0 1px 2px -1px rgba(0, 0, 0, 0.05);
+  --shadow-heavy-elevation:
+    0 20px 25px -5px rgba(0, 0, 0, 0.08), 0 8px 10px -6px rgba(0, 0, 0, 0.08);
+  --transition-uniform: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+/* ==========================================================================
+   ENTERPRISE DESIGN SYSTEMS TOKENS SYSTEM (DARK MODE EXTENSION)
+   ========================================================================== */
+.dark-theme {
+  /* Recalibrated Dark Interface Surfaces */
+  --surface-app-bg: #0b0f19; /* Deep slate background layer */
+  --surface-card-bg: #151f32; /* Elevated glass-like card surface */
+  --surface-border: #24324d; /* Crisp border separator lines */
+
+  /* Text Contrast Inversions */
+  --text-dark-primary: #f8fafc; /* Bright white/silver primary text */
+  --text-dark-muted: #94a3b8; /* Soft gray metadata text */
+
+  /* Dark Mode Feedback Overrides */
+  --feedback-success-bg: rgba(22, 163, 74, 0.15);
+  --feedback-danger-bg: rgba(220, 38, 38, 0.15);
+  --feedback-alert-bg: rgba(217, 119, 6, 0.12);
+
+  /* Subtle Shadows for Dark Surfaces */
+  --shadow-subtle-elevation:
+    0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -2px rgba(0, 0, 0, 0.3);
+  --shadow-heavy-elevation: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+}
+
+/* Specific Dark Theme Micro-Component Overrides */
+.dark-theme .auth-form-space {
+  background: #111827;
+}
+
+.dark-theme input[type="text"],
+.dark-theme input[type="email"],
+.dark-theme input[type="password"],
+.dark-theme input[type="number"],
+.dark-theme select {
+  background-color: #1e293b;
+}
+
+.dark-theme input:focus,
+.dark-theme select:focus {
+  background-color: #151f32;
+  box-shadow: 0 0 0 4px rgba(0, 81, 162, 0.35);
+}
+
+.dark-theme .banking-data-table th {
+  background-color: #1e293b;
+  color: #cbd5e1;
+}
+
+.dark-theme .status-badge.debit {
+  background-color: #1e293b;
+  color: #f1f5f9;
+}
+
+.dark-theme .checkmark {
+  background-color: #1e293b;
+}
+
+.dark-theme .btn-secondary-action:hover {
+  background-color: #1e293b;
+}
+
+/* Base Engine Rules Reset */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family:
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+  background-color: var(--surface-app-bg);
+  color: var(--text-dark-primary);
+  line-height: 1.5;
+}
+
+/* ==========================================================================
+   PAGE SPECIFIC STRUCTURE A: SECURE AUTH GATEWAY (SPLIT SHELL)
+   ========================================================================== */
+.auth-viewport {
+  display: flex;
+  min-height: 100vh;
+  width: 100%;
+}
+
+.auth-sidebar-brand {
+  flex: 1.1;
+  background: linear-gradient(135deg, #1e293b, var(--dark-slate-base));
+  padding: 4.5rem;
+  display: flex;
+  align-items: center;
+  color: var(--text-light-pure);
+}
+
+.brand-info {
+  max-width: 440px;
+}
+
+.mini-badge {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  padding: 4px 10px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  width: max-content;
+  border-radius: 4px;
+  margin-bottom: 1.5rem;
+}
+
+.brand-info h2 {
+  font-size: 2.25rem;
+  line-height: 1.2;
+  margin-bottom: 1.25rem;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+}
+
+.brand-info p {
+  color: #94a3b8;
+  font-size: 1rem;
+}
+
+.auth-form-space {
+  flex: 1;
+  background: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 3.5rem 2.5rem;
+}
+
+.auth-card-box {
+  width: 100%;
+  max-width: 400px;
+}
+
+/* ==========================================================================
+   PAGE SPECIFIC STRUCTURE B: UNIVERSAL PORTAL FRAME WORKSPACE
+   ========================================================================== */
+.app-top-nav {
+  background-color: var(--rbc-corporate);
+  color: var(--text-light-pure);
+  padding: 1rem 2.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.nav-branding {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.core-logo {
+  background: var(--rbc-accent-gold);
+  color: var(--dark-slate-base);
+  font-weight: 900;
+  padding: 4px 10px;
+  border-radius: var(--radius-enterprise-input);
+  font-size: 0.9rem;
+}
+.nav-branding h1 {
+  font-size: 1.15rem;
+  font-weight: 600;
+}
+
+.nav-links-cluster {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+.nav-anchor {
+  color: #cbd5e1;
+  text-decoration: none;
+  font-size: 0.95rem;
+  font-weight: 500;
+  transition: var(--transition-uniform);
+}
+.nav-anchor:hover,
+.nav-anchor.current {
+  color: var(--text-light-pure);
+}
+
+.btn-nav-logout {
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: white;
+  padding: 6px 14px;
+  border-radius: var(--radius-enterprise-input);
+  cursor: pointer;
+  font-size: 0.85rem;
+}
+
+.container-main {
+  max-width: 1280px;
+  margin: 2.5rem auto;
+  padding: 0 1.5rem;
+}
+.workspace-panel.small-bounds {
+  max-width: 680px;
+  margin: 0 auto;
+}
+
+.workspace-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 2rem;
+  border-bottom: 1px solid var(--surface-border);
+  padding-bottom: 1rem;
+}
+.workspace-heading h2 {
+  font-size: 1.6rem;
+  font-weight: 700;
+}
+.timestamp-readout {
+  font-size: 0.85rem;
+  color: var(--text-dark-muted);
+  font-weight: 500;
+}
+
+/* ==========================================================================
+   SHARED COMPLEX UI COMPONENT MODULES
+   ========================================================================== */
+/* Dynamic Responsive Card Grid layouts */
+.card-layout-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 3rem;
+}
+
+.asset-card {
+  background: var(--surface-card-bg);
+  padding: 1.75rem;
+  border-radius: var(--radius-enterprise-card);
+  box-shadow: var(--shadow-subtle-elevation);
+  border-left: 6px solid #cbd5e1;
+}
+.asset-card.priority {
+  border-left-color: var(--rbc-accent-gold);
+}
+.asset-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+}
+.asset-mask {
+  font-size: 0.85rem;
+  color: var(--text-dark-muted);
+  margin-bottom: 1.25rem;
+}
+.asset-balance {
+  font-size: 1.95rem;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+}
+.denom {
+  font-size: 0.9rem;
+  color: var(--text-dark-muted);
+  font-weight: 400;
+}
+
+/* Data Tables Engine Components */
+.table-container-card {
+  background: var(--surface-card-bg);
+  border-radius: var(--radius-enterprise-card);
+  box-shadow: var(--shadow-subtle-elevation);
+  border: 1px solid var(--surface-border);
+  overflow: hidden;
+}
+.table-container-card.form-pad {
+  padding: 2.5rem;
+}
+
+.table-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem 2rem;
+  border-bottom: 1px solid var(--surface-border);
+}
+.table-card-header h3 {
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.responsive-table-scroll {
+  width: 100%;
+  overflow-x: auto;
+}
+.banking-data-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+.banking-data-table th,
+.banking-data-table td {
+  padding: 1rem 2rem;
+  border-bottom: 1px solid var(--surface-app-bg);
+}
+
+.banking-data-table th {
+  background-color: #f1f5f9;
+  color: var(--text-dark-muted);
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.align-right {
+  text-align: right;
+}
+.math-positive {
+  color: var(--feedback-success);
+  font-weight: 600;
+}
+.math-negative {
+  color: var(--text-dark-primary);
+  font-weight: 600;
+}
+
+.status-badge {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 50px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+.status-badge.credit {
+  background-color: var(--feedback-success-bg);
+  color: var(--feedback-success);
+}
+.status-badge.debit {
+  background-color: #f1f5f9;
+  color: var(--text-dark-primary);
+}
+
+/* ==========================================================================
+   INPUTS FRAMEWORK & FORM ENGINE UTILITIES
+   ========================================================================== */
+
+/* ==========================================================================
+   RESPONSIVE LAYOUT MEDIA ADAPTATIONS OVERRIDES
+   ========================================================================== */
+@media (max-width: 900px) {
+  .auth-sidebar-brand {
+    display: none;
+  }
+  .auth-wrapper {
+    max-width: 480px;
+  }
+  .app-top-nav {
+    flex-direction: column;
+    gap: 12px;
+    padding: 1rem;
+    text-align: center;
+  }
+  .nav-links-cluster {
+    width: 100%;
+    justify-content: space-around;
+  }
+}

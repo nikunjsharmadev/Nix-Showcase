@@ -1,0 +1,10 @@
+<button
+  [class.active]="active"
+  [class]="buttonClass"
+  role="tab"
+  [attr.aria-selected]="active"
+  [type]="type"
+  [disabled]="isDisabled"
+>
+  <ng-content />
+</button>

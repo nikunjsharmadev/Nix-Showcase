@@ -1,0 +1,107 @@
+<div class="app-layout-wrapper">
+  <header class="app-top-nav" role="banner">
+    <div class="nav-branding">
+      <div class="core-logo">RBC_UX</div>
+      <h1>Unified Wealth Ecosystem</h1>
+      <button id="theme-switcher" class="btn-nav-logout">
+        🌓 Toggle Theme
+      </button>
+
+      <script>
+        const switcher = document.getElementById("theme-switcher");
+        switcher.addEventListener("click", () => {
+          document.body.classList.toggle("dark-theme");
+        });
+      </script>
+    </div>
+    <nav class="nav-links-cluster" aria-label="Primary Portal Navigation">
+      <a href="dashboard.html" class="nav-anchor current">Overview</a>
+      <a href="transfers.html" class="nav-anchor">Move Money</a>
+      <button class="btn-nav-logout">Secure Sign Out</button>
+    </nav>
+  </header>
+
+  <div class="container-main">
+    <main class="workspace-panel" role="main">
+      <header class="workspace-heading">
+        <h2>Portfolio Matrix Overview</h2>
+        <span class="timestamp-readout">Telemetry Sync: Real-Time Active</span>
+      </header>
+
+      <section
+        class="card-layout-grid"
+        aria-label="Financial Liquidity Summaries"
+      >
+        <div
+          class="asset-card priority"
+          role="region"
+          aria-labelledby="lbl-vip"
+        >
+          <h3 id="lbl-vip" class="asset-title">RBC VIP Checking</h3>
+          <p class="asset-mask">Account Node: •••• 4059</p>
+          <p class="asset-balance" aria-live="polite">
+            $14,842.50 <span class="denom">CAD</span>
+          </p>
+        </div>
+
+        <div class="asset-card" role="region" aria-labelledby="lbl-sav">
+          <h3 id="lbl-sav" class="asset-title">High-Growth Wealth Savings</h3>
+          <p class="asset-mask">Account Node: •••• 9102</p>
+          <p class="asset-balance" aria-live="polite">
+            $85,210.00 <span class="denom">CAD</span>
+          </p>
+        </div>
+
+        <div class="asset-card" role="region" aria-labelledby="lbl-inv">
+          <h3 id="lbl-inv" class="asset-title">Direct Investment Margin</h3>
+          <p class="asset-mask">Account Node: •••• 7710</p>
+          <p class="asset-balance" aria-live="polite">
+            $240,119.80 <span class="denom">USD</span>
+          </p>
+        </div>
+      </section>
+
+      <section class="table-container-card" aria-labelledby="ledger-title">
+        <div class="table-card-header">
+          <h3 id="ledger-title">Global Transaction Execution Log</h3>
+          <button class="btn-secondary-action">
+            Export Active View (.CSV)
+          </button>
+        </div>
+
+        <div class="responsive-table-scroll">
+          <table class="banking-data-table">
+            <thead>
+              <tr>
+                <th scope="col">Execution Date</th>
+                <th scope="col">Description / Routing Node</th>
+                <th scope="col">Classification</th>
+                <th scope="col" class="align-right">Net Magnitude</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Jun 10, 2026</td>
+                <td>Corporate Direct Payroll / TECH-CORP-NS</td>
+                <td><span class="status-badge credit">Income</span></td>
+                <td class="align-right math-positive">+$4,250.00</td>
+              </tr>
+              <tr>
+                <td>Jun 09, 2026</td>
+                <td>Halifax Infrastructure Power / Web BillPay</td>
+                <td><span class="status-badge debit">Utilities</span></td>
+                <td class="align-right math-negative">-$142.30</td>
+              </tr>
+              <tr>
+                <td>Jun 07, 2026</td>
+                <td>Downtown Tech Co-Working Spaces Hub</td>
+                <td><span class="status-badge debit">Operations</span></td>
+                <td class="align-right math-negative">-$350.00</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+  </div>
+</div>
