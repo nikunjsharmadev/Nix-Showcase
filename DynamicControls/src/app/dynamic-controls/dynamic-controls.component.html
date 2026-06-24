@@ -1,0 +1,5 @@
+<div *ngIf="(dynamicControls$ | async) as dynamicControls">
+    <div *ngFor="let dynamicControl of dynamicControls">
+        <app-dynamic-control [data]="dynamicControl"></app-dynamic-control>
+    </div>
+</div>

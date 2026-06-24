@@ -1,0 +1,30 @@
+<ng-container *ngIf="data.dataType === 'singleLineText'" [ngTemplateOutlet]="singleLineText" [ngTemplateOutletContext]="data"></ng-container>
+<ng-template #singleLineText let-label="label" let-value="value">
+    <label>{{label}}</label>
+    <input type="text" [value]="value">
+</ng-template>
+<br>
+<ng-container *ngIf="data.dataType === 'number'" [ngTemplateOutlet]="number" [ngTemplateOutletContext]="data"></ng-container>
+<ng-template #number let-label="label" let-value="value">
+    <label>{{label}}</label>
+    <input type="number" [value]="value">
+</ng-template>
+<ng-container *ngIf="data.dataType === 'singleChoice'" [ngTemplateOutlet]="singleChoice" [ngTemplateOutletContext]="data"></ng-container>
+<ng-template #singleChoice let-label="label" let-value="value">
+    <label>{{label}}</label>
+    <ng-container *ngFor="let gender of getStringToArray(value)">
+        {{gender}}<input name="label" type="radio" [value]="gender">
+    </ng-container>
+</ng-template>
+<ng-container *ngIf="data.dataType === 'MultiChoice'" [ngTemplateOutlet]="MultiChoice" [ngTemplateOutletContext]="data"></ng-container>
+<ng-template #MultiChoice let-label="label" let-value="value">
+    <label>{{label}}</label>
+    <select multiple>
+        <option *ngFor="let choice of getStringToArray(value)">{{choice}}</option>
+    </select>
+</ng-template>
+<ng-container *ngIf="data.dataType === 'multiLineText'" [ngTemplateOutlet]="multiLineText" [ngTemplateOutletContext]="data"></ng-container>
+<ng-template #multiLineText let-label="label" let-value="value">
+    <label>{{label}}</label>
+    <textarea [value]="value"></textarea>
+</ng-template>

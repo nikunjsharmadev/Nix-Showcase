@@ -1,0 +1,32 @@
+[
+    {
+      "label": "firstName:",
+      "dataType": "singleLineText",
+      "value": ""
+    },
+    {
+      "label": "lastName:",
+      "dataType": "singleLineText",
+      "value": ""
+    },
+    {
+      "label": "age:",
+      "dataType": "number",
+      "value": "0"
+    },
+    {
+      "label": "gender:",
+      "dataType": "singleChoice",
+      "value": "['male', 'female']"
+    },
+    {
+      "label": "skills:",
+      "dataType": "MultiChoice",
+      "value": "['Angular', 'CSS', 'Node']"
+    },
+    {
+      "label": "description:",
+      "dataType": "multiLineText",
+      "value": ""
+    }
+  ]
