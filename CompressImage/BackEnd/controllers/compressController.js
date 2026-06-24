@@ -1,9 +1,10 @@
 const { compressImages } = require("../utils/utils");
 const compressImage = async function (request, response) {
   try {
-    console.log(request.files);
     const [file] = await compressImages(request.files);
-    return response.status(201).json({ status: "Success" });
+    return response
+      .status(201)
+      .json({ status: "Success", file: file.fileName });
   } catch (error) {
     return response
       .status(500)
