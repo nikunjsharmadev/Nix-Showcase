@@ -1,0 +1,14 @@
+<section
+  [class.active]="registerTab"
+  id="section-register"
+  class="auth-panel"
+  role="tabpanel"
+  aria-labelledby="toggle-register"
+  [hidden]="!registerTab"
+>
+  <div class="panel-intro">
+    <h3>Initialize Banking Profile</h3>
+    <p>Setup digital credentials to connect your physical accounts.</p>
+  </div>
+  <bnk-form-control useType="register"></bnk-form-control>
+</section>

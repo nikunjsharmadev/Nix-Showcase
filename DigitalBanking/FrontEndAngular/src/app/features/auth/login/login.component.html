@@ -1,0 +1,14 @@
+<section
+  [class.active]="loginTab"
+  id="section-login"
+  class="auth-panel"
+  role="tabpanel"
+  aria-labelledby="toggle-login"
+  [hidden]="!loginTab"
+>
+  <div class="panel-intro">
+    <h3>Welcome Back</h3>
+    <p>Input your credentials to initialize your secure session.</p>
+  </div>
+  <bnk-form-control useType="login"></bnk-form-control>
+</section>

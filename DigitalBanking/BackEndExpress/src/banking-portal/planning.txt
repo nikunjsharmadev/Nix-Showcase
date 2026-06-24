@@ -1,0 +1,150 @@
+make back end for banking system.
+tasks:
+1. User Authentication System
+    Register new users (customer, employee, admin)✅
+    Login users with email and password✅
+    Hash passwords before storing (bcrypt)✅
+    Generate JWT token on login✅
+    Verify JWT for protected routes✅
+2. Role-Based Access Control (RBAC)
+    Assign roles to users (customer / employee / admin)
+    Restrict APIs based on role
+    Allow different permissions for different users
+    Protect admin-only and employee-only routes
+3. User Management
+    Create and manage user profiles
+    Fetch user details✅
+    Update user information
+    Deactivate or activate users (admin feature)
+4. Account Management (Bank Accounts)
+    Create bank accounts for users
+    Fetch all accounts for a user
+    Get single account details
+    Maintain account status (active, frozen, closed)
+    Track account balance
+5. Transaction System
+    Deposit money into account
+    Withdraw money from account
+    Transfer money between accounts
+    Maintain transaction history
+    Store transaction type (credit, debit, transfer)
+6. Beneficiary Management
+    Add saved recipients (beneficiaries)
+    View list of beneficiaries
+    Delete or update beneficiary details
+7. Notification System
+    Generate notifications for user actions
+    Example: transfer successful, login alert
+    Fetch notifications for dashboard
+8. Audit Logging (Advanced Feature)
+    Log sensitive actions (login, transfer, account changes)
+    Store who performed action and when
+    Track IP address and activity history
+9. API Security Layer
+    Protect all sensitive APIs with JWT middleware✅
+    Validate request data before processing
+    Prevent unauthorized access✅
+    Secure headers using Helmet✅
+    Enable CORS policy✅
+10. Error Handling System✅
+    Handle API errors globally
+    Return consistent error response format
+    Prevent system crashes
+    Log backend errors properly
+11. Database Management (MongoDB)✅
+    Design collections (users, accounts, transactions, etc.)
+    Create relationships using ObjectId references
+    Optimize queries for performance
+    Seed initial data (admin/user accounts)
+12. API Layer (REST Services)✅
+    Build REST APIs for frontend integration
+    Follow standard routes:
+    GET (fetch data)
+    POST (create data)
+    PUT (update data)
+    DELETE (remove data)
+13. Logging & Monitoring
+    Log every API request
+    Track response time
+    Monitor failed requests
+    Debug production issues
+14. Environment Configuration✅
+    Separate dev and production configs
+    Store secrets in .env file✅
+    Manage MongoDB URI, JWT secret, ports✅
+
+
+collections(tables):
+1. Users
+    _id (ObjectId)
+    firstName (string)
+    lastName (string)
+    email (string)
+    passwordHash (string)
+    role (customer | employee | admin)
+    isActive (boolean)
+    createdAt (date)
+    updatedAt (date)
+2. Accounts
+    _id (ObjectId)
+    userId (ObjectId → users._id)
+    accountNumber (string)
+    accountType (savings | checking | credit)
+    balance (number)
+    currency (string - default CAD)
+    status (active | frozen | closed)
+    createdAt (date)
+    updatedAt (date)
+3. transactions
+    _id (ObjectId)
+    accountId (ObjectId → accounts._id)
+    userId (ObjectId → users._id)
+    type (credit | debit | transfer)
+    amount (number)
+    currency (string)
+    fromAccountId (ObjectId → accounts._id)   // for transfer
+    toAccountId (ObjectId → accounts._id)     // for transfer
+    description (string)
+    referenceNumber (string)
+    status (pending | completed | failed)
+    createdAt (date)
+4. beneficiaries
+    _id (ObjectId)
+    userId (ObjectId → users._id)
+    name (string)
+    bankName (string)
+    accountNumber (string)
+    nickname (string)
+    createdAt (date)
+5. notifications
+    _id (ObjectId)
+    userId (ObjectId → users._id)
+    title (string)
+    message (string)
+    type (info | warning | success | error)
+    isRead (boolean)
+    createdAt (date)
+6. auditlogs
+    _id (ObjectId)
+    userId (ObjectId → users._id)
+    action (LOGIN | LOGOUT | TRANSFER | UPDATE_USER | CREATE_ACCOUNT)
+    entity (string - users/accounts/transactions)
+    entityId (ObjectId)
+    ipAddress (string)
+    userAgent (string)
+    timestamp (date)
+Relationships:
+    1 User → many Accounts
+    1 User → many Transactions (indirect via accounts)
+    1 User → many Notifications
+    1 User → many Beneficiaries
+    1 User → many AuditLogs
+    Many Accounts → 1 User
+    1 Account → many Transactions
+    Many Transactions → 1 Account
+    Many Transactions → 1 User
+    Transfer links 2 accounts (from + to)
+    Many Beneficiaries → 1 User
+    Many Notifications → 1 User
+    Many AuditLogs → 1 User
+    Tracks all critical system actions

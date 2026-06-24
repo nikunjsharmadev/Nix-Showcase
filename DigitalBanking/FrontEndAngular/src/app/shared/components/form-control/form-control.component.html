@@ -1,0 +1,120 @@
+@switch (useType) {
+  @case ("login") {
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" autocomplete="on">
+      <div
+        class="form-field"
+        [class.error-state]="checkElementValidation('email')"
+      >
+        <label for="login-user">Client Username / Email</label>
+        <input
+          type="email"
+          required
+          placeholder="client@banking.rbc.com"
+          autocomplete="username"
+          formControlName="email"
+        />
+        <bnk-form-error-msg
+          [control]="loginForm.get('email')"
+        ></bnk-form-error-msg>
+      </div>
+      <div
+        class="form-field"
+        [class.error-state]="checkElementValidation('password')"
+      >
+        <div class="field-label-split">
+          <label for="login-pass">Password</label>
+          <a href="#" class="inline-link">Forgot Access?</a>
+        </div>
+        <input
+          type="password"
+          required
+          placeholder="••••••••"
+          autocomplete="current-password"
+          formControlName="password"
+        />
+        <bnk-form-error-msg
+          [control]="loginForm.get('password')"
+        ></bnk-form-error-msg>
+      </div>
+
+      <div
+        class="form-utils"
+        [class.error-state]="checkElementValidation('saveDevice')"
+      >
+        <label class="custom-checkbox">
+          <input
+            type="checkbox"
+            id="remember-device"
+            formControlName="saveDevice"
+            required
+          />
+          <span class="checkmark"></span>
+          Trust this device for future token authentication
+        </label>
+      </div>
+      <bnk-button
+        [isDisabled]="false"
+        type="submit"
+        buttonClass="btn-primary-action"
+        >Authorize & Enter</bnk-button
+      >
+    </form>
+  }
+  @case ("register") {
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" autocomplete="on">
+      <div class="form-field">
+        <label for="reg-fullname">Legal Full Name</label>
+        <input
+          type="text"
+          id="reg-fullname"
+          required
+          placeholder="Nix Developer"
+          autocomplete="given-name"
+          formControlName="fullName"
+        />
+      </div>
+
+      <div class="form-field">
+        <label for="reg-email">Verified Email Address</label>
+        <input
+          type="email"
+          id="reg-email"
+          required
+          placeholder="nix@halifax-tech.ca"
+          autocomplete="email"
+          formControlName="email"
+        />
+      </div>
+
+      <div class="form-field">
+        <label for="reg-password">Create Master Password</label>
+        <input
+          type="password"
+          id="reg-password"
+          required
+          placeholder="••••••••"
+          aria-describedby="reg-pass-error"
+          autocomplete="new-password"
+          formControlName="password"
+        />
+      </div>
+
+      <div class="form-utils">
+        <label class="custom-checkbox">
+          <input
+            type="checkbox"
+            id="terms-agree"
+            required
+            formControlName="acceptTerms"
+          />
+          <span class="checkmark"></span>
+          I accept all cryptographic usage and electronic asset disclosures
+        </label>
+      </div>
+
+      <bnk-button type="submit" buttonClass="btn-primary-action"
+        >Initialize Identity</bnk-button
+      >
+    </form>
+  }
+}

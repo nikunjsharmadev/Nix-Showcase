@@ -1,0 +1,22 @@
+<div class="auth-viewport">
+  <div class="auth-sidebar-brand" aria-hidden="true">
+    <div class="brand-info">
+      <div class="mini-badge">System Secure</div>
+      <h2>Unified Digital Banking Experience Platform</h2>
+      <p>
+        Access your global assets, wealth management accounts, and real-time
+        execution pipelines via a singular encrypted node.
+      </p>
+    </div>
+  </div>
+
+  <main class="auth-form-space">
+    <div class="auth-card-box">
+      <bnk-tab (changeTab)="receiveChangeTab($event)"></bnk-tab>
+      <bnk-login [loginTab]="activeTab === authTab.Login"></bnk-login>
+      <bnk-register
+        [registerTab]="activeTab === authTab.Register"
+      ></bnk-register>
+    </div>
+  </main>
+</div>
