@@ -4,6 +4,7 @@ const port = process.env.PORT || 3000;
 const express = require("express");
 const mainApp = express();
 mainApp.use(express.json());
+mainApp.use(express.static("FrontEnd"));
 mainApp.use((request, response, next) => {
   const start = Date.now();
   response.on("finish", () => {
@@ -13,7 +14,7 @@ mainApp.use((request, response, next) => {
   next();
 });
 
-const compress = require("./CompressImage/app");
+const compress = require("./BackEnd/app");
 mainApp.use("/compress", compress);
 
 mainApp.get("/", (request, response) => {
