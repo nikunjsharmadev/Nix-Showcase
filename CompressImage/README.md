@@ -56,6 +56,10 @@ http://localhost:5000/
 - The compressed image will open in a new tab automatically
 
 ### 8. Expose Standalone API
+- form-data:
+
+    key: images, value: [image]
+
 ```
 http://localhost:5000/compress/api/image
 ```
