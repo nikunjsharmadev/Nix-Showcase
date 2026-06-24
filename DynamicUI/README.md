@@ -4,7 +4,53 @@ Built a metadata-driven form rendering system in Angular using ngTemplateOutlet-
 
 ![alt text](dynamicUIcontollerView.png)
 
-![alt text](JSONView.jpg)
+```json
+[
+  {
+    "label": "firstName",
+    "dataType": "singleLineText",
+    "value": "",
+    "placeHolder": "Enter First Name"
+  },
+  {
+    "label": "lastName",
+    "dataType": "singleLineText",
+    "value": "",
+    "placeHolder": "Enter Last Name"
+  },
+  {
+    "label": "Email",
+    "dataType": "singleLineTextEmail",
+    "value": "",
+    "placeHolder": "myemail@email.com"
+  },
+  {
+    "label": "age",
+    "dataType": "number",
+    "value": 18,
+    "minValue": 18
+  },
+  {
+    "label": "gender",
+    "dataType": "singleChoice",
+    "value": "['male', 'female']",
+    "default": "male"
+  },
+  {
+    "label": "skills",
+    "dataType": "MultiChoice",
+    "value": "['Angular', 'CSS', 'Node', 'Typescript']",
+    "default": "Angular"
+  },
+  {
+    "label": "description",
+    "dataType": "multiLineText",
+    "value": "",
+    "placeHolder": "What's in your mind"
+  }
+]
+
+```
 
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.3.25.
 
@@ -16,7 +62,7 @@ To start a local development server, run:
 ng serve
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/dynamic-controls`. The application will automatically reload whenever you modify any of the source files.
+Once the server is running, open your browser and navigate to `http://localhost:4200/dynamic-ui`. The application will automatically reload whenever you modify any of the source files.
 
 ## Code scaffolding
 
