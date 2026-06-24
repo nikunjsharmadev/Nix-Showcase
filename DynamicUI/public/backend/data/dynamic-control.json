@@ -1,0 +1,44 @@
+[
+  {
+    "label": "firstName",
+    "dataType": "singleLineText",
+    "value": "",
+    "placeHolder": "Enter First Name"
+  },
+  {
+    "label": "lastName",
+    "dataType": "singleLineText",
+    "value": "",
+    "placeHolder": "Enter Last Name"
+  },
+  {
+    "label": "Email",
+    "dataType": "singleLineTextEmail",
+    "value": "",
+    "placeHolder": "myemail@email.com"
+  },
+  {
+    "label": "age",
+    "dataType": "number",
+    "value": 18,
+    "minValue": 18
+  },
+  {
+    "label": "gender",
+    "dataType": "singleChoice",
+    "value": "['male', 'female']",
+    "default": "male"
+  },
+  {
+    "label": "skills",
+    "dataType": "MultiChoice",
+    "value": "['Angular', 'CSS', 'Node', 'Typescript']",
+    "default": "Angular"
+  },
+  {
+    "label": "description",
+    "dataType": "multiLineText",
+    "value": "",
+    "placeHolder": "What's in your mind"
+  }
+]
