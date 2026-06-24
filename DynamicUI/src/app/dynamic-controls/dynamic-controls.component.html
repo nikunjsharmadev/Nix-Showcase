@@ -1,0 +1,7 @@
+<form>
+  @if (dynamicControls$ | async; as dynamicControls) {
+    @for (dynamicControl of dynamicControls; track dynamicControl) {
+      <dyn-ui-control [data]="dynamicControl"> </dyn-ui-control>
+    }
+  }
+</form>

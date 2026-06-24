@@ -1,0 +1,51 @@
+/* Container for the entire form */
+form,
+.form-container {
+  max-width: 500px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background-color: #1e293b; /* Deep slate background */
+  border-radius: 8px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+  font-family: 'Courier New', Courier, monospace;
+  border: 1px solid #334155;
+}
+
+/* Outer wrapper divs for each form row */
+dyn-ui-control {
+  margin-bottom: 1.25rem;
+}
+
+/* The dynamic control component layout */
+dyn-ui-control {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  color: #f1f5f9; /* Off-white text */
+}
+
+/* Special handling for Radio Buttons layout */
+dyn-ui-control:has(input[type='radio']) {
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem;
+}
+
+/* Ensure the radio label stays on its own line block */
+dyn-ui-control:has(input[type='radio']) label {
+  width: 100%;
+  margin-bottom: -0.25rem;
+}
+
+/* Custom Radio input styling alignment */
+dyn-ui-control input[type='radio'] {
+  margin-right: 0.25rem;
+  cursor: pointer;
+  accent-color: #06b6d4; /* Matches the neon focus state */
+}
+
+.main {
+  display: flex;
+  flex-direction: row;
+}
