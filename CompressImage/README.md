@@ -1,8 +1,10 @@
-# COMPRESS IMAGE API NODEJS+EXPRESSJS+SHARP
+# Compress Image Node+Express+Sharp
 Developed a high-performance image optimization API powered by Typescript using Node.js, Express.js, MongoDB, and Sharp, reducing image payload sizes by up to 60% with no perceptible loss in visual quality.
 
 # Image Compression Project
+## Prerequisites
 
+- Node.js v20.20.2
 ## Steps to Use
 
 ### 1. Download Project
