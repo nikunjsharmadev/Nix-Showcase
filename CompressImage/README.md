@@ -55,3 +55,9 @@ http://localhost:5000/
 
 - The compressed image will open in a new tab automatically
 
+### 8. Expose Standalone API
+```
+http://localhost:5000/compress/api/image
+```
+
+
