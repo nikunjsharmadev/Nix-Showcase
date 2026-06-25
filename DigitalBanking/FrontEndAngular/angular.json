@@ -62,10 +62,6 @@
         },
         "serve": {
           "builder": "@angular/build:dev-server",
-          "options": {
-            "host": "nikunj",
-            "port": 4200
-          },
           "configurations": {
             "production": {
               "buildTarget": "banking-portal:build:production"
