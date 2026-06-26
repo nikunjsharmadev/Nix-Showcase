@@ -1,18 +1,22 @@
 .auth-panel {
   display: none;
+
+  &.active {
+    display: block;
+  }
 }
-.auth-panel.active {
-  display: block;
-}
+
 .panel-intro {
   margin-bottom: 1.75rem;
-}
-.panel-intro h3 {
-  font-size: 1.5rem;
-  font-weight: 700;
-  margin-bottom: 0.25rem;
-}
-.panel-intro p {
-  color: var(--text-dark-muted);
-  font-size: 0.9rem;
+
+  h3 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 0.25rem;
+  }
+
+  p {
+    font-size: 0.9rem;
+    color: var(--text-dark-muted);
+  }
 }

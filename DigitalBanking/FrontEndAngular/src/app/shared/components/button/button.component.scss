@@ -8,39 +8,44 @@
   cursor: pointer;
   position: relative;
   transition: var(--transition-uniform);
+
+  &.active {
+    color: var(--rbc-corporate);
+
+    &::after {
+      content: "";
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background-color: var(--rbc-corporate);
+    }
+  }
 }
 
-.tab-btn.active {
-  color: var(--rbc-corporate);
-}
-.tab-btn.active::after {
-  content: "";
-  position: absolute;
-  bottom: -2px;
-  left: 0;
-  width: 100%;
-  height: 2px;
-  background-color: var(--rbc-corporate);
-}
 .btn-primary-action {
   width: 100%;
   padding: 0.8rem;
   background-color: var(--rbc-corporate);
-  color: white;
+  color: #fff;
   border: none;
   font-weight: 600;
   font-size: 0.95rem;
   border-radius: var(--radius-enterprise-input);
   cursor: pointer;
   transition: var(--transition-uniform);
+
+  &:hover {
+    background-color: #003d7a;
+  }
+
+  &.fit-content {
+    width: max-content;
+    padding: 0.8rem 2rem;
+  }
 }
-.btn-primary-action:hover {
-  background-color: #003d7a;
-}
-.btn-primary-action.fit-content {
-  width: max-content;
-  padding: 0.8rem 2rem;
-}
+
 .btn-secondary-action {
   background: none;
   border: 1px solid var(--surface-border);
@@ -51,7 +56,8 @@
   border-radius: var(--radius-enterprise-input);
   cursor: pointer;
   transition: var(--transition-uniform);
-}
-.btn-secondary-action:hover {
-  background-color: var(--surface-app-bg);
+
+  &:hover {
+    background-color: var(--surface-app-bg);
+  }
 }
