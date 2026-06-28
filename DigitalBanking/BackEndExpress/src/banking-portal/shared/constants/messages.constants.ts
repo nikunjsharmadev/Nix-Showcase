@@ -5,8 +5,13 @@ export const STRING_CONSTANT = {
     auth: "Auth api up and running",
   },
   success: {
+    success: "Success",
     userFetch: "Users fetched successfully",
     emailVerified: "Email verified",
+    passwordReset: "Password reset successfully",
+  },
+  messages: {
+    resetLinkSent: "Reset link already sent",
   },
   error: {
     notFound: "Not found",
@@ -19,7 +24,9 @@ export const STRING_CONSTANT = {
     emailExist: "Email already exists",
     credentials: "Invalid credentials",
     registration: "Registration failed",
+    login: "Login failed",
     emailVerification: "Email verification failed",
     emailVerifyFirst: "Verify your email first",
+    noUser: "User not found",
   },
 };

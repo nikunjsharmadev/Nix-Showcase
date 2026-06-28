@@ -1,4 +1,4 @@
-import User from "./user.model.js";
+import User from "./User.model.js";
 import jwt from "jsonwebtoken";
 import type { CreateRequest, UserResponse } from "./user.interface.js";
 import { Role } from "../../shared/types/roles.js";
@@ -39,7 +39,8 @@ export const createUser = async function (
     throw error;
   }
 };
-const generateVerificationToken = (userId: string) => {
+export const resendVerifyEmail = () => {};
+export const generateVerificationToken = (userId: string) => {
   return jwt.sign(
     {
       userId,
@@ -51,8 +52,8 @@ const generateVerificationToken = (userId: string) => {
     },
   );
 };
-const getEmailVerificationLink = (verificationToken: string) => {
-  return `${process.env.FRONTEND_URL}/verify-email?token=${verificationToken}`;
+export const getEmailVerificationLink = (verificationToken: string) => {
+  return `${process.env.FRONTEND_URL_LOCAL}/verify-email?token=${verificationToken}`;
 };
 export const getUsers = async function (page: number, limit: number) {
   const skip = (page - 1) * limit;

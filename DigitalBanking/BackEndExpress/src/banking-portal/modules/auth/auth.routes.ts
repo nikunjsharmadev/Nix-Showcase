@@ -1,6 +1,12 @@
 import express, { type Request, type Response } from "express";
 import { API_ROUTES, STRING_CONSTANT } from "../../shared/constants/index.js";
-import { login, verifyEmail } from "./auth.controller.js";
+import {
+  forgotPassword,
+  login,
+  resendVerifyEmail,
+  resetPassword,
+  verifyEmail,
+} from "./auth.controller.js";
 import { registerUser } from "../users/user.controller.js";
 import { asyncHandler } from "../../utils/async-handler.js";
 const router = express.Router();
@@ -10,6 +16,11 @@ router.get(API_ROUTES.auth.server, (req: Request, res: Response) => {
   });
 });
 router.route(API_ROUTES.auth.verifyEmail).get(asyncHandler(verifyEmail));
+router
+  .route(API_ROUTES.auth.resendVerifyEmail)
+  .post(asyncHandler(resendVerifyEmail));
 router.route(API_ROUTES.auth.register).post(asyncHandler(registerUser));
 router.route(API_ROUTES.auth.login).post(asyncHandler(login));
+router.route(API_ROUTES.auth.forgotPassword).post(asyncHandler(forgotPassword));
+router.route(API_ROUTES.auth.resetPassword).post(asyncHandler(resetPassword));
 export const AuthRoutes = router;

@@ -4,7 +4,8 @@ dotenv.config();
 import jwt from "jsonwebtoken";
 import { UnauthorizedError } from "../errors/unauthorized.error.js";
 import { STRING_CONSTANT } from "../shared/constants/messages.constants.js";
-export const authMiddleware = (
+import type { Role } from "../shared/types/roles.js";
+export const authenticate = (
   req: Request,
   res: Response,
   next: NextFunction,
@@ -39,4 +40,19 @@ export const authMiddleware = (
       success: false,
     });
   }
+};
+export const authorize = (...roles: Role[]) => {
+  return (req: Request, res: Response, next: NextFunction) => {
+    if (!req.user) {
+      return res.status(401).json({
+        message: STRING_CONSTANT.error.unauthorized,
+      });
+    }
+    if (!roles.includes(req.user.role as Role)) {
+      return res.status(403).json({
+        message: STRING_CONSTANT.error.forbidden,
+      });
+    }
+    next();
+  };
 };

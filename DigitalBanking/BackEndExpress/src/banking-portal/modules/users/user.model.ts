@@ -23,6 +23,8 @@ const userSchema = new Schema(
       default: false,
     },
     lastLogin: Date,
+    resetPasswordToken: String,
+    resetPasswordExpires: Date,
   },
   {
     versionKey: false,
