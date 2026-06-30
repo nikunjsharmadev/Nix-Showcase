@@ -37,7 +37,10 @@ jobs:
       - name: Build
         working-directory: DynamicUI
         run: npm run build -- --configuration production --base-href "/Nix-Showcase/"
-
+      
+      - name: Copy index to 404 fallback
+        run: cp DynamicUI/dist/dynamic-controller/browser/index.html DynamicUI/dist/dynamic-controller/browser/404.html
+      
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
@@ -56,6 +59,3 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
-        
-      - name: Copy index to 404 fallback
-        run: cp DynamicUI/dist/dynamic-controller/browser/index.html DynamicUI/dist/dynamic-controller/browser/404.html
