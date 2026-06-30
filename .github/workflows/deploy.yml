@@ -30,7 +30,6 @@ jobs:
           cache: npm
           cache-dependency-path: DynamicUI/package-lock.json
 
-
       - name: Install dependencies
         working-directory: DynamicUI
         run: npm ci
@@ -41,11 +40,6 @@ jobs:
       
       - name: Copy index to 404 fallback
         run: cp DynamicUI/dist/dynamic-controller/browser/index.html DynamicUI/dist/dynamic-controller/browser/404.html
-      
-      - name: Upload Pages artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: DynamicUI/dist/dynamic-controller/browser
 
       # ================= DigitalBanking =================
       - name: Setup Node
@@ -67,10 +61,18 @@ jobs:
       - name: Copy index to 404 fallback
         run: cp DigitalBanking/FrontEndAngular/dist/banking-portal/browser/index.html DigitalBanking/FrontEndAngular/dist/banking-portal/browser/404.html
       
+      # -------- MERGE OUTPUT --------
+      - name: Prepare Pages folder
+        run:
+          mkdir -p public/dynamic-controller
+          mkdir -p public/banking-portal
+          cp -r DynamicUI/dist/* public/dynamic-controller/
+          cp -r DigitalBanking/FrontEndAngular/dist/* public/banking-portal/
+
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: DigitalBanking/FrontEndAngular/dist/banking-portal/browser
+          path: public
 
 
   deploy:
