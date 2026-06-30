@@ -36,7 +36,7 @@ jobs:
 
       - name: Build
         working-directory: DynamicUI
-        run: npm run build -- --configuration production --base-href "/Nix-Showcase/"
+        run: npm run build -- --configuration production --base-href "/Nix-Showcase/dynamic-controller/"
       
       - name: Copy index to 404 fallback
         run: cp DynamicUI/dist/dynamic-controller/browser/index.html DynamicUI/dist/dynamic-controller/browser/404.html
@@ -56,7 +56,7 @@ jobs:
 
       - name: Build
         working-directory: DigitalBanking/FrontEndAngular
-        run: npm run build -- --configuration production --base-href "/Nix-Showcase/banking-portal"
+        run: npm run build -- --configuration production --base-href "/Nix-Showcase/banking-portal/"
       
       - name: Copy index to 404 fallback
         run: cp DigitalBanking/FrontEndAngular/dist/banking-portal/browser/index.html DigitalBanking/FrontEndAngular/dist/banking-portal/browser/404.html
