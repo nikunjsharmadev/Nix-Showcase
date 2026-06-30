@@ -66,6 +66,7 @@ jobs:
         run:
           mkdir -p public/dynamic-controller
           mkdir -p public/banking-portal
+          
           cp -r DynamicUI/dist/* public/dynamic-controller/
           cp -r DigitalBanking/FrontEndAngular/dist/* public/banking-portal/
 
