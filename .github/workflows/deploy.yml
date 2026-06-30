@@ -42,9 +42,6 @@ jobs:
         uses: actions/upload-pages-artifact@v3
         with:
           path: DynamicUI/dist/dynamic-controller/browser
-          
-      - name: Copy index to 404 fallback
-        run: cp DynamicUI/dist/dynamic-controller/browser/index.html DynamicUI/dist/dynamic-controller/browser/404.html
 
   deploy:
     needs: build
@@ -59,3 +56,6 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+        
+      - name: Copy index to 404 fallback
+        run: cp DynamicUI/dist/dynamic-controller/browser/index.html DynamicUI/dist/dynamic-controller/browser/404.html
