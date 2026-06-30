@@ -22,6 +22,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      # ================= DynamicUI =================
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
@@ -45,6 +46,32 @@ jobs:
         uses: actions/upload-pages-artifact@v3
         with:
           path: DynamicUI/dist/dynamic-controller/browser
+
+      # ================= DigitalBanking =================
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: DigitalBanking/FrontEndAngular/package-lock.json
+
+
+      - name: Install dependencies
+        working-directory: DigitalBanking/FrontEndAngular
+        run: npm ci
+
+      - name: Build
+        working-directory: DigitalBanking/FrontEndAngular
+        run: npm run build -- --configuration production --base-href "/Nix-Showcase/banking-portal"
+      
+      - name: Copy index to 404 fallback
+        run: cp DigitalBanking/FrontEndAngular/dist/banking-portal/browser/index.html DigitalBanking/FrontEndAngular/dist/banking-portal/browser/404.html
+      
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: DigitalBanking/FrontEndAngular/dist/banking-portal/browser
+
 
   deploy:
     needs: build
