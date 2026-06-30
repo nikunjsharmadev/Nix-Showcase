@@ -66,8 +66,11 @@ jobs:
         run:
           mkdir -p public/dynamic-controller
           mkdir -p public/banking-portal
-          
+
+          echo "Copying DynamicUI..."
           cp -r DynamicUI/dist/* public/dynamic-controller/
+
+          echo "Copying Banking app..."
           cp -r DigitalBanking/FrontEndAngular/dist/* public/banking-portal/
 
       - name: Upload Pages artifact
