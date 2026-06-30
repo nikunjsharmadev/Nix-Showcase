@@ -36,7 +36,7 @@ jobs:
 
       - name: Build
         working-directory: DynamicUI
-        run: npm run build -- --configuration production --base-href "/Nix-Showcase/dynamic-controller"
+        run: npm run build -- --configuration production --base-href "/Nix-Showcase/dynamic-controller/"
       
       - name: Copy index to 404 fallback
         run: cp DynamicUI/dist/dynamic-controller/browser/index.html DynamicUI/dist/dynamic-controller/browser/404.html
@@ -55,22 +55,22 @@ jobs:
 
       - name: Build
         working-directory: DigitalBanking/FrontEndAngular
-        run: npm run build -- --configuration production --base-href "/Nix-Showcase/banking-portal"
+        run: npm run build -- --configuration production --base-href "/Nix-Showcase/banking-portal/"
       
       - name: Copy index to 404 fallback
         run: cp DigitalBanking/FrontEndAngular/dist/banking-portal/browser/index.html DigitalBanking/FrontEndAngular/dist/banking-portal/browser/404.html
       
       # -------- MERGE OUTPUT --------
       - name: Prepare Pages folder
-        run:
+        run: |
           mkdir -p public/dynamic-controller
           mkdir -p public/banking-portal
 
           echo "Copying DynamicUI..."
-          cp -r DynamicUI/dist/* public/dynamic-controller/
+          cp -r DynamicUI/dist/dynamic-controller/browser/* public/dynamic-controller/
 
           echo "Copying Banking app..."
-          cp -r DigitalBanking/FrontEndAngular/dist/* public/banking-portal/
+          cp -r DigitalBanking/FrontEndAngular/dist/banking-portal/browser/* public/banking-portal/
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
