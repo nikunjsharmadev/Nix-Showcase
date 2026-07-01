@@ -1,0 +1,96 @@
+name: Deploy Angular to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # ================= DynamicUI =================
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: DynamicUI/package-lock.json
+
+      - name: Install dependencies
+        working-directory: DynamicUI
+        run: npm ci
+
+      - name: Build
+        working-directory: DynamicUI
+        run: npm run build -- --configuration production --base-href "/Nix-Showcase/dynamic-controller/"
+      
+      - name: Copy index to 404 fallback
+        run: cp DynamicUI/dist/dynamic-controller/browser/index.html DynamicUI/dist/dynamic-controller/browser/404.html
+
+      # ================= DigitalBanking =================
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: DigitalBanking/FrontEndAngular/package-lock.json
+
+      - name: Install dependencies
+        working-directory: DigitalBanking/FrontEndAngular
+        run: npm ci
+
+      - name: Build
+        working-directory: DigitalBanking/FrontEndAngular
+        run: npm run build -- --configuration production --base-href "/Nix-Showcase/banking-portal/"
+      
+      - name: Copy index to 404 fallback
+        run: cp DigitalBanking/FrontEndAngular/dist/banking-portal/browser/index.html DigitalBanking/FrontEndAngular/dist/banking-portal/browser/404.html
+      
+      # -------- MERGE OUTPUT --------
+      - name: Prepare Pages folder
+        run: |
+          mkdir -p public/dynamic-controller
+          mkdir -p public/banking-portal
+
+          echo "Copying DynamicUI..."
+          cp -r DynamicUI/dist/dynamic-controller/browser/* public/dynamic-controller/
+
+          echo "Copying Banking app..."
+          cp -r DigitalBanking/FrontEndAngular/dist/banking-portal/browser/* public/banking-portal/
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          # path: DynamicUI/dist/dynamic-controller/browser
+          # path: DigitalBanking/FrontEndAngular/dist/banking-portal/browser
+          path: public
+
+
+
+  deploy:
+    needs: build
+
+    runs-on: ubuntu-latest
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

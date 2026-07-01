@@ -52,6 +52,18 @@ Built a metadata-driven form rendering system in Angular using ngTemplateOutlet-
 
 ```
 
+```ts
+<ng-container
+  *ngIf="data.dataType === 'singleLineText'"
+  [ngTemplateOutlet]="singleLineText"
+  [ngTemplateOutletContext]="data"
+></ng-container>
+<ng-template #singleLineText let-label="label" let-value="value">
+  <label>{{ label }}</label>
+  <input [placeholder]="data.placeHolder" required type="text" [value]="value" />
+</ng-template>
+```
+
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.3.25.
 
 ## Development server
