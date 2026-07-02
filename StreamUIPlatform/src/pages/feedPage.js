@@ -39,7 +39,8 @@ async function loadVideos(container, loader) {
   try {
     feedState.loading = true;
     loader.classList.remove("hidden");
-    const videos = await ApiService.getVideos(feedState.page, 6);
+    if (feedState.page === 1) renderSkeleton(8);
+    const videos = await ApiService.getVideos(feedState.page, 8);
     feedState.videos.push(...videos);
     applyFilter();
     feedState.page++;
@@ -103,4 +104,18 @@ export function moderateVideo(video) {
     ...video,
     flagged: isUnsafe,
   };
+}
+export function renderSkeleton(count = 6) {
+  const feed = document.getElementById("feed");
+  feed.innerHTML = "";
+  for (let i = 0; i < count; i++) {
+    feed.innerHTML += `
+    <div class="video-card skeleton-card">
+      <div class="skeleton skeleton-thumbnail"></div>
+        <div class="text-block">
+        <div class="skeleton skeleton-line title"></div>
+        <div class="skeleton skeleton-line short"></div>
+      </div>
+    </div>`;
+  }
 }

@@ -204,8 +204,7 @@ a {
   }
 
   .feed {
-    grid-template-columns: none;
-
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
     gap: 20px;
   }
 
@@ -417,4 +416,51 @@ a {
 }
 .not-found button:hover {
   background: #2563eb;
+}
+/* base skeleton */
+.skeleton {
+  background: #2a2a2a;
+  border-radius: 6px;
+  animation: pulse 1.2s infinite ease-in-out;
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 0.4;
+  }
+  50% {
+    opacity: 0.9;
+  }
+  100% {
+    opacity: 0.4;
+  }
+}
+
+/* thumbnail */
+.skeleton-thumbnail {
+  width: 100%;
+  height: 180px;
+}
+
+/* text container (IMPORTANT FIX) */
+.text-block {
+  margin-top: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* text lines */
+.skeleton-line {
+  height: 12px;
+  width: 100%; /* 🔴 THIS WAS PROBABLY MISSING */
+}
+
+/* variations */
+.skeleton-line.title {
+  width: 80%;
+}
+
+.skeleton-line.short {
+  width: 55%;
 }

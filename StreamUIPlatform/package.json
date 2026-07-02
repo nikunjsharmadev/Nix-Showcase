@@ -1,0 +1,8 @@
+{
+  "name": "stream-ui",
+  "version": "1.0.0",
+  "scripts": {
+    "start": "npx http-server",
+    "build": "echo \"No build step required\""
+  }
+}
