@@ -2,10 +2,12 @@ export function VideoCard(video) {
   const card = document.createElement("article");
   card.className = "video-card";
   card.innerHTML = `
-    <div class="video-card">
-      <img loading="lazy" src="${video.thumbnail}" />
-      <h3>${video.title}</h3>
-      <p>${video.views}</p>
+    <div>
+      <a href="${video.url}" target="_blank" rel="noopener noreferrer">
+        <img loading="lazy" alt="${video.title}" src="${video.thumbnail}" />
+        <h3>${video.title}</h3>
+        <p>${video.views}</p>
+      </a>
     </div>`;
   return card;
 }
