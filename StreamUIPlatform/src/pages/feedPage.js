@@ -1,4 +1,4 @@
-import { ApiService } from "../services/api.js";
+import { ApiService } from "../services/apiService.js";
 import { VideoCard } from "../components/videocard.js";
 import { delegate } from "../core/events.js";
 import { debounce } from "../utils/debounce.js";
@@ -14,7 +14,7 @@ export function FeedPage() {
   setTimeout(() => initFeed(), 0);
   return `
   <div class="feed-container">
-      <div id="feed"></div>
+      <div id="feed" class="feed"></div>
       <div id="sentinel"></div>
       <div id="loader" class="loader hidden">Loading...</div>
   </div>`;
@@ -28,18 +28,7 @@ async function initFeed() {
   //start infinite scrolling
   setupObserver(container, loader, sentinel);
 }
-setTimeout(() => {
-  const searchInput = document.getElementById("search");
-  if (!searchInput) return;
-  searchInput.addEventListener(
-    "input",
-    debounce((e) => {
-      const value = e.target.value.toLowerCase();
-      filterVideos(value);
-    }, 300),
-  );
-}, 0);
-function filterVideos(query) {
+export function filterVideos(query) {
   feedState.search = query.trim().toLowerCase();
   applyFilter();
 }
@@ -75,13 +64,19 @@ function applyFilter() {
 function renderVideos(container, videos) {
   container.innerHTML = "";
   if (videos.length < 1) {
-    container.innerHTML = `<div class="empty-state">
+    container.innerHTML = `
+    <div class="empty-state">
       <h2>No videos found</h2>
       <p>Try searching with a different keyword, then "<strong>${feedState.search}</strong>".</p> 
     </div>`;
     return;
   }
-  container.innerHTML = videos.map(VideoCard).join("");
+  const fragment = document.createDocumentFragment();
+  videos.forEach((video) => {
+    fragment.appendChild(VideoCard(video));
+  });
+  container.innerHTML = "";
+  container.appendChild(fragment);
 }
 function setupObserver(container, loader, sentinel) {
   observer = new IntersectionObserver(
@@ -93,8 +88,19 @@ function setupObserver(container, loader, sentinel) {
     },
     {
       root: null,
-      threshold: 1.0,
+      threshold: 0,
+      rootMargin: "200px",
     },
   );
   observer.observe(sentinel);
+}
+export function moderateVideo(video) {
+  const unsafeKeywords = ["spam", "fake"];
+  const isUnsafe = unsafeKeywords.some((word) =>
+    video.title.toLowerCase().includes(word),
+  );
+  return {
+    ...video,
+    flagged: isUnsafe,
+  };
 }
