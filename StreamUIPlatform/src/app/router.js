@@ -3,14 +3,9 @@ import { FeedPage } from "../pages/feedPage.js";
 import { initLogin, LoginPage } from "../pages/loginPage.js";
 import { Auth } from "../services/authService.js";
 import { initNavbar, NavBar } from "../components/navbar.js";
-const routes = {
-  "/": HomePage,
-  "/feed": FeedPage,
-  "/login": LoginPage,
-};
+import { initNotFound, pageNotFound } from "../pages/pageNotFound.js";
 export class Router {
   constructor(root) {
-    this.routes = routes;
     this.init();
   }
   init() {
@@ -23,16 +18,23 @@ export class Router {
   render() {
     const path = this.getPath();
     if (!guardRoute(path)) return;
-    const page = this.routes[path] || this.routes["/"];
     const view = document.getElementById("view");
-    view.innerHTML = page();
-    const element = document.getElementById("navbar");
-    if (path === "/login") {
-      element.innerHTML = "";
-      initLogin();
-    } else {
-      element.innerHTML = NavBar();
-      initNavbar();
+    const navbar = document.getElementById("navbar");
+    switch (path) {
+      case "/login":
+        view.innerHTML = LoginPage();
+        navbar.innerHTML = "";
+        initLogin();
+        break;
+      case "/feed":
+        view.innerHTML = FeedPage();
+        navbar.innerHTML = NavBar();
+        initNavbar();
+        break;
+      default:
+        view.innerHTML = pageNotFound();
+        navbar.innerHTML = "";
+        initNotFound();
     }
   }
 }

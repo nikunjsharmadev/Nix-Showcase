@@ -5,13 +5,11 @@ import { debounce } from "../utils/debounce.js";
 export function NavBar() {
   return `
     <div class="nav-links">
-      <a href="#/">Home</a>
-      <a href="#/feed">Feed</a>
       <div class="search-box">
         <input id="search" placeholder="Search videos..." />
       </div>
-      <button class="logout-btn" id="logoutBtn">Logout</button>
-    </div>`;
+    </div>
+    <button class="logout-btn" id="logoutBtn">Logout</button>`;
 }
 
 export function initNavbar() {
