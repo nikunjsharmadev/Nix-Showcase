@@ -1,44 +1,66 @@
 [
   {
+    "id": 1,
     "label": "firstName",
+    "controllId": "firstName_1",
     "dataType": "singleLineText",
     "value": "",
     "placeHolder": "Enter First Name"
   },
   {
+    "id": 2,
     "label": "lastName",
+    "controllId": "lastName_2",
     "dataType": "singleLineText",
     "value": "",
     "placeHolder": "Enter Last Name"
   },
   {
-    "label": "Email",
+    "id": 3,
+    "label": "email",
+    "controllId": "email_3",
     "dataType": "singleLineTextEmail",
     "value": "",
     "placeHolder": "myemail@email.com"
   },
   {
+    "id": 4,
     "label": "age",
+    "controllId": "age_4",
     "dataType": "number",
     "value": 18,
-    "minValue": 18
+    "minValue": 18,
+    "placeHolder": "Enter Age"
   },
   {
+    "id": 5,
     "label": "gender",
+    "controllId": "gender_5",
     "dataType": "singleChoice",
     "value": "['male', 'female']",
     "default": "male"
   },
   {
+    "id": 6,
     "label": "skills",
-    "dataType": "MultiChoice",
+    "controllId": "skills_6",
+    "dataType": "multiChoice",
     "value": "['Angular', 'CSS', 'Node', 'Typescript']",
     "default": "Angular"
   },
   {
+    "id": 7,
     "label": "description",
+    "controllId": "description_7",
     "dataType": "multiLineText",
     "value": "",
     "placeHolder": "What's in your mind"
+  },
+  {
+    "id": 8,
+    "label": "Submit",
+    "controllId": "submit_8",
+    "dataType": "submit",
+    "value": ""
   }
 ]

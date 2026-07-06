@@ -1,16 +1,11 @@
 import { Routes } from '@angular/router';
-
-export const routes: Routes = [
-  {
-    path: 'dynamic-ui',
-    loadComponent: () =>
-      import('./dynamic-controls/dynamic-controls.component').then(
-        (m) => m.DynamicControlsComponent,
-      ),
-  },
+export const ROUTES: Routes = [
   {
     path: '',
-    redirectTo: 'dynamic-ui',
-    pathMatch: 'full',
+    loadComponent: () => import('./components').then((m) => m.DynamicFormControlsComponent),
+  },
+  {
+    path: '**',
+    loadComponent: () => import('./components').then((m) => m.PageNotFoundComponent),
   },
 ];
