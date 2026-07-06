@@ -12,5 +12,13 @@ html {
 body {
   font-family: 'Courier New', Courier, monospace;
 }
-
-
+button {
+  padding: 12px 24px;
+  border: none;
+  border-radius: 8px;
+  background: #3b82f6;
+  color: #fff;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background 0.2s;
+}
