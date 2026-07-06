@@ -1,6 +1,8 @@
-// Model for dynamic control
-export interface DynamicControl {
+// MODELS
+export interface DynamicControlModel {
+  id?: number;
   label?: string;
+  controllId?: string;
   dataType?: string;
   value?: string[] | number;
   default?: string;
