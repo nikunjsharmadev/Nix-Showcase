@@ -29,7 +29,6 @@ uploadForm.addEventListener("submit", async function (e) {
 
   const formData = new FormData();
   formData.append("images", imageInput.files[0]);
-  console.log(formData);
   const response = await fetch("http://127.0.0.1:5000/compress/api/image", {
     method: "POST",
     body: formData,
