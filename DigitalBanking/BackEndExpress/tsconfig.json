@@ -1,6 +1,6 @@
 {
   // Visit https://aka.ms/tsconfig to read more about this file
-  "include": ["src"],
+  "include": ["src", "./server"],
   "compilerOptions": {
     "esModuleInterop": true,
     // File Layout
@@ -20,11 +20,11 @@
     "sourceMap": true,
     "declaration": true,
     "declarationMap": true,
-    "typeRoots": ["./src/banking-portal/shared/types"],
+    "typeRoots": ["src/shared/types"],
 
     // Stricter Typechecking Options
     "noUncheckedIndexedAccess": true,
-    "exactOptionalPropertyTypes": true,
+    "exactOptionalPropertyTypes": false,
 
     // Style Options
     // "noImplicitReturns": true,
@@ -40,6 +40,7 @@
     "isolatedModules": true,
     "noUncheckedSideEffectImports": true,
     "moduleDetection": "force",
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "noImplicitThis": true
   }
 }
