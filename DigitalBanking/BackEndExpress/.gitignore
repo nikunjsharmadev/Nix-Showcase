@@ -18,6 +18,6 @@ Thumbs.db
 # IDE files
 .vscode/
 .idea/
-server-copy.ts
+src/server-copy.ts
 planning.txt
 dummy-data.json

@@ -1,8 +1,8 @@
 import dotenv from "dotenv";
 dotenv.config();
 import http from "node:http";
-import { App } from "./src/index.js";
-import { handleFatalError } from "./src/utils/index.js";
+import { App } from "./app/index.js";
+import { handleFatalError } from "./app/utils/index.js";
 // SERVER
 async function Server() {
   try {
