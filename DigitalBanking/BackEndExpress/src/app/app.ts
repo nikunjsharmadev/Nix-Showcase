@@ -1,10 +1,11 @@
-import express from "express";
-import { asyncWrapper, checkAppHealth } from "./utils/index.js";
-import { AppUse, Database } from "./index.js";
+import express from 'express';
+import { asyncWrapper, checkAppHealth, logTime } from './utils/index.js';
+import { AppUse, Database } from './index.js';
 // APP
 export function App() {
   const app = express();
-  app.get("/api", asyncWrapper(checkAppHealth));
+  app.use(logTime);
+  app.get('/api', asyncWrapper(checkAppHealth));
   AppUse(app);
   Database();
   return app;
