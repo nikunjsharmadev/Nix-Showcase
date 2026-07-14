@@ -1,14 +1,13 @@
-import jwt from "jsonwebtoken";
-import crypto from "crypto";
-import argon2 from "argon2";
-import { User } from "../models/index.js";
-import { Role, type CreateRequest, type decodedUser, type UserResponse } from "../types/index.js";
-import { BadRequestError, toUserResponse, toUserResponseList } from "../utils/index.js";
-
+import jwt from 'jsonwebtoken';
+import crypto from 'crypto';
+import argon2 from 'argon2';
+import { User } from '../models/index.js';
+import { Role, type CreateRequest, type decodedUser, type UserResponse } from '../types/index.js';
+import { BadRequestError, toUserResponse, toUserResponseList } from '../utils/index.js';
 // JWT
 export function JwtService() {
   function sign(payload: object): string {
-    return jwt.sign(payload, process.env.JWT_SECRET!, { expiresIn: "24h" });
+    return jwt.sign(payload, process.env.JWT_SECRET!, { expiresIn: '24h' });
   }
   function verify(token: string) {
     return jwt.verify(token, process.env.JWT_SECRET! as string) as decodedUser;
@@ -20,12 +19,12 @@ export function AuthService() {
   const userService = UserService;
   const jwtService = JwtService;
   function resetToken(): { token: string; hashedToken: string } {
-    const token = crypto.randomBytes(32).toString("hex");
-    const hashedToken = crypto.createHash("sha256").update(token).digest("hex");
+    const token = crypto.randomBytes(32).toString('hex');
+    const hashedToken = crypto.createHash('sha256').update(token).digest('hex');
     return { token, hashedToken };
   }
   function getHashedToken(token: string) {
-    return crypto.createHash("sha256").update(token).digest("hex");
+    return crypto.createHash('sha256').update(token).digest('hex');
   }
   async function resetPassword(token: string, email: string, newPassword: string): Promise<{ isPasswordReset: boolean }> {
     const hashedToken = getHashedToken(token);
@@ -53,8 +52,8 @@ export function AuthService() {
     if (!currentUser || !currentUser.isVerified || !currentUser.passwordHash) throw new BadRequestError();
     const isValid = await argon2.verify(currentUser.passwordHash, password);
     if (!isValid) throw new BadRequestError();
-    const { id, role } = { ...currentUser };
-    const accessToken: string = jwtService().sign({ id, email, role });
+    const { _id, role } = currentUser;
+    const accessToken: string = jwtService().sign({ _id, email, role });
     return { accessToken };
   }
   async function getCookie(email: string): Promise<{ cookiName: string; refereshToken: string }> {
@@ -63,18 +62,18 @@ export function AuthService() {
     const rememberMe = false; // need to update when impementing feature
     const refreshToken = [];
     if (!rememberMe) throw new BadRequestError();
-    const refereshToken = crypto.randomBytes(64).toString("hex");
+    const refereshToken = crypto.randomBytes(64).toString('hex');
     const tokenObj = {
       userId: currentUser.id,
       token: refereshToken,
       httpOnly: true,
       secure: true,
-      sameSite: "strict",
+      sameSite: 'strict',
       maxAge: 30 * 24 * 60 * 60 * 1000,
     };
     refreshToken.push(tokenObj);
     return {
-      cookiName: "refreshToken",
+      cookiName: 'refreshToken',
       refereshToken,
     };
   }
@@ -82,9 +81,9 @@ export function AuthService() {
     return await userService().createUser(req);
   }
   async function verifyEmail(token: string): Promise<{ isVerified: boolean }> {
-    if (typeof token !== "string" || !token) throw new BadRequestError();
+    if (typeof token !== 'string' || !token) throw new BadRequestError();
     const payload = jwtService().verify(token);
-    const user = await User.findByIdAndUpdate(payload.id, { isVerified: true });
+    const user = await User.findByIdAndUpdate(payload.userId, { isVerified: true });
     if (!user) throw new BadRequestError();
     return { isVerified: true };
   }
@@ -99,7 +98,7 @@ export function AuthService() {
     return `${process.env.FRONTEND_URL_LOCAL}/verify-email?token=${verificationToken}`;
   }
   function generateVerificationToken(userId: string): string {
-    return jwtService().sign({ userId, purpose: "email-verification" });
+    return jwtService().sign({ userId, purpose: 'email-verification' });
   }
   return {
     getCookie,

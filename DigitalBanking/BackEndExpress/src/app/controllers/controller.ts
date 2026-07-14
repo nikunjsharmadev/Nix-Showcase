@@ -1,6 +1,6 @@
-import type { Request, Response } from "express";
-import { AuthService, UserService } from "../services/index.js";
-import { BadRequestError } from "../utils/index.js";
+import type { Request, Response } from 'express';
+import { AuthService, UserService } from '../services/index.js';
+import { BadRequestError } from '../utils/index.js';
 // AUTH
 export function AuthController() {
   const authService = AuthService;
@@ -33,8 +33,8 @@ export function AuthController() {
     });
   }
   async function verifyEmail(req: Request, res: Response): Promise<void> {
-    const token = req.query;
-    if (typeof token !== "string") throw new BadRequestError();
+    const { token } = req.query;
+    if (typeof token !== 'string') throw new BadRequestError();
     const result = await authService().verifyEmail(token);
     res.status(200).json({
       success: true,

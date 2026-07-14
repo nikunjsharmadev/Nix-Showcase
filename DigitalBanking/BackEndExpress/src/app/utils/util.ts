@@ -1,7 +1,6 @@
-import type { Request, Response, NextFunction, RequestHandler, Router } from "express";
-import { CHARS_SET, STRING_CONSTANT, ERROR_MESSAGES } from "../constants/index.js";
-import type { ApiMethodType, AsyncHandler, IUser, Role, UserResponse } from "../types/index.js";
-
+import type { Request, Response, NextFunction, RequestHandler, Router } from 'express';
+import { CHARS_SET, STRING_CONSTANT, ERROR_MESSAGES } from '../constants/index.js';
+import type { ApiMethodType, AsyncHandler, IUser, Role, UserResponse } from '../types/index.js';
 // user response mapper
 export const toUserResponse = (user: IUser): UserResponse => ({
   firstName: user.firstName,
@@ -16,12 +15,12 @@ export const toUserResponseList = (users: any[]): UserResponse[] => {
 };
 // check server health
 export async function checkAppHealth(_req: Request, res: Response, _next: NextFunction) {
-  res.status(200).json({ success: true, message: "Welcome to Banking APIs App" });
+  res.status(200).json({ success: true, message: 'Welcome to Banking APIs App' });
 }
 // GET RANDOM NAMES
 export function getRandomName(length = 5) {
   const chars = Array.from({ length }, () => CHARS_SET[Math.floor(Math.random() * CHARS_SET.length)]);
-  return makeFirstCharCapital(chars.join(""));
+  return makeFirstCharCapital(chars.join(''));
 }
 export function makeFirstCharCapital(str: string) {
   return str.charAt(0).toUpperCase() + str.slice(1);
@@ -38,7 +37,7 @@ export class ApiError extends Error {
     message: string,
   ) {
     super(message);
-    this.name = "ApiError";
+    this.name = 'ApiError';
     Error.captureStackTrace?.(this, this.constructor);
   }
 }
@@ -108,7 +107,7 @@ export function consoleError(err: unknown, req: Request) {
 export function pageNotFound(req: Request, res: Response, next: NextFunction) {
   res.status(404).json({
     success: false,
-    message: ERROR_MESSAGES.pageNotFound.replace("{url}", req.originalUrl),
+    message: ERROR_MESSAGES.pageNotFound.replace('{url}', req.originalUrl),
   });
 }
 // ASYNC ROUTE WRAPPER HANDLER
@@ -120,7 +119,7 @@ export function asyncWrapper(fn: (req: Request, res: Response, next: NextFunctio
 // LOG RESPONSE PROCESS TIME OF APIS
 export function logTime(req: Request, res: Response, next: NextFunction): void {
   const start = Date.now();
-  res.on("finish", () => {
+  res.on('finish', () => {
     const time = Date.now() - start;
     console.info(`${req.method} ${req.originalUrl} took ${time / 1000} seconds ⌛⌛`);
   });
@@ -133,8 +132,14 @@ export function route(router: Router, method: ApiMethodType, path: string, handl
 export function authorizeWrapper(...roles: Role[]): RequestHandler {
   return (req: Request, res: Response, next: NextFunction): void => {
     const user = req.user;
-    if (!user) res.status(401).json({ message: STRING_CONSTANT.error.unauthorized });
-    if (!roles.includes(user.role as Role)) res.status(403).json({ message: STRING_CONSTANT.error.forbidden });
+    if (!user) {
+      res.status(401).json({ success: false, message: STRING_CONSTANT.error.unauthorized });
+      return;
+    }
+    if (!roles.includes(user.role as Role)) {
+      res.status(403).json({ success: false, message: STRING_CONSTANT.error.forbidden });
+      return;
+    }
     next();
   };
 }

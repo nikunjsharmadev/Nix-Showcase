@@ -1,20 +1,21 @@
-import type { Request, Response, NextFunction } from "express";
-import type { TUser } from "../models/index.js";
+import type { Request, Response, NextFunction } from 'express';
+import type { TUser } from '../models/index.js';
+// TYPES
 declare global {
   namespace Express {
     interface Request {
-      user: { id: string; email: string; role: string };
+      user: { userId: string; email: string; role: string };
     }
   }
 }
-export type IUser = Omit<TUser, "createdAt" | "updatedAt" | "isActive" | "isVerified">;
+export type IUser = Omit<TUser, 'createdAt' | 'updatedAt' | 'isActive' | 'isVerified'>;
 export type CreateRequest = IUser & { password: string };
 export type UpdateRequest = {};
 export type DeleteRequest = {};
 export type UserResponse = IUser & { varificationLink?: string };
-export type ApiMethodType = "get" | "post" | "put" | "patch" | "delete";
+export type ApiMethodType = 'get' | 'post' | 'put' | 'patch' | 'delete';
 export type AsyncHandler = (req: Request, res: Response, next: NextFunction) => Promise<void>;
-export type decodedUser = { id: string; email: string; role: string };
+export type decodedUser = { userId: string; email: string; role: string };
 export type IPagination = {
   page: number;
   limit: number;
@@ -30,7 +31,7 @@ export type PaginationResponse<T> = {
   pagination: IPagination;
 };
 export enum Role {
-  ADMIN = "admin",
-  EMPLOYEE = "employee",
-  CUSTOMER = "customer",
+  ADMIN = 'admin',
+  EMPLOYEE = 'employee',
+  CUSTOMER = 'customer',
 }
