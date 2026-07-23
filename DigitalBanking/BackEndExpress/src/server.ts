@@ -6,6 +6,7 @@ import { handleFatalError } from './app/utils/index.js';
 // SERVER
 async function Server() {
   try {
+    dotenv.config();
     const env = process.env;
     const hostName: string = env.ENV === 'dev' ? env.DEV_HOST! : env.PROD_HOST!;
     const port = Number(env.PORT || 3000);

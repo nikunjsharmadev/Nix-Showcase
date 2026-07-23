@@ -19,7 +19,7 @@ export const ERROR_MESSAGES = {
   pageNotFound: `Try with different API endpoint, no url found: {url}`,
 } as const;
 export const CORS_CONFIG: CorsOptions = {
-  origin: [process.env.FRONTEND_URL_LOCAL!],
+  origin: process.env.FRONTEND_URL_LOCAL!,
   credentials: true,
 } as const;
 export const HELMET_CONFIG: HelmetOptions = {
@@ -42,6 +42,7 @@ export const API_ROUTES = {
     verifyEmail: '/verify-email',
     forgotPasswordLink: '/forgot-password-link',
     resetPassword: '/reset-password',
+    me: '/me',
   },
   users: {
     root: '/users',

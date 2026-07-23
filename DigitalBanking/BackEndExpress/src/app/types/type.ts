@@ -8,11 +8,11 @@ declare global {
     }
   }
 }
-export type IUser = Omit<TUser, 'createdAt' | 'updatedAt' | 'isActive' | 'isVerified'>;
+export type IUser = Omit<TUser, 'createdAt' | 'updatedAt' | 'isActive' | 'isVerified' | 'passwordHash'>;
 export type CreateRequest = IUser & { password: string };
 export type UpdateRequest = {};
 export type DeleteRequest = {};
-export type UserResponse = IUser & { varificationLink?: string };
+export type UserResponse = IUser & { id?: string; varificationLink?: string };
 export type ApiMethodType = 'get' | 'post' | 'put' | 'patch' | 'delete';
 export type AsyncHandler = (req: Request, res: Response, next: NextFunction) => Promise<void>;
 export type decodedUser = { userId: string; email: string; role: string };

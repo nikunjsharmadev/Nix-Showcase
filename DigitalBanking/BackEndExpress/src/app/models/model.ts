@@ -2,13 +2,16 @@ import { model, Schema, Types } from 'mongoose';
 import type { InferSchemaType } from 'mongoose';
 // MODELS
 // USER
-const user = {
-  _Id: Types.ObjectId,
+export const _user = {
+  id: Types.ObjectId,
   firstName: String,
   lastName: String,
   email: String,
   phone: String,
-  passwordHash: String,
+  passwordHash: {
+    type: String,
+    required: true,
+  },
   role: {
     type: String,
     enum: ['customer', 'employee', 'admin'],
@@ -22,15 +25,20 @@ const user = {
     type: Boolean,
     default: false,
   },
+  termsAcceptedAt: Date,
+  termsVersion: String,
   lastLogin: Date,
   resetPasswordToken: String,
   resetPasswordExpires: Date,
 } as const;
-const userSchema = new Schema(user, { versionKey: false, timestamps: true });
+const userSchema = new Schema(_user, {
+  versionKey: false,
+  timestamps: true,
+});
 export type TUser = InferSchemaType<typeof userSchema>;
 export const User = model('User', userSchema);
 // ACCOUNT
-const accountSchema = new Schema(
+export const accountSchema = new Schema(
   {
     _Id: Types.ObjectId,
     user: {
@@ -61,7 +69,7 @@ const accountSchema = new Schema(
 );
 export const Account = model('Account', accountSchema);
 // AUDIT-LOG
-const auditLogSchema = new Schema(
+export const auditLogSchema = new Schema(
   {
     _id: Types.ObjectId,
     user: {
@@ -88,7 +96,7 @@ const auditLogSchema = new Schema(
 );
 export const AuditLog = model('AuditLog', auditLogSchema);
 // BENIFICIARY
-const beneficiarySchema = new Schema(
+export const beneficiarySchema = new Schema(
   {
     _Id: Types.ObjectId,
     user: {
@@ -108,7 +116,7 @@ const beneficiarySchema = new Schema(
 );
 export const Beneficiary = model('Beneficiary', beneficiarySchema);
 // NOTIFICATION
-const notificationSchema = new Schema(
+export const notificationSchema = new Schema(
   {
     _Id: Types.ObjectId,
     user: {
@@ -134,7 +142,7 @@ const notificationSchema = new Schema(
 );
 export const Notification = model('Notification', notificationSchema);
 // TRANSACTION
-const transactionSchema = new Schema(
+export const transactionSchema = new Schema(
   {
     _Id: Types.ObjectId,
     account: {

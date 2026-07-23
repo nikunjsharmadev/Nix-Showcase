@@ -1,6 +1,7 @@
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 dotenv.config();
+// DATABASE
 export async function Database() {
   const dbUrl = process.env.DB_URL;
   if (!dbUrl) throw new Error('database url missing');

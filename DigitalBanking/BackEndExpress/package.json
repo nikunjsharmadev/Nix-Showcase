@@ -1,11 +1,13 @@
 {
   "scripts": {
     "dev": "npx tsx watch ./src/server.ts",
+    "server-copy": "npx tsx watch ./src/server-copy.ts",
     "build": "tsc",
     "start": "node dist/server.js"
   },
   "dependencies": {
     "argon2": "^0.44.0",
+    "cookie-parser": "^1.4.7",
     "cors": "^2.8.6",
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
@@ -15,6 +17,7 @@
     "multer": "^1.4.5-lts.1"
   },
   "devDependencies": {
+    "@types/cookie-parser": "^1.4.10",
     "@types/cors": "^2.8.19",
     "@types/express": "^5.0.6",
     "@types/jsonwebtoken": "^9.0.10",

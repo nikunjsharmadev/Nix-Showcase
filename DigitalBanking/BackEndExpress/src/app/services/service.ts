@@ -3,7 +3,7 @@ import crypto from 'crypto';
 import argon2 from 'argon2';
 import { User } from '../models/index.js';
 import { Role, type CreateRequest, type decodedUser, type UserResponse } from '../types/index.js';
-import { BadRequestError, toUserResponse, toUserResponseList } from '../utils/index.js';
+import { ApiError, BadRequestError, toUserResponse, toUserResponseList, UnauthorizedError } from '../utils/index.js';
 // JWT
 export function JwtService() {
   function sign(payload: object): string {
@@ -18,6 +18,12 @@ export function JwtService() {
 export function AuthService() {
   const userService = UserService;
   const jwtService = JwtService;
+  async function getLoggedUser(userId: string): Promise<UserResponse> {
+    const user = await User.findOne({ id: userId });
+    if (!user) throw new UnauthorizedError();
+    const loggedUser: UserResponse = toUserResponse(user);
+    return { id: user._id.toString(), ...loggedUser };
+  }
   function resetToken(): { token: string; hashedToken: string } {
     const token = crypto.randomBytes(32).toString('hex');
     const hashedToken = crypto.createHash('sha256').update(token).digest('hex');
@@ -47,16 +53,22 @@ export function AuthService() {
     const resetLink = `${process.env.FRONTEND_URL_LOCAL}/reset-password?email=${email}&token=${token}`;
     return { resetLink };
   }
-  async function getLoginAccessToken(email: string, password: string): Promise<{ accessToken: string }> {
+  async function getLoginAccessToken(email: string, password: string): Promise<{ user: UserResponse & { id: string }; accessToken: string }> {
     const currentUser = await User.findOne({ email });
-    if (!currentUser || !currentUser.isVerified || !currentUser.passwordHash) throw new BadRequestError();
-    const isValid = await argon2.verify(currentUser.passwordHash, password);
-    if (!isValid) throw new BadRequestError();
-    const { _id, role } = currentUser;
-    const accessToken: string = jwtService().sign({ _id, email, role });
-    return { accessToken };
+    if (!currentUser) throw new UnauthorizedError();
+    const { passwordHash, isVerified } = currentUser;
+    if (!isVerified) throw new ApiError(401, 'user is not verified');
+    if (!passwordHash) throw new UnauthorizedError();
+    const isValid = await argon2.verify(passwordHash! as string, password);
+    if (!isValid) throw new UnauthorizedError();
+    const id = currentUser._id.toString();
+    const role = currentUser.role;
+    const responseUser: UserResponse = toUserResponse(currentUser);
+    const accessToken: string = jwtService().sign({ id, email, role });
+    const user: UserResponse & { id: string } = { id, ...responseUser };
+    return { user, accessToken };
   }
-  async function getCookie(email: string): Promise<{ cookiName: string; refereshToken: string }> {
+  async function getCookie(email: string): Promise<{ cookieName: string; refereshToken: string }> {
     const currentUser = await User.findOne({ email });
     if (!currentUser) throw new BadRequestError();
     const rememberMe = false; // need to update when impementing feature
@@ -64,7 +76,7 @@ export function AuthService() {
     if (!rememberMe) throw new BadRequestError();
     const refereshToken = crypto.randomBytes(64).toString('hex');
     const tokenObj = {
-      userId: currentUser.id,
+      userId: currentUser._id.toString(),
       token: refereshToken,
       httpOnly: true,
       secure: true,
@@ -73,7 +85,7 @@ export function AuthService() {
     };
     refreshToken.push(tokenObj);
     return {
-      cookiName: 'refreshToken',
+      cookieName: 'refreshToken',
       refereshToken,
     };
   }
@@ -90,7 +102,7 @@ export function AuthService() {
   async function resendVerifyEmail(email: string): Promise<{ verificationLink: string }> {
     const existingUser = await User.findOne({ email });
     if (!existingUser) throw new BadRequestError();
-    const token = generateVerificationToken(existingUser.id);
+    const token = generateVerificationToken(existingUser._id.toString());
     const verificationLink = getEmailVerificationLink(token);
     return { verificationLink };
   }
@@ -110,6 +122,7 @@ export function AuthService() {
     getPasswordResetLink,
     getEmailVerificationLink,
     generateVerificationToken,
+    getLoggedUser,
   };
 }
 // USER
@@ -117,14 +130,14 @@ export function UserService() {
   const authService = AuthService;
   async function createUser(req: CreateRequest): Promise<UserResponse> {
     const existingUser = await User.findOne({ email: req.email });
-    if (existingUser) throw new BadRequestError();
+    if (existingUser) throw new ApiError(401, 'User already exist');
     const passwordHash = await argon2.hash(req.password);
     const isValid = await argon2.verify(passwordHash, req.password);
-    if (!isValid) throw new BadRequestError();
-    const user = await User.create({ ...req, passwordHash, role: req.role ?? Role.CUSTOMER, isVerified: false });
-    if (!user) throw new BadRequestError();
+    if (!isValid) throw new ApiError(401, 'check password policy');
+    const user = await User.create({ ...req, passwordHash, role: req.role ?? Role.CUSTOMER, isVerified: false, termsAcceptedAt: new Date().toISOString(), termsVersion: 'v1.0' });
+    if (!user) throw new ApiError(401, 'User not registered, try again later');
     const userResponse = toUserResponse(user);
-    const token = authService().generateVerificationToken(user.id);
+    const token = authService().generateVerificationToken(user._id.toString());
     userResponse.varificationLink = authService().getEmailVerificationLink(token);
     return userResponse;
   }
