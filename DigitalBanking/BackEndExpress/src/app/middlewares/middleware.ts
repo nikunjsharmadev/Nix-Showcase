@@ -1,5 +1,5 @@
 import type { Request, Response, NextFunction } from 'express';
-import { BadRequestError } from '../utils/index.js';
+import { UnauthorizedError } from '../utils/index.js';
 import { JwtService } from '../services/index.js';
 // AUTH
 export function AuthMiddleware() {

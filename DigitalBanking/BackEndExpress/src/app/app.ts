@@ -1,4 +1,6 @@
 import express from 'express';
+import cors from 'cors';
+import { CORS_CONFIG } from './constants/index.js';
 import { asyncWrapper, checkAppHealth, logTime } from './utils/index.js';
 import { AppUse, Database } from './index.js';
 // APP

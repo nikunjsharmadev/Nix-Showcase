@@ -3,7 +3,7 @@ import crypto from 'crypto';
 import argon2 from 'argon2';
 import { User } from '../models/index.js';
 import { Role, type CreateRequest, type decodedUser, type UserResponse } from '../types/index.js';
-import { BadRequestError, toUserResponse, toUserResponseList } from '../utils/index.js';
+import { ApiError, BadRequestError, toUserResponse, toUserResponseList, UnauthorizedError } from '../utils/index.js';
 // JWT
 export function JwtService() {
   function sign(payload: object): string {
