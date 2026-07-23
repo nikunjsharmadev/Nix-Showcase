@@ -5,7 +5,8 @@ import { AppUse, Database } from './index.js';
 export function App() {
   const app = express();
   app.use(logTime);
-  app.get('/api', asyncWrapper(checkAppHealth));
+  app.use(cors(CORS_CONFIG));
+  app.get('/api/v1', asyncWrapper(checkAppHealth));
   AppUse(app);
   Database();
   return app;

@@ -2,20 +2,22 @@ import type { Request, Response, NextFunction, RequestHandler, Router } from 'ex
 import { CHARS_SET, STRING_CONSTANT, ERROR_MESSAGES } from '../constants/index.js';
 import type { ApiMethodType, AsyncHandler, IUser, Role, UserResponse } from '../types/index.js';
 // user response mapper
-export const toUserResponse = (user: IUser): UserResponse => ({
-  firstName: user.firstName,
-  lastName: user.lastName,
-  email: user.email,
-  phone: user.phone,
-  role: user.role,
-});
+export const toUserResponse = (user_: any): UserResponse => {
+  return {
+    firstName: user_.firstName,
+    lastName: user_.lastName,
+    email: user_.email,
+    phone: user_.phone,
+    role: user_.role,
+  };
+};
 // user response list mapper -> []
 export const toUserResponseList = (users: any[]): UserResponse[] => {
   return users.map(toUserResponse);
 };
 // check server health
 export async function checkAppHealth(_req: Request, res: Response, _next: NextFunction) {
-  res.status(200).json({ success: true, message: 'Welcome to Banking APIs App' });
+  res.status(200).json({ success: true, status: 'UP', timestamp: new Date().toISOString(), message: 'Welcome to Banking APIs App' });
 }
 // GET RANDOM NAMES
 export function getRandomName(length = 5) {
@@ -124,10 +126,6 @@ export function logTime(req: Request, res: Response, next: NextFunction): void {
     console.info(`${req.method} ${req.originalUrl} took ${time / 1000} seconds ⌛⌛`);
   });
   next();
-}
-export function route(router: Router, method: ApiMethodType, path: string, handler: AsyncHandler, requiredRole?: Role) {
-  if (requiredRole) router[method](path, authorizeWrapper(requiredRole), asyncWrapper(handler));
-  else router[method](path, asyncWrapper(handler));
 }
 export function authorizeWrapper(...roles: Role[]): RequestHandler {
   return (req: Request, res: Response, next: NextFunction): void => {
