@@ -1,12 +1,13 @@
 import type { Request, Response } from 'express';
 import { AuthService, UserService } from '../services/index.js';
 import { BadRequestError } from '../utils/index.js';
+// CONTROLLERS(controller.ts)
 // AUTH
 export function AuthController() {
   const authService = AuthService;
   async function me(req: Request, res: Response): Promise<void> {
-    const { userId } = req.user;
-    const result = await authService().getLoggedUser(userId);
+    const { id } = req.user;
+    const result = await authService().getLoggedUser(id);
     res.status(200).json({ success: true, data: result });
   }
   async function getResetPasswordLink(req: Request, res: Response): Promise<void> {

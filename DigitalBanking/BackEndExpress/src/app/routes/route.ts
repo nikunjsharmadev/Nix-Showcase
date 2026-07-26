@@ -4,7 +4,7 @@ import { AuthController, UserController } from '../controllers/index.js';
 import { asyncWrapper, authorizeWrapper } from '../utils/index.js';
 import { AuthMiddleware } from '../middlewares/index.js';
 import { Role } from '../types/index.js';
-// ROUTES(routes.ts)
+// ROUTES
 // app
 export function AppRoutes() {
   const router = express.Router();
@@ -32,7 +32,7 @@ export function UserRoutes(router: Router) {
   const authMiddleware = AuthMiddleware;
   const userPaths = API_ROUTES.users;
   router.use(asyncWrapper(authMiddleware().authenticate));
-  router.get(`${userPaths.root}`, authorizeWrapper(Role.ADMIN), asyncWrapper(userCtrl().getPaginatedUsers));
-  router.post(`${userPaths.root}`, asyncWrapper(userCtrl().registerUser));
+  router.get(userPaths.root, authorizeWrapper(Role.ADMIN), asyncWrapper(userCtrl().getPaginatedUsers));
+  router.post(userPaths.root, asyncWrapper(userCtrl().registerUser));
   return router;
 }

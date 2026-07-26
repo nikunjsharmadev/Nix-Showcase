@@ -4,13 +4,14 @@ import argon2 from 'argon2';
 import { User } from '../models/index.js';
 import { Role, type CreateRequest, type decodedUser, type UserResponse } from '../types/index.js';
 import { ApiError, BadRequestError, toUserResponse, toUserResponseList, UnauthorizedError } from '../utils/index.js';
+// SERVICES
 // JWT
 export function JwtService() {
-  function sign(payload: object): string {
+  function sign(payload: decodedUser): string {
     return jwt.sign(payload, process.env.JWT_SECRET!, { expiresIn: '24h' });
   }
-  function verify(token: string) {
-    return jwt.verify(token, process.env.JWT_SECRET! as string) as decodedUser;
+  function verify(token: string): decodedUser {
+    return jwt.verify(token, process.env.JWT_SECRET!) as decodedUser;
   }
   return { sign, verify };
 }
@@ -95,22 +96,22 @@ export function AuthService() {
   async function verifyEmail(token: string): Promise<{ isVerified: boolean }> {
     if (typeof token !== 'string' || !token) throw new BadRequestError();
     const payload = jwtService().verify(token);
-    const user = await User.findByIdAndUpdate(payload.userId, { isVerified: true });
+    const user = await User.findByIdAndUpdate(payload.id, { isVerified: true });
     if (!user) throw new BadRequestError();
     return { isVerified: true };
   }
   async function resendVerifyEmail(email: string): Promise<{ verificationLink: string }> {
     const existingUser = await User.findOne({ email });
     if (!existingUser) throw new BadRequestError();
-    const token = generateVerificationToken(existingUser._id.toString());
+    const token = generateVerificationToken(existingUser._id.toString(), existingUser.email || '', existingUser.role || '');
     const verificationLink = getEmailVerificationLink(token);
     return { verificationLink };
   }
   function getEmailVerificationLink(verificationToken: string) {
     return `${process.env.FRONTEND_URL_LOCAL}/verify-email?token=${verificationToken}`;
   }
-  function generateVerificationToken(userId: string): string {
-    return jwtService().sign({ userId, purpose: 'email-verification' });
+  function generateVerificationToken(id: string, email: string, role: string): string {
+    return jwtService().sign({ id, email, role, purpose: 'email-verification' });
   }
   return {
     getCookie,
@@ -137,7 +138,7 @@ export function UserService() {
     const user = await User.create({ ...req, passwordHash, role: req.role ?? Role.CUSTOMER, isVerified: false, termsAcceptedAt: new Date().toISOString(), termsVersion: 'v1.0' });
     if (!user) throw new ApiError(401, 'User not registered, try again later');
     const userResponse = toUserResponse(user);
-    const token = authService().generateVerificationToken(user._id.toString());
+    const token = authService().generateVerificationToken(user._id.toString(), user.email || '', user.role || '');
     userResponse.varificationLink = authService().getEmailVerificationLink(token);
     return userResponse;
   }
