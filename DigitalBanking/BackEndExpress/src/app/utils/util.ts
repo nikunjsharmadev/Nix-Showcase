@@ -1,8 +1,9 @@
 import type { Request, Response, NextFunction, RequestHandler } from 'express';
 import { CHARS_SET, STRING_CONSTANT, ERROR_MESSAGES } from '../constants/index.js';
 import type { IUser, Role, UserResponse } from '../types/index.js';
+// UTILS
 // user response mapper
-export const toUserResponse = (user_: IUser): UserResponse => {
+export const toUserResponse = (user_: any): UserResponse => {
   return {
     firstName: user_.firstName,
     lastName: user_.lastName,
@@ -12,7 +13,7 @@ export const toUserResponse = (user_: IUser): UserResponse => {
   };
 };
 // user response list mapper -> []
-export const toUserResponseList = (users: IUser[]): UserResponse[] => {
+export const toUserResponseList = (users: any[]): UserResponse[] => {
   return users.map(toUserResponse);
 };
 // check server health

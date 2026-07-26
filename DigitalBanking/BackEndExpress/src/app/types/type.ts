@@ -4,7 +4,7 @@ import type { TUser } from '../models/index.js';
 declare global {
   namespace Express {
     interface Request {
-      user: { userId: string; email: string; role: string };
+      user: { id: string; email: string; role: string };
     }
   }
 }
@@ -15,7 +15,7 @@ export type DeleteRequest = {};
 export type UserResponse = IUser & { id?: string; varificationLink?: string };
 export type ApiMethodType = 'get' | 'post' | 'put' | 'patch' | 'delete';
 export type AsyncHandler = (req: Request, res: Response, next: NextFunction) => Promise<void>;
-export type decodedUser = { userId: string; email: string; role: string };
+export type decodedUser = { id: string; email: string; role: string; purpose?: string };
 export type IPagination = {
   page: number;
   limit: number;
