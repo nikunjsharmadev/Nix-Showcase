@@ -52,7 +52,7 @@ export function AuthService() {
     user.resetPasswordExpires = new Date(Date.now() + 15 * 60 * 1000);
     user = await user.save();
     if (!user) throw new BadRequestError();
-    const resetLink = `${ENV.FRONTEND_LOCAL}/reset-password?email=${email}&token=${token}`;
+    const resetLink = `${ENV.FRONTEND_DEV}/reset-password?email=${email}&token=${token}`;
     return { resetLink };
   }
   async function getLoginAccessToken(email: string, password: string): Promise<{ user: UserResponse & { id: string }; accessToken: string }> {
@@ -109,7 +109,7 @@ export function AuthService() {
     return { verificationLink };
   }
   function getEmailVerificationLink(verificationToken: string) {
-    return `${ENV.FRONTEND_LOCAL}/verify-email?token=${verificationToken}`;
+    return `${ENV.FRONTEND_DEV}/verify-email?token=${verificationToken}`;
   }
   function generateVerificationToken(id: string, email: string, role: string): string {
     return jwtService().sign({ id, email, role, purpose: 'email-verification' });
