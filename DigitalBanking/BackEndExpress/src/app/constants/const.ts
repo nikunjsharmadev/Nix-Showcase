@@ -32,7 +32,7 @@ export const ERROR_MESSAGES = {
   pageNotFound: `Try with different API endpoint, no url found: {url}`,
 } as const;
 export const CORS_CONFIG: CorsOptions = {
-  origin: ENV.FRONTEND_LOCAL!,
+  origin: ENV.FRONTEND_DEV!,
   credentials: true,
 } as const;
 export const HELMET_CONFIG: HelmetOptions = {
