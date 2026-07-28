@@ -1,7 +1,7 @@
-import type { Request, Response } from 'express';
-import { AuthService, UserService } from '../services/index.js';
-import { BadRequestError } from '../utils/index.js';
-// CONTROLLERS(controller.ts)
+import type { Request, Response, NextFunction } from 'express';
+import { AuthService, UserService, JwtService } from '../services/index.js';
+import { BadRequestError, UnauthorizedError } from '../utils/index.js';
+// CONTROLLERS
 // AUTH
 export function AuthController() {
   const authService = AuthService;
@@ -94,4 +94,20 @@ export function UserController() {
     });
   }
   return { registerUser, getPaginatedUsers };
+}
+//--------------------------------------------------------------------------
+// MIDDLEWARES
+// AUTH
+export function AuthMiddleware() {
+  async function authenticate(req: Request, _: Response, next: NextFunction): Promise<void> {
+    const token = req.cookies.access_token;
+    if (!token) throw new UnauthorizedError();
+    const jwtService = JwtService;
+    const decoded = jwtService().verify(token);
+    if (typeof decoded.id === 'string' && typeof decoded.email === 'string' && typeof decoded.role === 'string') {
+      req.user = { ...decoded };
+    }
+    next();
+  }
+  return { authenticate };
 }

@@ -1,25 +1,38 @@
 import dotenv from 'dotenv';
-dotenv.config();
 import { fileURLToPath } from 'node:url';
 import path from 'path';
+import mongoose from 'mongoose';
 import type { CorsOptions } from 'cors';
 import type { HelmetOptions } from 'helmet';
+dotenv.config();
 // CONSTS
+export const PROCESS = process;
+export const ENV = PROCESS.env;
+export const HOSTNAME: string = ENV.TYPE === 'dev' ? ENV.HOST_DEV! : ENV.HOST_PROD!;
+export const PORT = Number(ENV.PORT || 3000);
 export const __filename = fileURLToPath(import.meta.url);
 export const __dirname = path.dirname(__filename);
-export const UPLOAD_DIR = path.join(__dirname, process.env.UPLOAD_PATH!);
+export const UPLOAD_DIR = path.join(__dirname, ENV.UPLOAD_PATH!);
 export const UPLOAD_FIELDS = [
-  { name: 'images', maxCount: Number(process.env.MAX_IMAGE_UPLOAD_COUNT) },
-  { name: 'videos', maxCount: Number(process.env.MAX_VIDEO_UPLOAD_COUNT) },
-  { name: 'documents', maxCount: Number(process.env.MAX_DOCUMENT_UPLOAD_COUNT) },
+  { name: 'images', maxCount: Number(ENV.MAX_IMAGE_UPLOAD_COUNT) },
+  { name: 'videos', maxCount: Number(ENV.MAX_VIDEO_UPLOAD_COUNT) },
+  { name: 'documents', maxCount: Number(ENV.MAX_DOCUMENT_UPLOAD_COUNT) },
 ] as const;
+export const MONGOOSE_OPTIONS: mongoose.ConnectOptions = {
+  autoIndex: true,
+  serverApi: {
+    version: '1',
+    strict: true,
+    deprecationErrors: true,
+  },
+} as const;
 export const CHARS_SET = 'abcdefghijklmnopqrstuvwxyz';
 export const ERROR_MESSAGES = {
   internal: `Internal server error, try again later`,
   pageNotFound: `Try with different API endpoint, no url found: {url}`,
 } as const;
 export const CORS_CONFIG: CorsOptions = {
-  origin: process.env.FRONTEND_URL_LOCAL!,
+  origin: ENV.FRONTEND_LOCAL!,
   credentials: true,
 } as const;
 export const HELMET_CONFIG: HelmetOptions = {
