@@ -1,3 +1,4 @@
+import type { Request, Response, NextFunction } from 'express';
 import { model, Schema, Types } from 'mongoose';
 import type { InferSchemaType } from 'mongoose';
 // MODELS
@@ -180,3 +181,39 @@ export const transactionSchema = new Schema(
   },
 );
 export const Transaction = model('Transaction', transactionSchema);
+//------------------------------------------------------------------------------
+// TYPES
+declare global {
+  namespace Express {
+    interface Request {
+      user: { id: string; email: string; role: string };
+    }
+  }
+}
+export type IUser = Omit<TUser, 'createdAt' | 'updatedAt' | 'isActive' | 'isVerified' | 'passwordHash'>;
+export type CreateRequest = IUser & { password: string };
+export type UpdateRequest = {};
+export type DeleteRequest = {};
+export type UserResponse = IUser & { id?: string; varificationLink?: string };
+export type ApiMethodType = 'get' | 'post' | 'put' | 'patch' | 'delete';
+export type AsyncHandler = (req: Request, res: Response, next: NextFunction) => Promise<void>;
+export type decodedUser = { id: string; email: string; role: string; purpose?: string };
+export type IPagination = {
+  page: number;
+  limit: number;
+  totalItems: number;
+  totalPages: number;
+  hasNextPage: boolean;
+  hasPrevPage: boolean;
+};
+export type PaginationResponse<T> = {
+  data: T[];
+  success: boolean;
+  message: string;
+  pagination: IPagination;
+};
+export enum Role {
+  ADMIN = 'admin',
+  EMPLOYEE = 'employee',
+  CUSTOMER = 'customer',
+}

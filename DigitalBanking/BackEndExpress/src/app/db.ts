@@ -1,17 +1,19 @@
-import dotenv from 'dotenv';
 import mongoose from 'mongoose';
-dotenv.config();
+import { ENV, MONGOOSE_OPTIONS, PROCESS } from './constants/const.js';
 // DATABASE
 export async function Database() {
-  const dbUrl = process.env.DB_URL;
+  const dbUrl = ENV.ENV === 'dev' ? ENV.DB_LOCAL! : ENV.DB_PROD!;
   if (!dbUrl) throw new Error('database url missing');
   try {
-    await mongoose.connect(dbUrl, {
-      autoIndex: true,
-    });
+    await mongoose.connect(dbUrl, MONGOOSE_OPTIONS);
     console.info('✅ Database connection Success');
-  } catch {
+    if (mongoose.connection.db) {
+      mongoose.connection.db.admin().command({ ping: 1 });
+      console.info('Pinged your deployment. You successfully connected to MongoDB!');
+    }
+  } catch (e) {
+    console.error(e);
     console.error('❌ Database connection failed');
-    process.exit(1);
+    PROCESS.exit(1);
   }
 }

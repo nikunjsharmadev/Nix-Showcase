@@ -1,7 +1,8 @@
 import type { Request, Response, NextFunction, RequestHandler } from 'express';
 import { CHARS_SET, STRING_CONSTANT, ERROR_MESSAGES } from '../constants/index.js';
-import type { IUser, Role, UserResponse } from '../types/index.js';
-// UTILS
+import type { Role, UserResponse } from '../types/index.js';
+import { PROCESS } from '../constants/index.js';
+// UTILS(util.ts)
 // user response mapper
 export const toUserResponse = (user_: any): UserResponse => {
   return {
@@ -31,7 +32,7 @@ export function makeFirstCharCapital(str: string) {
 // ERROR HANDLING SERVER
 export function handleFatalError(err: Error) {
   console.error(err);
-  process.exit(1);
+  PROCESS.exit(1);
 }
 // ERROR CUSTOM CLASS
 export class ApiError extends Error {
