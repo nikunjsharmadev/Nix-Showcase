@@ -29,7 +29,7 @@
                 "input": "./public"
               }
             ],
-            "styles": ["./src/styles-copy.scss"],
+            "styles": ["./src/styles.scss"],
             "scripts": []
           },
           "configurations": {
@@ -89,7 +89,7 @@
                 "input": "./public"
               }
             ],
-            "styles": ["./src/styles-copy.scss"],
+            "styles": ["./src/styles.scss"],
             "scripts": []
           }
         }
