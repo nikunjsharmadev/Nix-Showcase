@@ -16,7 +16,7 @@
       <label for="login-pass">Password</label>
       <a href="#" class="inline-link">Forgot Access?</a>
     </div>
-    <input type="text" required placeholder="••••••••" autocomplete="current-password" formControlName="password"
+    <input type="password" required placeholder="••••••••" autocomplete="current-password" formControlName="password"
       id="login-pass" />
     @if (getValidationMessage('password', 'login')) {
     <span class="error-text">{{
