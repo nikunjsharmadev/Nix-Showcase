@@ -41,4 +41,8 @@ testem.log
 .DS_Store
 Thumbs.db
 .angular
+angular-copy.json
 /src/main-copy.ts
+/src/routes-copy.ts
+/src/styles-copy.scss
+.vscode

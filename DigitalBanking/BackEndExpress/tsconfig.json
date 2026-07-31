@@ -1,6 +1,6 @@
 {
   // Visit https://aka.ms/tsconfig to read more about this file
-  "include": ["src", "./server"],
+  "include": ["./src", "./server"],
   "compilerOptions": {
     "esModuleInterop": true,
     // File Layout
@@ -20,7 +20,7 @@
     "sourceMap": true,
     "declaration": true,
     "declarationMap": true,
-    "typeRoots": ["src/shared/types"],
+    "typeRoots": ["./src/shared/types"],
 
     // Stricter Typechecking Options
     "noUncheckedIndexedAccess": true,

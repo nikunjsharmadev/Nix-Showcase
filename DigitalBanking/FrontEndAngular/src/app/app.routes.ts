@@ -1,7 +1,11 @@
 import { Routes } from '@angular/router';
-import { authGuard } from './core/guards/auth.guard';
-
-export const routes: Routes = [
+import { Guards } from './core/guards/guard';
+export const ROUTES: Routes = [
+  {
+    path: ``,
+    canActivate: [Guards().auth],
+    loadComponent: () => import(`./app.component`).then((c) => c.AppComponent),
+  },
   {
     path: `auth`,
     loadComponent: () =>
@@ -22,11 +26,10 @@ export const routes: Routes = [
       ),
   },
   {
-    path: ``,
-    // canActivate: [authGuard],
+    path: '**',
     loadComponent: () =>
-      import(`./layouts/dashboard-layout/dashboard-layout.component`).then(
-        (c) => c.DashboardLayoutComponent,
+      import('./features/page-not-found/page-not-found.component').then(
+        (c) => c.PageNotFoundComponent,
       ),
   },
-];
+] as const;

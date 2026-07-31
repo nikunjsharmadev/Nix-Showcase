@@ -1,0 +1,18 @@
+<section class="auth-viewport">
+    <section class="auth-sidebar-brand" aria-hidden="true">
+        <section class="brand-info">
+            <section class="mini-badge">{{ STRING_LITERALS[0] }}</section>
+            <h2>{{ STRING_LITERALS[1] }}</h2>
+        </section>
+    </section>
+    <section class="auth-form-space">
+        <section class="auth-card-box">
+            <ng-content select="bnk-auth-tab" />
+            <section class="auth-container">
+                <ng-content select="bnk-login" />
+                <ng-content select="bnk-register" />
+            </section>
+            <ng-content select=".verify-container" />
+        </section>
+    </section>
+</section>
