@@ -1,1 +1,8 @@
-
+<form (submit)="submitForm($event)" autocomplete="on">
+    @if (dynamicControls$ | async; as dynamicControls) {
+    @for (dynamicControl of dynamicControls; track dynamicControl) {
+    <dyn-ui-control [data]="dynamicControl" [formGroup]="formGroup" />
+    }
+    }
+    <code>Submitted Data: {{ submittedData | json }}</code>
+</form>
