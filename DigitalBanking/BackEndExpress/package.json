@@ -1,7 +1,7 @@
 {
   "scripts": {
     "dev": "npx tsx watch ./src/server.ts",
-    "server-copy": "npx tsx watch ./src/server-copy.ts",
+    "server-copy": "npx tsx watch ./src/app/server-copy.ts",
     "build": "tsc",
     "start": "node dist/server.js"
   },
