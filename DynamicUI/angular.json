@@ -13,7 +13,7 @@
         "build": {
           "builder": "@angular/build:application",
           "options": {
-            "browser": "src/main-copy.ts",
+            "browser": "src/main.ts",
             "polyfills": ["zone.js"],
             "tsConfig": "tsconfig.app.json",
             "assets": [
@@ -22,7 +22,7 @@
                 "input": "public"
               }
             ],
-            "styles": ["src/styles-copy.css"]
+            "styles": ["src/styles.css"]
           },
           "configurations": {
             "production": {
