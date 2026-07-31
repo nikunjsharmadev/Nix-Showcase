@@ -4,7 +4,7 @@ import argon2 from 'argon2';
 import { User } from '../models/index.js';
 import { Role, type CreateRequest, type decodedUser, type UserResponse } from '../types/index.js';
 import { ApiError, BadRequestError, toUserResponse, toUserResponseList, UnauthorizedError } from '../utils/index.js';
-import { ENV } from '../constants/index.js';
+import { ENV, FRONTEND } from '../constants/index.js';
 // SERVICES
 // JWT
 export function JwtService() {
@@ -52,7 +52,7 @@ export function AuthService() {
     user.resetPasswordExpires = new Date(Date.now() + 15 * 60 * 1000);
     user = await user.save();
     if (!user) throw new BadRequestError();
-    const resetLink = `${ENV.FRONTEND_DEV}/reset-password?email=${email}&token=${token}`;
+    const resetLink = `${FRONTEND}/reset-password?email=${email}&token=${token}`;
     return { resetLink };
   }
   async function getLoginAccessToken(email: string, password: string): Promise<{ user: UserResponse & { id: string }; accessToken: string }> {
@@ -109,7 +109,7 @@ export function AuthService() {
     return { verificationLink };
   }
   function getEmailVerificationLink(verificationToken: string) {
-    return `${ENV.FRONTEND_DEV}/verify-email?token=${verificationToken}`;
+    return `${FRONTEND}/verify-email?token=${verificationToken}`;
   }
   function generateVerificationToken(id: string, email: string, role: string): string {
     return jwtService().sign({ id, email, role, purpose: 'email-verification' });

@@ -9,6 +9,7 @@ dotenv.config();
 export const PROCESS = process;
 export const ENV = PROCESS.env;
 export const HOSTNAME: string = ENV.TYPE === 'dev' ? ENV.HOST_DEV! : ENV.HOST_PROD!;
+export const FRONTEND: string = ENV.TYPE === 'dev' ? ENV.FRONTEND_DEV! : ENV.FRONTEND_PROD!;
 export const PORT = Number(ENV.PORT || 3000);
 export const __filename = fileURLToPath(import.meta.url);
 export const __dirname = path.dirname(__filename);
@@ -32,7 +33,7 @@ export const ERROR_MESSAGES = {
   pageNotFound: `Try with different API endpoint, no url found: {url}`,
 } as const;
 export const CORS_CONFIG: CorsOptions = {
-  origin: ENV.FRONTEND_DEV!,
+  origin: FRONTEND,
   credentials: true,
 } as const;
 export const HELMET_CONFIG: HelmetOptions = {
