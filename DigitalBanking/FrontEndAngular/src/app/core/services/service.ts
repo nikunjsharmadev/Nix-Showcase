@@ -1,6 +1,6 @@
 import { inject, Injectable, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { map, Observable, tap } from 'rxjs';
+import { map, Observable, tap, timeout } from 'rxjs';
 import { ENVIRONMENT } from '../../../environments/environment';
 import { BACKEND_URLS } from '../data/const';
 import {
@@ -28,7 +28,7 @@ export class AppStateService {
 export class HealthService {
   private http = inject(HttpClient);
   check() {
-    return this.http.get(`${ENVIRONMENT.apiUrl}`);
+    return this.http.get(`${ENVIRONMENT.apiUrl}`).pipe(timeout(10000));
   }
 }
 // AUTH SERVICE
