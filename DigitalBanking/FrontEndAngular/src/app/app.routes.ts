@@ -12,17 +12,10 @@ export const ROUTES: Routes = [
       import(`./features/auth/auth.component`).then((c) => c.AuthComponent),
   },
   {
-    path: `login`,
+    path: `verify-email`,
     loadComponent: () =>
-      import(`./features/auth/login/login.component`).then(
-        (c) => c.LoginComponent,
-      ),
-  },
-  {
-    path: `register`,
-    loadComponent: () =>
-      import(`./features/auth/register/register.component`).then(
-        (c) => c.RegisterComponent,
+      import('./features/auth/verify-email/verify-email.component').then(
+        (c) => c.VerifyEmailComponent,
       ),
   },
   {
