@@ -21,3 +21,5 @@ Thumbs.db
 src/server-copy.ts
 planning.txt
 dummy-data.json
+certificate.crt
+private.key
