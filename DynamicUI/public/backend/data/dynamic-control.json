@@ -30,23 +30,24 @@
     "dataType": "number",
     "value": 18,
     "minValue": 18,
-    "placeHolder": "Enter Age"
+    "placeHolder": "Enter Age",
+    "default": 18
   },
   {
     "id": 5,
     "label": "gender",
     "controllId": "gender_5",
     "dataType": "singleChoice",
-    "value": "['male', 'female']",
-    "default": "male"
+    "options": ["Male", "Female"],
+    "default": "Male"
   },
   {
     "id": 6,
     "label": "skills",
     "controllId": "skills_6",
     "dataType": "multiChoice",
-    "value": "['Angular', 'CSS', 'Node', 'Typescript']",
-    "default": "Angular"
+    "options": ["Angular", "CSS", "Node", "Typescript"],
+    "default": [0]
   },
   {
     "id": 7,

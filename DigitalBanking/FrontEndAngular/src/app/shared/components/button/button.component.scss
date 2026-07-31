@@ -8,10 +8,8 @@
   cursor: pointer;
   position: relative;
   transition: var(--transition-uniform);
-
   &.active {
     color: var(--rbc-corporate);
-
     &::after {
       content: "";
       position: absolute;
