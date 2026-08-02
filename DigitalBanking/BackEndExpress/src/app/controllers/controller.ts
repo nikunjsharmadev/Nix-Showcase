@@ -1,10 +1,23 @@
-import type { Request, Response, NextFunction } from 'express';
-import { AuthService, UserService, JwtService } from '../services/index.js';
-import { BadRequestError, UnauthorizedError } from '../utils/index.js';
+import type { Request, Response } from 'express';
+import { AuthService, UserService } from '../services/index.js';
+import { BadRequestError } from '../utils/index.js';
+import { COOKIE_OPTIONS } from '../constants/const.js';
 // CONTROLLERS
 // AUTH
 export function AuthController() {
   const authService = AuthService;
+  async function refresh(req: Request, res: Response): Promise<void> {
+    const result = await authService().refreshToken(req.cookies.refreshToken);
+    const { accessToken, refreshToken, user } = result;
+    res
+      .cookie('accessToken', accessToken, { ...COOKIE_OPTIONS, maxAge: 1 * 60 * 1000 })
+      .cookie('refreshToken', refreshToken, { ...COOKIE_OPTIONS, maxAge: 1 * 60 * 1000 })
+      .status(200)
+      .json({
+        success: true,
+        data: user,
+      });
+  }
   async function me(req: Request, res: Response): Promise<void> {
     const { id } = req.user;
     const result = await authService().getLoggedUser(id);
@@ -25,15 +38,11 @@ export function AuthController() {
   }
   async function login(req: Request, res: Response): Promise<void> {
     const { email, password } = req.body;
-    const result = await authService().getLoginAccessToken(email, password);
-    const { accessToken, user } = result;
+    const result = await authService().Login(email, password);
+    const { accessToken, user, refreshToken } = result;
     res
-      .cookie('access_token', accessToken, {
-        httpOnly: true,
-        secure: false, // change on production: true
-        sameSite: 'lax', // change on production: none
-        maxAge: 1000 * 60 * 60 * 24,
-      })
+      .cookie('accessToken', accessToken, { ...COOKIE_OPTIONS, maxAge: 1 * 60 * 1000 })
+      .cookie('refreshToken', refreshToken, { ...COOKIE_OPTIONS, maxAge: 1 * 60 * 1000 })
       .status(200)
       .json({
         success: true,
@@ -65,6 +74,7 @@ export function AuthController() {
     });
   }
   return {
+    refresh,
     login,
     verifyEmail,
     registerUser,
@@ -94,20 +104,4 @@ export function UserController() {
     });
   }
   return { registerUser, getPaginatedUsers };
-}
-//--------------------------------------------------------------------------
-// MIDDLEWARES
-// AUTH
-export function AuthMiddleware() {
-  async function authenticate(req: Request, _: Response, next: NextFunction): Promise<void> {
-    const token = req.cookies.access_token;
-    if (!token) throw new UnauthorizedError();
-    const jwtService = JwtService;
-    const decoded = jwtService().verify(token);
-    if (typeof decoded.id === 'string' && typeof decoded.email === 'string' && typeof decoded.role === 'string') {
-      req.user = { ...decoded };
-    }
-    next();
-  }
-  return { authenticate };
 }

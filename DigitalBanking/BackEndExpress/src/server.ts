@@ -13,7 +13,7 @@ async function Server() {
     const server = https.createServer(options, App());
     server.listen(PORT, HOSTNAME, () => {
       console.info(`server is up👍 and running🏃🏃 on:
-            Url: https://${HOSTNAME}:${PORT}`);
+        Url: https://${HOSTNAME}:${PORT}`);
     });
   } catch (err) {
     console.error(err);

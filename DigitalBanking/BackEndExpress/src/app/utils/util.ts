@@ -2,7 +2,7 @@ import type { Request, Response, NextFunction, RequestHandler } from 'express';
 import { CHARS_SET, STRING_CONSTANT, ERROR_MESSAGES } from '../constants/index.js';
 import type { Role, UserResponse } from '../types/index.js';
 import { PROCESS } from '../constants/index.js';
-// UTILS(util.ts)
+// UTILS
 // user response mapper
 export const toUserResponse = (user_: any): UserResponse => {
   return {
@@ -88,12 +88,14 @@ export function catchApiError(err: unknown, req: Request, res: Response, _next: 
     return res.status(err.statusCode).json({
       success: false,
       message: err.message,
+      code: err.statusCode,
     });
   }
   consoleError(err, req);
   return res.status(500).json({
     success: false,
     message: `${ERROR_MESSAGES.internal}`,
+    code: 500,
   });
 }
 export function consoleError(err: unknown, req: Request) {

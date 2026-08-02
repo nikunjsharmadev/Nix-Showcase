@@ -1,8 +1,8 @@
 import mongoose from 'mongoose';
-import { ENV, MONGOOSE_OPTIONS, PROCESS } from './constants/const.js';
+import { ENV, isDevelopmentEnv, MONGOOSE_OPTIONS, PROCESS } from './constants/const.js';
 // DATABASE
 export async function Database() {
-  const dbUrl = ENV.TYPE === 'dev' ? ENV.DB_DEV! : ENV.DB_PROD!;
+  const dbUrl = isDevelopmentEnv ? ENV.DB_DEV! : ENV.DB_PROD!;
   if (!dbUrl) throw new Error('database url missing');
   try {
     await mongoose.connect(dbUrl, MONGOOSE_OPTIONS);
