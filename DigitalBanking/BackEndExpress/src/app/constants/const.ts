@@ -13,6 +13,8 @@ export const PORT = Number(ENV.PORT || 3000);
 export const isDevelopmentEnv = ENV.TYPE === 'dev';
 export const HOSTNAME: string = isDevelopmentEnv ? ENV.HOST_DEV! : ENV.HOST_PROD!;
 export const FRONTEND: string = isDevelopmentEnv ? ENV.FRONTEND_DEV! : ENV.FRONTEND_PROD!;
+export const ACCESS_TOKEN_AGE: number = Number(ENV.ACCESS_TOKEN_AGE);
+export const REFRESH_TOKEN_AGE: number = Number(ENV.REFRESH_TOKEN_AGE);
 export const COOKIE_OPTIONS: CookieOptions = {
   httpOnly: true,
   secure: true,

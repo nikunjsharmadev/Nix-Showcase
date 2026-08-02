@@ -1,7 +1,7 @@
 import type { Request, Response } from 'express';
 import { AuthService, UserService } from '../services/index.js';
 import { BadRequestError } from '../utils/index.js';
-import { COOKIE_OPTIONS } from '../constants/const.js';
+import { ACCESS_TOKEN_AGE, COOKIE_OPTIONS, REFRESH_TOKEN_AGE } from '../constants/const.js';
 // CONTROLLERS
 // AUTH
 export function AuthController() {
@@ -10,8 +10,8 @@ export function AuthController() {
     const result = await authService().refreshToken(req.cookies.refreshToken);
     const { accessToken, refreshToken, user } = result;
     res
-      .cookie('accessToken', accessToken, { ...COOKIE_OPTIONS, maxAge: 1 * 60 * 1000 })
-      .cookie('refreshToken', refreshToken, { ...COOKIE_OPTIONS, maxAge: 1 * 60 * 1000 })
+      .cookie('accessToken', accessToken, { ...COOKIE_OPTIONS, maxAge: ACCESS_TOKEN_AGE })
+      .cookie('refreshToken', refreshToken, { ...COOKIE_OPTIONS, maxAge: REFRESH_TOKEN_AGE })
       .status(200)
       .json({
         success: true,
@@ -41,8 +41,8 @@ export function AuthController() {
     const result = await authService().Login(email, password);
     const { accessToken, user, refreshToken } = result;
     res
-      .cookie('accessToken', accessToken, { ...COOKIE_OPTIONS, maxAge: 1 * 60 * 1000 })
-      .cookie('refreshToken', refreshToken, { ...COOKIE_OPTIONS, maxAge: 1 * 60 * 1000 })
+      .cookie('accessToken', accessToken, { ...COOKIE_OPTIONS, maxAge: ACCESS_TOKEN_AGE })
+      .cookie('refreshToken', refreshToken, { ...COOKIE_OPTIONS, maxAge: REFRESH_TOKEN_AGE })
       .status(200)
       .json({
         success: true,
