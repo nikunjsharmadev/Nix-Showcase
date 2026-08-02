@@ -35,3 +35,4 @@ export enum Role {
   EMPLOYEE = 'employee',
   CUSTOMER = 'customer',
 }
+export type RefreshTokenUser = { user: UserResponse & { id: string }; accessToken: string; refreshToken: string };

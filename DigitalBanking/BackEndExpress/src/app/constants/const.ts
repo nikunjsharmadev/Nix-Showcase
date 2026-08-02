@@ -4,13 +4,23 @@ import path from 'path';
 import mongoose from 'mongoose';
 import type { CorsOptions } from 'cors';
 import type { HelmetOptions } from 'helmet';
+import type { CookieOptions } from 'express';
 dotenv.config();
 // CONSTS
 export const PROCESS = process;
 export const ENV = PROCESS.env;
-export const HOSTNAME: string = ENV.TYPE === 'dev' ? ENV.HOST_DEV! : ENV.HOST_PROD!;
-export const FRONTEND: string = ENV.TYPE === 'dev' ? ENV.FRONTEND_DEV! : ENV.FRONTEND_PROD!;
 export const PORT = Number(ENV.PORT || 3000);
+export const isDevelopmentEnv = ENV.TYPE === 'dev';
+export const HOSTNAME: string = isDevelopmentEnv ? ENV.HOST_DEV! : ENV.HOST_PROD!;
+export const FRONTEND: string = isDevelopmentEnv ? ENV.FRONTEND_DEV! : ENV.FRONTEND_PROD!;
+export const ACCESS_TOKEN_AGE: number = 30 * 24 * 60 * 60 * 1000;
+export const REFRESH_TOKEN_AGE: number = 1 * 24 * 60 * 60 * 1000;
+export const HSTS_AGE: number = 365 * 24 * 60 * 60;
+export const COOKIE_OPTIONS: CookieOptions = {
+  httpOnly: true,
+  secure: true,
+  sameSite: isDevelopmentEnv ? 'none' : 'lax',
+};
 export const __filename = fileURLToPath(import.meta.url);
 export const __dirname = path.dirname(__filename);
 export const UPLOAD_DIR = path.join(__dirname, ENV.UPLOAD_PATH!);
@@ -33,13 +43,14 @@ export const ERROR_MESSAGES = {
   pageNotFound: `Try with different API endpoint, no url found: {url}`,
 } as const;
 export const CORS_CONFIG: CorsOptions = {
-  origin: FRONTEND,
+  origin: FRONTEND!,
   credentials: true,
+  methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],
 } as const;
 export const HELMET_CONFIG: HelmetOptions = {
   contentSecurityPolicy: false,
   referrerPolicy: { policy: 'no-referrer' },
-  strictTransportSecurity: { maxAge: 31536000, includeSubDomains: true },
+  strictTransportSecurity: { maxAge: HSTS_AGE, includeSubDomains: true },
   xFrameOptions: { action: 'deny' },
   crossOriginResourcePolicy: {
     policy: 'cross-origin',
@@ -57,6 +68,7 @@ export const API_ROUTES = {
     forgotPasswordLink: '/forgot-password-link',
     resetPassword: '/reset-password',
     me: '/me',
+    refresh: '/refresh',
   },
   users: {
     root: '/users',

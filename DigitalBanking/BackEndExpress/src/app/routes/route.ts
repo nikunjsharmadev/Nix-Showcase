@@ -24,6 +24,7 @@ export function AuthRoutes(router: Router) {
   router.post(`${authPaths.forgotPasswordLink}`, asyncWrapper(authCtrl().getResetPasswordLink));
   router.post(`${authPaths.resetPassword}`, asyncWrapper(authCtrl().resetPassword));
   router.get(`${authPaths.me}`, asyncWrapper(authMiddleware().authenticate), asyncWrapper(authCtrl().me));
+  router.get(`${authPaths.refresh}`, asyncWrapper(authCtrl().refresh));
   return router;
 }
 // user

@@ -1,18 +1,29 @@
 import jwt from 'jsonwebtoken';
 import crypto from 'crypto';
 import argon2 from 'argon2';
-import { User } from '../models/index.js';
-import { Role, type CreateRequest, type decodedUser, type UserResponse } from '../types/index.js';
+import { User, type UserDocument } from '../models/index.js';
+import { Role, type CreateRequest, type decodedUser, type RefreshTokenUser, type UserResponse } from '../types/index.js';
 import { ApiError, BadRequestError, toUserResponse, toUserResponseList, UnauthorizedError } from '../utils/index.js';
-import { ENV, FRONTEND } from '../constants/index.js';
+import { COOKIE_OPTIONS, ENV, FRONTEND } from '../constants/index.js';
 // SERVICES
 // JWT
 export function JwtService() {
   function sign(payload: decodedUser): string {
-    return jwt.sign(payload, ENV.JWT_SECRET!, { expiresIn: '24h' });
+    return jwt.sign(payload, ENV.JWT_SECRET!, { expiresIn: '1m' });
   }
   function verify(token: string): decodedUser {
-    return jwt.verify(token, ENV.JWT_SECRET!) as decodedUser;
+    try {
+      const decodedUser = jwt.verify(token, ENV.JWT_SECRET!);
+      return decodedUser as decodedUser;
+    } catch (error) {
+      if (error instanceof jwt.TokenExpiredError) {
+        throw new ApiError(401, 'Access token expired');
+      }
+      if (error instanceof jwt.JsonWebTokenError) {
+        throw new ApiError(401, 'Invalid token');
+      }
+      throw error;
+    }
   }
   return { sign, verify };
 }
@@ -20,16 +31,40 @@ export function JwtService() {
 export function AuthService() {
   const userService = UserService;
   const jwtService = JwtService;
+  async function refreshToken(refreshToken: string): Promise<RefreshTokenUser> {
+    const hashToken = crypto.createHash('sha256').update(refreshToken).digest('hex');
+    const user = await User.findOne({ refreshTokenHash: hashToken });
+    if (!user) throw new UnauthorizedError();
+    const newRefreshToken = crypto.randomBytes(64).toString('hex');
+    const newHash = crypto.createHash('sha256').update(refreshToken).digest('hex');
+    user.refreshTokenHash = newHash;
+    await user.save();
+    const id = user._id.toString();
+    const accessToken: string = jwtService().sign({ id, email: user.email!, role: user.role });
+    const responseUser: UserResponse = toUserResponse(user);
+    const user_: UserResponse & { id: string } = { id, ...responseUser };
+    return { refreshToken: newRefreshToken, accessToken, user: user_ };
+  }
+  async function getAuthorizeUser(email: string, password: string): Promise<UserDocument> {
+    const currentUser = await User.findOne({ email });
+    if (!currentUser) throw new UnauthorizedError();
+    const { passwordHash, isVerified } = currentUser;
+    if (!isVerified) throw new ApiError(401, 'user is not verified');
+    if (!passwordHash) throw new UnauthorizedError();
+    const isValid = await argon2.verify(passwordHash! as string, password);
+    if (!isValid) throw new UnauthorizedError();
+    return currentUser;
+  }
   async function getLoggedUser(userId: string): Promise<UserResponse> {
     const user = await User.findOne({ id: userId });
     if (!user) throw new UnauthorizedError();
     const loggedUser: UserResponse = toUserResponse(user);
     return { id: user._id.toString(), ...loggedUser };
   }
-  function resetToken(): { token: string; hashedToken: string } {
-    const token = crypto.randomBytes(32).toString('hex');
-    const hashedToken = crypto.createHash('sha256').update(token).digest('hex');
-    return { token, hashedToken };
+  function resetToken(): { token: string; hashToken: string } {
+    const token = crypto.randomBytes(64).toString('hex');
+    const hashToken = crypto.createHash('sha256').update(token).digest('hex');
+    return { token, hashToken };
   }
   function getHashedToken(token: string) {
     return crypto.createHash('sha256').update(token).digest('hex');
@@ -47,28 +82,27 @@ export function AuthService() {
   async function getPasswordResetLink(email: string) {
     let user = await User.findOne({ email });
     if (!user) throw new BadRequestError();
-    const { token, hashedToken } = resetToken();
-    user.resetPasswordToken = hashedToken;
+    const { token, hashToken } = resetToken();
+    user.resetPasswordToken = hashToken;
     user.resetPasswordExpires = new Date(Date.now() + 15 * 60 * 1000);
     user = await user.save();
     if (!user) throw new BadRequestError();
     const resetLink = `${FRONTEND}/reset-password?email=${email}&token=${token}`;
     return { resetLink };
   }
-  async function getLoginAccessToken(email: string, password: string): Promise<{ user: UserResponse & { id: string }; accessToken: string }> {
-    const currentUser = await User.findOne({ email });
-    if (!currentUser) throw new UnauthorizedError();
-    const { passwordHash, isVerified } = currentUser;
-    if (!isVerified) throw new ApiError(401, 'user is not verified');
-    if (!passwordHash) throw new UnauthorizedError();
-    const isValid = await argon2.verify(passwordHash! as string, password);
-    if (!isValid) throw new UnauthorizedError();
+  async function Login(email: string, password: string): Promise<RefreshTokenUser> {
+    const currentUser: UserDocument = await getAuthorizeUser(email, password);
+    if (!(currentUser && currentUser._id)) throw new UnauthorizedError();
     const id = currentUser._id.toString();
     const role = currentUser.role;
     const responseUser: UserResponse = toUserResponse(currentUser);
+    const refreshToken = crypto.randomBytes(64).toString('hex');
+    const refreshHash = crypto.createHash('sha256').update(refreshToken).digest('hex');
+    currentUser.refreshTokenHash = refreshHash;
     const accessToken: string = jwtService().sign({ id, email, role });
+    await currentUser.save();
     const user: UserResponse & { id: string } = { id, ...responseUser };
-    return { user, accessToken };
+    return { user, refreshToken, accessToken };
   }
   async function getCookie(email: string): Promise<{ cookieName: string; refereshToken: string }> {
     const currentUser = await User.findOne({ email });
@@ -77,13 +111,11 @@ export function AuthService() {
     const refreshToken = [];
     if (!rememberMe) throw new BadRequestError();
     const refereshToken = crypto.randomBytes(64).toString('hex');
+    COOKIE_OPTIONS.maxAge = 30 * 24 * 60 * 60 * 1000;
     const tokenObj = {
       userId: currentUser._id.toString(),
       token: refereshToken,
-      httpOnly: true,
-      secure: true,
-      sameSite: 'strict',
-      maxAge: 30 * 24 * 60 * 60 * 1000,
+      ...COOKIE_OPTIONS,
     };
     refreshToken.push(tokenObj);
     return {
@@ -97,7 +129,7 @@ export function AuthService() {
   async function verifyEmail(token: string): Promise<{ isVerified: boolean }> {
     if (typeof token !== 'string' || !token) throw new BadRequestError();
     const payload = jwtService().verify(token);
-    const user = await User.findByIdAndUpdate(payload.id, { isVerified: true });
+    const user = await User.findByIdAndUpdate(payload!.id, { isVerified: true });
     if (!user) throw new BadRequestError();
     return { isVerified: true };
   }
@@ -115,12 +147,13 @@ export function AuthService() {
     return jwtService().sign({ id, email, role, purpose: 'email-verification' });
   }
   return {
+    refreshToken,
     getCookie,
     verifyEmail,
     registerUser,
     resetPassword,
     resendVerifyEmail,
-    getLoginAccessToken,
+    Login,
     getPasswordResetLink,
     getEmailVerificationLink,
     generateVerificationToken,

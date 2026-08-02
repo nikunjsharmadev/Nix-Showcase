@@ -5,10 +5,10 @@ import { JwtService } from '../services/index.js';
 // AUTH
 export function AuthMiddleware() {
   async function authenticate(req: Request, _: Response, next: NextFunction): Promise<void> {
-    const token = req.cookies.access_token;
+    const token = req.cookies.accessToken;
     if (!token) throw new UnauthorizedError();
     const jwtService = JwtService;
-    const decoded = jwtService().verify(token);
+    const decoded = jwtService().verify(token)!;
     if (typeof decoded.id === 'string' && typeof decoded.email === 'string' && typeof decoded.role === 'string') {
       req.user = { ...decoded };
     }
