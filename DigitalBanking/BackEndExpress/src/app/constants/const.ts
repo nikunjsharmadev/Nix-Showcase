@@ -13,8 +13,9 @@ export const PORT = Number(ENV.PORT || 3000);
 export const isDevelopmentEnv = ENV.TYPE === 'dev';
 export const HOSTNAME: string = isDevelopmentEnv ? ENV.HOST_DEV! : ENV.HOST_PROD!;
 export const FRONTEND: string = isDevelopmentEnv ? ENV.FRONTEND_DEV! : ENV.FRONTEND_PROD!;
-export const ACCESS_TOKEN_AGE: number = Number(ENV.ACCESS_TOKEN_AGE);
-export const REFRESH_TOKEN_AGE: number = Number(ENV.REFRESH_TOKEN_AGE);
+export const ACCESS_TOKEN_AGE: number = 30 * 24 * 60 * 60 * 1000;
+export const REFRESH_TOKEN_AGE: number = 1 * 24 * 60 * 60 * 1000;
+export const HSTS_AGE: number = 365 * 24 * 60 * 60;
 export const COOKIE_OPTIONS: CookieOptions = {
   httpOnly: true,
   secure: true,
@@ -49,7 +50,7 @@ export const CORS_CONFIG: CorsOptions = {
 export const HELMET_CONFIG: HelmetOptions = {
   contentSecurityPolicy: false,
   referrerPolicy: { policy: 'no-referrer' },
-  strictTransportSecurity: { maxAge: 31536000, includeSubDomains: true },
+  strictTransportSecurity: { maxAge: HSTS_AGE, includeSubDomains: true },
   xFrameOptions: { action: 'deny' },
   crossOriginResourcePolicy: {
     policy: 'cross-origin',
