@@ -1,4 +1,4 @@
-name: Deploy Angular to GitHub Pages
+name: Deploy to GitHub Pages
 
 on:
   push:
@@ -37,7 +37,7 @@ jobs:
       - name: Build
         working-directory: DynamicUI
         run: npm run build -- --configuration production --base-href "/Nix-Showcase/dynamic-controller/"
-      
+
       - name: Copy index to 404 fallback
         run: cp DynamicUI/dist/dynamic-controller/browser/index.html DynamicUI/dist/dynamic-controller/browser/404.html
 
@@ -56,10 +56,10 @@ jobs:
       - name: Build
         working-directory: DigitalBanking/FrontEndAngular
         run: npm run build -- --configuration production --base-href "/Nix-Showcase/banking-portal/"
-      
+
       - name: Copy index to 404 fallback
         run: cp DigitalBanking/FrontEndAngular/dist/banking-portal/browser/index.html DigitalBanking/FrontEndAngular/dist/banking-portal/browser/404.html
-      
+
       # -------- MERGE OUTPUT --------
       - name: Prepare Pages folder
         run: |
@@ -79,7 +79,24 @@ jobs:
           # path: DigitalBanking/FrontEndAngular/dist/banking-portal/browser
           path: public
 
-
+      - name: Configure AWS
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+      - name: Login to ECR
+        uses: aws-actions/amazon-ecr-login@v2
+      - name: Build Docker Image
+        working-directory: DigitalBanking/BackEndExpress
+        run: |
+          docker build \
+          -t ${{ secrets.ECR_REPOSITORY }}:${{ github.sha }}
+      - name: Push Image
+        working-directory: DigitalBanking/BackEndExpress
+        run: |
+          docker push \
+          -t ${{ secrets.ECR_REPOSITORY }}:${{ github.sha }}
 
   deploy:
     needs: build

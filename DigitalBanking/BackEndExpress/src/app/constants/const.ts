@@ -16,11 +16,6 @@ export const FRONTEND: string = isDevelopmentEnv ? ENV.FRONTEND_DEV! : ENV.FRONT
 export const ACCESS_TOKEN_AGE: number = 30 * 24 * 60 * 60 * 1000;
 export const REFRESH_TOKEN_AGE: number = 1 * 24 * 60 * 60 * 1000;
 export const HSTS_AGE: number = 365 * 24 * 60 * 60;
-export const COOKIE_OPTIONS: CookieOptions = {
-  httpOnly: true,
-  secure: true,
-  sameSite: isDevelopmentEnv ? 'none' : 'lax',
-};
 export const __filename = fileURLToPath(import.meta.url);
 export const __dirname = path.dirname(__filename);
 export const UPLOAD_DIR = path.join(__dirname, ENV.UPLOAD_PATH!);
@@ -37,11 +32,11 @@ export const MONGOOSE_OPTIONS: mongoose.ConnectOptions = {
     deprecationErrors: true,
   },
 } as const;
-export const CHARS_SET = 'abcdefghijklmnopqrstuvwxyz';
-export const ERROR_MESSAGES = {
-  internal: `Internal server error, try again later`,
-  pageNotFound: `Try with different API endpoint, no url found: {url}`,
-} as const;
+export const COOKIE_OPTIONS: CookieOptions = {
+  httpOnly: true,
+  secure: true,
+  sameSite: isDevelopmentEnv ? 'none' : 'lax',
+};
 export const CORS_CONFIG: CorsOptions = {
   origin: FRONTEND!,
   credentials: true,
@@ -55,6 +50,11 @@ export const HELMET_CONFIG: HelmetOptions = {
   crossOriginResourcePolicy: {
     policy: 'cross-origin',
   },
+} as const;
+export const CHARS_SET = 'abcdefghijklmnopqrstuvwxyz' as const;
+export const ERROR_MESSAGES = {
+  internal: `Internal server error, try again later`,
+  pageNotFound: `Try with different API endpoint, no url found: {url}`,
 } as const;
 export const API_ROUTES = {
   root: '/',
