@@ -16,9 +16,9 @@ export const FRONTEND: string = isDevelopmentEnv ? ENV.FRONTEND_DEV! : ENV.FRONT
 export const ACCESS_TOKEN_AGE: number = 30 * 24 * 60 * 60 * 1000;
 export const REFRESH_TOKEN_AGE: number = 1 * 24 * 60 * 60 * 1000;
 export const HSTS_AGE: number = 365 * 24 * 60 * 60;
-export const __filename = fileURLToPath(import.meta.url);
-export const __dirname = path.dirname(__filename);
-export const UPLOAD_DIR = path.join(__dirname, ENV.UPLOAD_PATH!);
+const __FILENAME = fileURLToPath(import.meta.url);
+const __DIRNAME = path.dirname(__FILENAME);
+export const UPLOAD_DIR = path.join(__DIRNAME, ENV.UPLOAD_PATH!);
 export const UPLOAD_FIELDS = [
   { name: 'images', maxCount: Number(ENV.MAX_IMAGE_UPLOAD_COUNT) },
   { name: 'videos', maxCount: Number(ENV.MAX_VIDEO_UPLOAD_COUNT) },
