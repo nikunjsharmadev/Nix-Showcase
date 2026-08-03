@@ -9,11 +9,11 @@ import { COOKIE_OPTIONS, ENV, FRONTEND } from '../constants/index.js';
 // JWT
 export function JwtService() {
   function sign(payload: decodedUser): string {
-    return jwt.sign(payload, ENV.JWT_SECRET!, { expiresIn: '1m' });
+    return jwt.sign(payload, ENV.JWT_SECRET!, { algorithm: 'HS256', expiresIn: '1m' });
   }
   function verify(token: string): decodedUser {
     try {
-      const decodedUser = jwt.verify(token, ENV.JWT_SECRET!);
+      const decodedUser = jwt.verify(token, ENV.JWT_SECRET!, { algorithms: ['HS256'] });
       return decodedUser as decodedUser;
     } catch (error) {
       if (error instanceof jwt.TokenExpiredError) {
@@ -104,25 +104,6 @@ export function AuthService() {
     const user: UserResponse & { id: string } = { id, ...responseUser };
     return { user, refreshToken, accessToken };
   }
-  async function getCookie(email: string): Promise<{ cookieName: string; refereshToken: string }> {
-    const currentUser = await User.findOne({ email });
-    if (!currentUser) throw new BadRequestError();
-    const rememberMe = false; // need to update when impementing feature
-    const refreshToken = [];
-    if (!rememberMe) throw new BadRequestError();
-    const refereshToken = crypto.randomBytes(64).toString('hex');
-    COOKIE_OPTIONS.maxAge = 30 * 24 * 60 * 60 * 1000;
-    const tokenObj = {
-      userId: currentUser._id.toString(),
-      token: refereshToken,
-      ...COOKIE_OPTIONS,
-    };
-    refreshToken.push(tokenObj);
-    return {
-      cookieName: 'refreshToken',
-      refereshToken,
-    };
-  }
   async function registerUser(req: CreateRequest): Promise<UserResponse> {
     return await userService().createUser(req);
   }
@@ -148,7 +129,6 @@ export function AuthService() {
   }
   return {
     refreshToken,
-    getCookie,
     verifyEmail,
     registerUser,
     resetPassword,
