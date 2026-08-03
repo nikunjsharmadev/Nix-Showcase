@@ -1,5 +1,6 @@
 import https from 'https';
 import fs from 'fs';
+import path from 'path';
 import { App } from './app/index.js';
 import { handleFatalError } from './app/utils/index.js';
 import { PORT, HOSTNAME, PROCESS } from './app/constants/index.js';
@@ -7,8 +8,8 @@ import { PORT, HOSTNAME, PROCESS } from './app/constants/index.js';
 async function Server() {
   try {
     const options = {
-      key: fs.readFileSync('./private.key'),
-      cert: fs.readFileSync('./certificate.crt'),
+      key: fs.readFileSync(path.join(__dirname, '../private.key')),
+      cert: fs.readFileSync(path.join(__dirname, '../certificate.crt')),
     };
     const server = https.createServer(options, App());
     server.listen(PORT, HOSTNAME, () => {
