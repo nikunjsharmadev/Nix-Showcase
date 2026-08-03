@@ -28,7 +28,7 @@ export class AppStateService {
 export class HealthService {
   private http = inject(HttpClient);
   check() {
-    return this.http.get(`${ENVIRONMENT.apiUrl}`).pipe(timeout(10000));
+    return this.http.get(`${ENVIRONMENT.apiUrl}`).pipe(timeout(5000));
   }
 }
 // AUTH SERVICE
