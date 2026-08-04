@@ -5,6 +5,7 @@ import mongoose from 'mongoose';
 import type { CorsOptions } from 'cors';
 import type { HelmetOptions } from 'helmet';
 import type { CookieOptions } from 'express';
+import type { Options } from 'express-rate-limit';
 dotenv.config();
 // CONSTS
 export const PROCESS = process;
@@ -50,6 +51,10 @@ export const HELMET_CONFIG: HelmetOptions = {
   crossOriginResourcePolicy: {
     policy: 'cross-origin',
   },
+} as const;
+export const RATE_LIMIT_CONFIG: Partial<Options> | undefined = {
+  windowMs: 15 * 60 * 1000,
+  limit: 100,
 } as const;
 export const CHARS_SET = 'abcdefghijklmnopqrstuvwxyz' as const;
 export const ERROR_MESSAGES = {
