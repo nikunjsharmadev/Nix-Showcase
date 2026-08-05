@@ -1,4 +1,3 @@
-import type { Request, Response, NextFunction } from 'express';
 import mongoose, { model, Schema, Types } from 'mongoose';
 import type { InferSchemaType } from 'mongoose';
 // MODELS
@@ -7,7 +6,11 @@ export const _user = {
   id: Types.ObjectId,
   firstName: String,
   lastName: String,
-  email: String,
+  email: {
+    type: String,
+    unique: true,
+    index: true,
+  },
   phone: String,
   passwordHash: {
     type: String,
