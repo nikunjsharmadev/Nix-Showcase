@@ -1,4 +1,5 @@
 import dotenv from 'dotenv';
+dotenv.config();
 import { fileURLToPath } from 'node:url';
 import path from 'path';
 import mongoose from 'mongoose';
@@ -6,7 +7,6 @@ import type { CorsOptions } from 'cors';
 import type { HelmetOptions } from 'helmet';
 import type { CookieOptions } from 'express';
 import type { Options } from 'express-rate-limit';
-dotenv.config();
 // CONSTS
 export const PROCESS = process;
 export const ENV = PROCESS.env;

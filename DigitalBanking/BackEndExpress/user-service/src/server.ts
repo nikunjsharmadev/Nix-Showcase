@@ -8,8 +8,8 @@ import { PORT, HOSTNAME, PROCESS } from './app/constants/index.js';
 async function Server() {
   try {
     const options = {
-      key: fs.readFileSync(path.join(process.cwd(), 'certs', 'private.key')),
-      cert: fs.readFileSync(path.join(process.cwd(), 'certs', 'certificate.crt')),
+      key: fs.readFileSync(path.join(PROCESS.cwd(), 'certs', 'private.key')),
+      cert: fs.readFileSync(path.join(PROCESS.cwd(), 'certs', 'certificate.crt')),
     };
     const server = https.createServer(options, App());
     server.listen(PORT, HOSTNAME, () => {
