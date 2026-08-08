@@ -6,6 +6,7 @@ const createWorker = () => {
   const { REDIS_CONNECTION } = constantFactory;
   let worker: Worker;
   const setWorker = (workerName: string) => {
+    console.info(`worker has been started with: ${workerName}`);
     worker = new Worker(
       workerName,
       async (job) => {
@@ -33,3 +34,6 @@ const createWorker = () => {
   return { setWorker, getWorker, workerEvents };
 };
 export const workerFactory = createWorker();
+const { setWorker, workerEvents } = workerFactory;
+setWorker('image-processing');
+workerEvents();
