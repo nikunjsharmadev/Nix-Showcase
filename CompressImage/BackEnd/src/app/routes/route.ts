@@ -1,11 +1,12 @@
 import express from 'express';
-import { Utils } from '../utils/index.js';
-import { Controllers } from '../controllers/index.js';
+import { utilFactory } from '../utils/index.js';
+import { controllerFactory } from '../controllers/index.js';
 // ROUTES
-export const Routes = () => {
-  const utils = Utils;
-  const controller = Controllers;
+const createRoutes = () => {
+  const { getUploadStorageConfig, asyncWrapper } = utilFactory;
+  const { compressImage } = controllerFactory;
   const router = express.Router();
-  router.route('/image').post(utils().getUploadStorageConfig(), utils().asyncWrapper(controller().compressImage));
+  router.route('/image').post(getUploadStorageConfig(), asyncWrapper(compressImage));
   return router;
 };
+export const routeFactory = createRoutes();

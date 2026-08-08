@@ -1,26 +1,32 @@
 import https from 'https';
-import fs from 'fs';
-import path from 'path';
-import { App } from './app/app.js';
-import { Utils } from './app/utils/index.js';
-import { HOSTNAME, PORT, PROCESS } from './app/consts/const.js';
+import { appFactory } from './app/app.js';
+import { utilFactory } from './app/utils/index.js';
+import { constantFactory } from './app/consts/const.js';
+import { socketFactory } from './app/sockets/socket.js';
+import { queueFactory } from './app/queues/queue.js';
+import { workerFactory } from './app/workers/worker.js';
 // SERVER
-const Server = async () => {
+const ApiServer = async () => {
   try {
-    const options = {
-      key: fs.readFileSync(path.join(PROCESS.cwd(), 'certs', 'private.key')),
-      cert: fs.readFileSync(path.join(PROCESS.cwd(), 'certs', 'certificate.crt')),
-    };
-    const server = https.createServer(options, App());
-    server.listen(PORT, HOSTNAME, () => {
-      console.info(`server is up👍 and running🏃🏃 on:
-        Url: https://${HOSTNAME}:${PORT}`);
-    });
+    const { HTTPS_CERTIFICATE_CONFIG, PORT, HOSTNAME, SERVER_RUN_MESSAGE } = constantFactory;
+    const { setSocket, getSocket, socketEvents } = socketFactory;
+    const { setQueue, setQueueEvent, monitorQueue } = queueFactory;
+    const { setWorker, workerEvents } = workerFactory;
+    const server = https.createServer(HTTPS_CERTIFICATE_CONFIG, appFactory);
+    setSocket(server);
+    socketEvents();
+    setQueue('image-processing');
+    setQueueEvent('image-processing');
+    await monitorQueue(getSocket());
+    setWorker('image-processing');
+    workerEvents();
+    server.listen(PORT, HOSTNAME, () => console.info(SERVER_RUN_MESSAGE));
   } catch (err) {
     console.error(err);
     process.exit(1);
   }
 };
-Server().catch(Utils().handleFatalError);
-process.on('uncaughtException', Utils().handleFatalError);
-process.on('unhandledRejection', Utils().handleFatalError);
+const { handleFatalError } = utilFactory;
+process.on('uncaughtException', handleFatalError);
+process.on('unhandledRejection', handleFatalError);
+ApiServer().catch(handleFatalError);

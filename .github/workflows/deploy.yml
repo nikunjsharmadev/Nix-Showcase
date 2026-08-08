@@ -89,7 +89,20 @@ jobs:
       - name: Login to ECR
         uses: aws-actions/amazon-ecr-login@v2
 
-      - name: Build Docker Image
+      - name: Build Docker Image For CompressImage
+        working-directory: CompressImage/BackEnd
+        run: |
+          docker build \
+          -t ${{ secrets.ECR_REPOSITORY }}:${{ github.sha }} \
+          .
+
+      - name: Push Image
+        working-directory: CompressImage/BackEnd
+        run: |
+          docker push \
+            ${{ secrets.ECR_REPOSITORY }}:${{ github.sha }}
+
+      - name: Build Docker Image For DigitalBanking
         working-directory: DigitalBanking/BackEndExpress
         run: |
           docker build \

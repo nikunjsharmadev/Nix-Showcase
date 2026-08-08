@@ -1,38 +1,35 @@
-import fs from 'fs/promises';
 import { Worker } from 'bullmq';
-import { Services } from '../services/service.js';
-import { UPLOAD_DIR } from '../consts/const.js';
+import { serviceFactory } from '../services/service.js';
+import { constantFactory } from '../consts/const.js';
 // WORKERS
-export const WorkersFactory = () => {
-  const imageWorker = () => {
-    return new Worker(
-      'compress-image',
+const createWorker = () => {
+  const { REDIS_CONNECTION } = constantFactory;
+  let worker: Worker;
+  const setWorker = (workerName: string) => {
+    worker = new Worker(
+      workerName,
       async (job) => {
-        const service = Services;
+        const { compressImage } = serviceFactory;
         const files = job.data.files;
-        await fs.mkdir(UPLOAD_DIR!, { recursive: true });
-        await service().compressImage(files as { images: Express.Multer.File[] });
+        await job.updateProgress(10);
+        await job.updateProgress(30);
+        const data = await compressImage(files as { images: Express.Multer.File[] });
+        await job.updateProgress(60);
+        await job.updateProgress(100);
+        return data;
       },
-      {
-        connection: {
-          host: 'redis',
-          port: 6379,
-        },
-      },
+      REDIS_CONNECTION,
     );
   };
-  return {
-    imageWorker,
+  const getWorker = () => worker;
+  const workerEvents = () => {
+    worker.on('completed', (job) => {
+      console.info(`Job ${job.id} completed`);
+    });
+    worker.on('failed', (job, err) => {
+      console.info(`Job ${job?.id} failed`, err);
+    });
   };
+  return { setWorker, getWorker, workerEvents };
 };
-WorkersFactory().imageWorker();
-WorkersFactory()
-  .imageWorker()
-  .on('completed', (job) => {
-    console.log(`Job ${job.id} completed`);
-  });
-WorkersFactory()
-  .imageWorker()
-  .on('failed', (job, err) => {
-    console.log(`Job ${job?.id} failed`, err);
-  });
+export const workerFactory = createWorker();

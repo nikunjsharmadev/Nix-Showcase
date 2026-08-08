@@ -1,12 +1,13 @@
-import { Utils } from '../utils/index.js';
-import { UPLOAD_DIR } from '../consts/index.js';
+import { utilFactory } from '../utils/index.js';
+import { constantFactory } from '../consts/index.js';
 import fs from 'fs';
 import sharp from 'sharp';
 import path from 'path';
 import { ApiError } from '../models/model.js';
 // SERVICES
-export const Services = () => {
-  const utils = Utils;
+const createServices = () => {
+  const { UPLOAD_DIR } = constantFactory;
+  const { getRandomName } = utilFactory;
   const compressMultipleFiles = async (files: Express.Multer.File[]) => {
     const allFiles = Object.values(files).filter(Boolean).flat();
     await fs.promises.mkdir(UPLOAD_DIR, { recursive: true });
@@ -16,7 +17,7 @@ export const Services = () => {
     return compressPromises;
   };
   const compressSingleFile = async (file: Express.Multer.File) => {
-    const fileName = `${Date.now()}${utils().getRandomName(10)}.webp`;
+    const fileName = `${Date.now()}${getRandomName(10)}.webp`;
     const outputPath = path.join(UPLOAD_DIR, fileName);
     return new Promise((resolve, reject) => {
       const readStream = fs.createReadStream(file.path);
@@ -44,3 +45,4 @@ export const Services = () => {
     compressImage,
   };
 };
+export const serviceFactory = createServices();

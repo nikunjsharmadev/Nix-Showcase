@@ -1,29 +1,30 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Image Upload</title>
-    <link rel="stylesheet" href="style.css" />
-  </head>
-  <body>
-    <div class="upload-container">
-      <div class="preview-container">
-        <img
-          id="imagePreview"
-          src=""
-          alt="Your Image Preview"
-          style="display: none"
-        />
-      </div>
-      <h2>Upload an Image</h2>
 
-      <form id="uploadForm">
-        <input type="file" id="imageInput" accept="image/*" required />
-        <button type="submit" class="submit-btn">Submit</button>
-      </form>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Image Upload</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+  <div class="upload-container">
+    <div class="preview-container">
+      <img id="imagePreview" src="" alt="Your Image Preview" style="display: none" />
     </div>
+    <h2>Upload an Image</h2>
+    <form id="uploadForm">
+      <input type="file" id="imageInput" accept="image/*" required />
+      <div class="progress" id="progress" hidden="true">
+        <div class="progress-fill" id="progressFill"></div>
+      </div>
+      <button id="submitBtn" type="submit" class="submit-btn">Submit</button>
+    </form>
+    <button hidden="true" id="imageUrl" class="submit-btn">⬇️ Download</button>
+  </div>
+</body>
 
-    <script src="script.js"></script>
-  </body>
 </html>
+<script src="https://cdn.socket.io/4.8.1/socket.io.min.js"></script>
+<script src="script.js"></script>

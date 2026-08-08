@@ -2,12 +2,13 @@ import dotenv from 'dotenv';
 import type { Request, Response, NextFunction, RequestHandler } from 'express';
 dotenv.config();
 import multer from 'multer';
-import { UPLOAD_DIR, UPLOAD_FIELDS, CHARS_SET } from '../consts/index.js';
+import { constantFactory } from '../consts/index.js';
 import { ApiError } from '../models/model.js';
 // UTILS
-export const Utils = () => {
+const createUtils = () => {
+  const { UPLOAD_DIR, UPLOAD_FIELDS, CHARS_SET } = constantFactory;
   // CHECK SERVER HEALTH
-  const checkAppHealth = (req: Request, res: Response, next: NextFunction) => {
+  const checkAppHealth = (_: Request, res: Response) => {
     res.status(200).json({
       success: true,
       message: 'Welcome to CompressImage APIs App',
@@ -53,7 +54,7 @@ export const Utils = () => {
     });
   };
   // PAGENOTFOUND 404
-  const pageNotFound = (req: Request, res: Response, next: NextFunction) => {
+  const pageNotFound = (req: Request, res: Response) => {
     res.status(404).json({
       success: false,
       message: `Try with different API endpoint, no url found: '${req.originalUrl}'`,
@@ -101,3 +102,4 @@ export const Utils = () => {
     getUploadStorageConfig,
   };
 };
+export const utilFactory = createUtils();
