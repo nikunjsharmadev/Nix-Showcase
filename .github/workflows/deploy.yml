@@ -85,14 +85,30 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ secrets.AWS_REGION }}
+
       - name: Login to ECR
         uses: aws-actions/amazon-ecr-login@v2
-      - name: Build Docker Image
+
+      - name: Build Docker Image For CompressImage
+        working-directory: CompressImage/BackEnd
+        run: |
+          docker build \
+          -t ${{ secrets.ECR_REPOSITORY }}:${{ github.sha }} \
+          .
+
+      - name: Push Image
+        working-directory: CompressImage/BackEnd
+        run: |
+          docker push \
+            ${{ secrets.ECR_REPOSITORY }}:${{ github.sha }}
+
+      - name: Build Docker Image For DigitalBanking
         working-directory: DigitalBanking/BackEndExpress
         run: |
           docker build \
           -t ${{ secrets.ECR_REPOSITORY }}:${{ github.sha }} \
           .
+
       - name: Push Image
         working-directory: DigitalBanking/BackEndExpress
         run: |
