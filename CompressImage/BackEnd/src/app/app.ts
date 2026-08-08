@@ -10,9 +10,9 @@ const createApp = () => {
   const { checkAppHealth, logTime, pageNotFound, catchApiError } = utilFactory;
   const app = express();
   app.use(cors(CORS_OPTIONS.cors));
-  app.get('/api', checkAppHealth);
   app.use(logTime);
   app.use(express.json());
+  app.get('/api', checkAppHealth);
   app.get('/download/:filename', (req, res) => {
     const filePath = path.join(UPLOAD_DIR, req.params.filename);
     res.download(filePath, 'my-image.jpg');

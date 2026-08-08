@@ -10,6 +10,8 @@ services:
 
   worker:
     build: .
+    env_file:
+      - .env.docker
     command: npm run worker
     depends_on:
       - redis
