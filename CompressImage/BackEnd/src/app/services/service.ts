@@ -18,17 +18,23 @@ const createServices = () => {
   };
   const compressSingleFile = async (file: Express.Multer.File) => {
     const fileName = `${Date.now()}${getRandomName(10)}.webp`;
+    const originalSize = file.size;
     const outputPath = path.join(UPLOAD_DIR, fileName);
     return new Promise((resolve, reject) => {
       const readStream = fs.createReadStream(file.path);
       const writeStream = fs.createWriteStream(outputPath);
-      const transform = sharp().resize(500).webp({ quality: 75 });
+      const transform = sharp().resize(500).webp({ quality: 60 });
       readStream.on('error', reject);
       writeStream.on('error', reject);
       writeStream.on('finish', async () => {
+        const stats = await fs.promises.stat(outputPath);
+        const compressedSize = stats.size;
         await fs.promises.unlink(file.path).catch(() => {});
         resolve({
           fileName,
+          originalSize,
+          compressedSize,
+          size: 'bytes',
         });
       });
       readStream.pipe(transform).pipe(writeStream);

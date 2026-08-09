@@ -1,59 +1,115 @@
 const imageInput = document.getElementById('imageInput');
-const imagePreview = document.getElementById('imagePreview');
+const imagePreviews = document.getElementById('imagePreviews');
 const uploadForm = document.getElementById('uploadForm');
 const progressFill = document.getElementById('progressFill');
 const progress = document.getElementById('progress');
 const imageUrl = document.getElementById('imageUrl');
 const submitBtn = document.getElementById('submitBtn');
-let currentFile = null;
-
+const fileList = document.getElementById('file-list');
+const serverDown = document.getElementById('server-down');
+const fileUpload = document.getElementById('file-upload');
+const spinner = document.getElementById('spinner');
+const BACKEND = 'https://127.0.0.1:5000';
+let imageCounter = 0;
+const checkApi = async () => {
+  const controller = new AbortController();
+  const timeOut = setTimeout(() => {
+    controller.abort();
+  }, 5000);
+  try {
+    const response = await fetch(`${BACKEND}/api`, {
+      method: 'GET',
+      signal: controller.signal,
+    });
+    const { success, message } = await response.json();
+    return {
+      success,
+      message,
+    };
+  } catch (error) {
+    return {
+      success: false,
+      message: error.message,
+    };
+  } finally {
+    clearTimeout(timeOut);
+  }
+};
+window.addEventListener('DOMContentLoaded', async () => {
+  const isApiUp = await checkApi();
+  console.info(`${isApiUp.message}`);
+  spinner.toggleAttribute('hidden', true);
+  serverDown.toggleAttribute('hidden', !!isApiUp.success);
+  fileUpload.toggleAttribute('hidden', !isApiUp.success);
+});
 function updateProgress(progress) {
   progressFill.style.width = `${progress}%`;
   progressFill.textContent = `${progress}%`;
 }
-const socket = io('https://99.79.49.211:5000', { secure: true });
+const socket = io(`${BACKEND}`, { secure: true });
 socket.emit('join', { userId: socket.id });
 socket.on('image-progress', (progress) => {
+  console.log(progress);
   updateProgress(progress.data);
 });
-let url = '';
 socket.on('image-completed', (data) => {
-  imageUrl.toggleAttribute('hidden', false);
-  progress.toggleAttribute('hidden', true);
-  submitBtn.toggleAttribute('hidden', false);
-  updateProgress(0);
-  url = `https://99.79.49.211:5000/download/${data[0]['fileName']}`;
-});
-imageUrl.addEventListener('click', () => {
-  window.open(url, '_self');
+  console.log(data);
+  let list = fileList.innerHTML;
+  for (const [i, file] of data.entries()) {
+    let { fileName, originalSize, compressedSize } = file;
+    const reduction = (((originalSize - compressedSize) / originalSize) * 100).toFixed(1);
+    originalSize = (originalSize / 1024 / 1024).toFixed(2);
+    compressedSize = (compressedSize / 1024 / 1024).toFixed(2);
+    imageCounter += 1;
+    list += `<div class="file-item">
+    <span class="file-name">image${imageCounter}, ${originalSize}mb 🛠️ ${compressedSize}mb (<strong>${reduction}%</strong>)</span>
+    <a href="${BACKEND}/download/${fileName}" download>Download</a>
+    </div>`;
+  }
+  submitBtn.toggleAttribute('disabled', true);
+  setTimeout(() => {
+    progress.toggleAttribute('hidden', true);
+    updateProgress(0);
+    fileList.innerHTML = list;
+  }, 5000);
 });
 // Listen for when a file is selected
 imageInput.addEventListener('change', function () {
-  const file = this.files[0];
-  currentFile = file;
-  if (file) {
-    const reader = new FileReader();
-    // Once the file is loaded, set the image source and display it
-    reader.addEventListener('load', function () {
-      imagePreview.setAttribute('src', this.result);
-      imagePreview.style.display = 'block';
+  const files = this.files;
+  imagePreviews.innerHTML = '';
+  if (files.length > 0) {
+    submitBtn.toggleAttribute('disabled', false);
+    Array.from(files).forEach((file) => {
+      const reader = new FileReader();
+      let { name, size } = file;
+      size = (size / 1024 / 1024).toFixed(2);
+      reader.addEventListener('load', function () {
+        const img = document.createElement('img');
+        img.setAttribute('title', `name: ${name}\nsize: ${size}mb`);
+        img.setAttribute('src', this.result);
+        img.style.display = 'block';
+        img.style.width = '150px';
+        img.style.height = '150px';
+        img.style.objectFit = 'cover';
+        img.style.margin = '5px';
+        imagePreviews.appendChild(img);
+      });
+      reader.readAsDataURL(file);
     });
-    reader.readAsDataURL(file);
   } else {
-    // Hide the preview if the user cancels the selection
-    imagePreview.style.display = 'none';
-    imagePreview.setAttribute('src', '');
+    imagePreviews.innerHTML = '';
   }
 });
-// Optional: Prevent default form submission to handle the upload via an API later
 uploadForm.addEventListener('submit', async function (e) {
   e.preventDefault();
   progress.toggleAttribute('hidden', false);
-  submitBtn.toggleAttribute('hidden', true);
+  submitBtn.toggleAttribute('disabled', true);
   const formData = new FormData();
-  formData.append('images', imageInput.files[0]);
+  Array.from(imageInput.files).forEach((file) => {
+    formData.append('images', file);
+  });
   formData.append('userId', socket.id);
-  const response = await fetch('https://99.79.49.211:5000/api/image', {
+  const response = await fetch(`${BACKEND}/api/image`, {
     method: 'POST',
     body: formData,
   });
