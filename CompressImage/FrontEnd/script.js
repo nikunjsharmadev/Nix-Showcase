@@ -49,11 +49,9 @@ function updateProgress(progress) {
 const socket = io(`${BACKEND}`, { secure: true });
 socket.emit('join', { userId: socket.id });
 socket.on('image-progress', (progress) => {
-  console.log(progress);
   updateProgress(progress.data);
 });
 socket.on('image-completed', (data) => {
-  console.log(data);
   let list = fileList.innerHTML;
   for (const [i, file] of data.entries()) {
     let { fileName, originalSize, compressedSize } = file;
