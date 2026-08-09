@@ -7,8 +7,8 @@ import fs from 'fs';
 const createConstants = () => {
   const PROCESS = process;
   const ENV = PROCESS.env;
-  const PORT = Number(ENV['PORT'] || 3000);
-  const isDevelopmentEnv = ENV['TYPE'] === 'dev';
+  const PORT: number = Number(ENV['PORT'] || 3000);
+  const isDevelopmentEnv: boolean = ENV['TYPE'] === 'dev';
   const HOSTNAME: string = isDevelopmentEnv ? ENV['HOST_DEV']! : ENV['HOST_PROD']!;
   const FRONTEND: string = isDevelopmentEnv ? ENV['FRONTEND_DEV']! : ENV['FRONTEND_PROD']!;
   const UPLOAD_DIR = path.join(PROCESS.cwd(), ENV['UPLOAD_PATH']!);
@@ -44,7 +44,7 @@ const createConstants = () => {
     key: fs.readFileSync(path.join(PROCESS.cwd(), 'certs', 'private.key')),
     cert: fs.readFileSync(path.join(PROCESS.cwd(), 'certs', 'certificate.crt')),
   } as const;
-  const SERVER_RUN_MESSAGE = `server is up 👍 and running 🏃🏃🏃🏃... on: https://${HOSTNAME}:${PORT}`;
+  const SERVER_RUN_MESSAGE = `server is up 🟢🟢🟢 and running 🏃🏃🏃🏃... on: https://${HOSTNAME}:${PORT}`;
   return {
     PROCESS,
     ENV,
