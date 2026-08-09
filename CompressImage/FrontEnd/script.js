@@ -9,7 +9,7 @@ const fileList = document.getElementById('file-list');
 const serverDown = document.getElementById('server-down');
 const fileUpload = document.getElementById('file-upload');
 const spinner = document.getElementById('spinner');
-const BACKEND = 'https://127.0.0.1:5000';
+const BACKEND = 'https://99.79.49.211:5000';
 let imageCounter = 0;
 const checkApi = async () => {
   const controller = new AbortController();
