@@ -67,17 +67,23 @@ socket.on('image-completed', (data) => {
   submitBtn.toggleAttribute('disabled', true);
   setTimeout(() => {
     progress.toggleAttribute('hidden', true);
-    updateProgress(1);
+    updateProgress(5);
     fileList.innerHTML = list;
   }, 5000);
 });
 // Listen for when a file is selected
 imageInput.addEventListener('change', function () {
-  const files = this.files;
+  const files = Array.from(this.files);
+  const invalidFiles = files.filter((file) => !file.type.startsWith('image/'));
+  if (invalidFiles.length > 0) {
+    alert('Only image files are allowed.');
+    this.value = '';
+    return;
+  }
   imagePreviews.innerHTML = '';
   if (files.length > 0) {
     submitBtn.toggleAttribute('disabled', false);
-    Array.from(files).forEach((file) => {
+    files.forEach((file) => {
       const reader = new FileReader();
       let { name, size } = file;
       size = (size / 1024 / 1024).toFixed(2);
