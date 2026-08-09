@@ -67,7 +67,7 @@ socket.on('image-completed', (data) => {
   submitBtn.toggleAttribute('disabled', true);
   setTimeout(() => {
     progress.toggleAttribute('hidden', true);
-    updateProgress(0);
+    updateProgress(1);
     fileList.innerHTML = list;
   }, 5000);
 });
