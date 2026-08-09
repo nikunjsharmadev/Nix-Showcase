@@ -35,7 +35,7 @@ const createConstants = () => {
   } as const;
   const CORS_OPTIONS = {
     cors: {
-      origin: FRONTEND,
+      origin: '*',
       methods: ['GET', 'POST'],
       credentials: true,
     } as CorsOptions,

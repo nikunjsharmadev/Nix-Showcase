@@ -11,7 +11,7 @@ function updateProgress(progress) {
   progressFill.style.width = `${progress}%`;
   progressFill.textContent = `${progress}%`;
 }
-const socket = io('https://127.0.0.1:5000', { secure: true });
+const socket = io('https://99.79.49.211:5000', { secure: true });
 socket.emit('join', { userId: socket.id });
 socket.on('image-progress', (progress) => {
   updateProgress(progress.data);
@@ -22,7 +22,7 @@ socket.on('image-completed', (data) => {
   progress.toggleAttribute('hidden', true);
   submitBtn.toggleAttribute('hidden', false);
   updateProgress(0);
-  url = `https://127.0.0.1:5000/download/${data[0]['fileName']}`;
+  url = `https://99.79.49.211:5000/download/${data[0]['fileName']}`;
 });
 imageUrl.addEventListener('click', () => {
   window.open(url, '_self');
@@ -53,7 +53,7 @@ uploadForm.addEventListener('submit', async function (e) {
   const formData = new FormData();
   formData.append('images', imageInput.files[0]);
   formData.append('userId', socket.id);
-  const response = await fetch('https://127.0.0.1:5000/api/image', {
+  const response = await fetch('https://99.79.49.211:5000/api/image', {
     method: 'POST',
     body: formData,
   });
