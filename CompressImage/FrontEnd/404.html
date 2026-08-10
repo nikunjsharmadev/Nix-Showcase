@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Image Upload</title>
+  <link rel="icon" href="https://img.icons8.com/liquid-glass-color/32/filled-star.png" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+  <section id="spinner">
+    <span class="waiting">connecting to server...</span>
+  </section>
+  <section class="server-down" id="server-down" hidden>
+    <section class="main-container">
+      <section class="container">
+        <section class="icon">⚠️</section>
+        <h1>Server Temporarily Unavailable</h1>
+        <p>
+          We're sorry! Our server is currently down for maintenance or
+          experiencing technical issues.
+        </p>
+        <p class="small">Please try again in a few minutes.</p>
+        <button onclick="location.reload()" class="btn">Retry</button>
+      </section>
+    </section>
+  </section>
+  <div class="upload-container" id="file-upload" hidden>
+    <div class="preview-container">
+      <div id="imagePreviews"></div>
+    </div>
+    <h3>Upload Images & Get Compressed</h3>
+    <form id="uploadForm">
+      <input type="file" class="file-input" id="imageInput" accept="image/*" required multiple />
+      <div class="progress" id="progress" hidden="true">
+        <div class="progress-fill" id="progressFill">5%</div>
+      </div>
+      <button id="submitBtn" type="submit" class="btn" disabled>Submit</button>
+    </form>
+    <div class="file-list" id="file-list">
+    </div>
+  </div>
+</body>
+
+</html>
+<script src="https://cdn.socket.io/4.8.1/socket.io.min.js"></script>
+<script src="script.js"></script>
