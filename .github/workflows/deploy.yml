@@ -17,24 +17,10 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-
-      - name: Setup Pages
-        uses: actions/configure-pages@v5
-
-      - name: Upload CompressImage frontend
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: './CompressImage/FrontEnd'
-
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
 
       # ================= DynamicUI =================
       - name: Setup Node
@@ -79,12 +65,16 @@ jobs:
         run: |
           mkdir -p public/dynamic-controller
           mkdir -p public/banking-portal
+          mkdir -p public/compress-image
 
           echo "Copying DynamicUI..."
           cp -r DynamicUI/dist/dynamic-controller/browser/* public/dynamic-controller/
 
           echo "Copying Banking app..."
           cp -r DigitalBanking/FrontEndAngular/dist/banking-portal/browser/* public/banking-portal/
+
+          echo "Copying CompressImage..."
+          cp -r CompressImage/FrontEnd/* public/compress-image/
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
