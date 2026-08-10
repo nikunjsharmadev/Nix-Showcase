@@ -61,7 +61,7 @@ http://localhost:5000/
 
 ### 7. View Compressed Image
 
-- The compressed image will open in a new tab automatically
+- The compressed can download from UI
 
 ### 8. Expose Standalone API
 - form-data:
