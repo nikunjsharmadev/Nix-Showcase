@@ -2,7 +2,7 @@ services:
   api:
     build: .
     ports:
-      - '5000:5000'
+      - '4001:4001'
     env_file:
       - .env.docker
     depends_on:
