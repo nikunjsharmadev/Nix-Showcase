@@ -106,18 +106,18 @@ jobs:
           docker push \
             ${{ secrets.ECR_REPOSITORY }}:${{ github.sha }}
 
-      # - name: Build Docker Image For DigitalBanking
-      #   working-directory: DigitalBanking/BackEndExpress/user-service
-      #   run: |
-      #     docker build \
-      #     -t ${{ secrets.ECR_REPOSITORY }}:${{ github.sha }} \
-      #     .
+      - name: Build Docker Image For DigitalBanking
+        working-directory: DigitalBanking/BackEndExpress/user-service
+        run: |
+          docker build \
+          -t ${{ secrets.ECR_REPOSITORY }}:${{ github.sha }} \
+          .
 
-      # - name: Push Image
-      #   working-directory: DigitalBanking/BackEndExpress/user-service
-      #   run: |
-      #     docker push \
-      #       ${{ secrets.ECR_REPOSITORY }}:${{ github.sha }}
+      - name: Push Image
+        working-directory: DigitalBanking/BackEndExpress/user-service
+        run: |
+          docker push \
+            ${{ secrets.ECR_REPOSITORY }}:${{ github.sha }}
 
   deploy:
     needs: build
