@@ -97,27 +97,27 @@ jobs:
         working-directory: CompressImage/BackEnd
         run: |
           docker build \
-          -t ${{ secrets.ECR_REPOSITORY }}:${{ github.sha }} \
+          -t ${{ secrets.ECR_REPOSITORY_COMPRESS_IMAGE }}:${{ github.sha }} \
           .
 
       - name: Push Image
         working-directory: CompressImage/BackEnd
         run: |
           docker push \
-            ${{ secrets.ECR_REPOSITORY }}:${{ github.sha }}
+            ${{ secrets.ECR_REPOSITORY_COMPRESS_IMAGE }}:${{ github.sha }}
 
       - name: Build Docker Image For DigitalBanking
         working-directory: DigitalBanking/BackEndExpress/user-service
         run: |
           docker build \
-          -t ${{ secrets.ECR_REPOSITORY }}:${{ github.sha }} \
+          -t ${{ secrets.ECR_REPOSITORY_DIGITAL_BANKING }}:${{ github.sha }} \
           .
 
       - name: Push Image
         working-directory: DigitalBanking/BackEndExpress/user-service
         run: |
           docker push \
-            ${{ secrets.ECR_REPOSITORY }}:${{ github.sha }}
+            ${{ secrets.ECR_REPOSITORY_DIGITAL_BANKING }}:${{ github.sha }}
 
   deploy:
     needs: build
