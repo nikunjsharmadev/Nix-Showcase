@@ -59,11 +59,11 @@ socket.on('image-completed', (data) => {
     const reduction = (((originalSize - compressedSize) / originalSize) * 100).toFixed(1);
     originalSize = (originalSize / 1024 / 1024).toFixed(2);
     compressedSize = (compressedSize / 1024 / 1024).toFixed(2);
-    imageCounter -= 1;
     list += `<div class="file-item">
     <span class="file-name">image${imageCounter}, ${originalSize}mb 🛠️ ${compressedSize}mb (<strong>${reduction}%</strong>)</span>
     <a href="${BACKEND}/download/${fileName}" download>Download</a>
     </div>`;
+    imageCounter -= 1;
   }
   submitBtn.toggleAttribute('disabled', true);
   setTimeout(() => {
