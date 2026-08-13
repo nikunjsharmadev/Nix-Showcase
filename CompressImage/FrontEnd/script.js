@@ -80,8 +80,11 @@ imageInput.addEventListener('change', function () {
     this.value = '';
     return;
   }
-  if(files.length > 5) { alert("Only 5 images allowed at a time"); this.value = '';
- return; }
+  if (files.length > 5) {
+    alert('Only 5 images allowed at a time');
+    this.value = '';
+    return;
+  }
   imagePreviews.innerHTML = '';
   if (files.length > 0) {
     submitBtn.toggleAttribute('disabled', false);
