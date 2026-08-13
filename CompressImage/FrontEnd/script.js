@@ -10,7 +10,6 @@ const serverDown = document.getElementById('server-down');
 const fileUpload = document.getElementById('file-upload');
 const spinner = document.getElementById('spinner');
 const BACKEND = 'https://35.183.72.50:4000';
-let imageCounter = 0;
 const checkApi = async () => {
   const controller = new AbortController();
   const timeOut = setTimeout(() => {
@@ -52,13 +51,15 @@ socket.on('image-progress', (progress) => {
   updateProgress(progress.data);
 });
 socket.on('image-completed', (data) => {
+  let imageCounter = data.length;
   let list = fileList.innerHTML;
-  for (const [i, file] of [...data.entries()].revers()) {
+  for (let i = 0; i < data.length; i++) {}
+  for (const [i, file] of data.entries()) {
     let { fileName, originalSize, compressedSize } = file;
     const reduction = (((originalSize - compressedSize) / originalSize) * 100).toFixed(1);
     originalSize = (originalSize / 1024 / 1024).toFixed(2);
     compressedSize = (compressedSize / 1024 / 1024).toFixed(2);
-    imageCounter += 1;
+    imageCounter -= 1;
     list += `<div class="file-item">
     <span class="file-name">image${imageCounter}, ${originalSize}mb 🛠️ ${compressedSize}mb (<strong>${reduction}%</strong>)</span>
     <a href="${BACKEND}/download/${fileName}" download>Download</a>
