@@ -1,8 +1,8 @@
 # Compress Image Node+Express+Sharp
 Developed a high-performance image optimization API powered by Typescript using Node.js, Express.js, MongoDB, and Sharp, reducing image payload sizes by up to 60% with no perceptible loss in visual quality.
 
-<img width="799" height="1011" alt="Screenshot 2026-08-09 092809" src="https://github.com/user-attachments/assets/d64a76d6-7b7e-4dc6-827f-e411b03ed5f6" />
-<img width="754" height="1045" alt="Screenshot 2026-08-09 092818" src="https://github.com/user-attachments/assets/d245c34b-3902-48bb-8a5f-98f3f8fd1470" />
+<img width="900" height="600" alt="Screenshot 2026-08-09 092809" src="https://github.com/user-attachments/assets/d64a76d6-7b7e-4dc6-827f-e411b03ed5f6" />
+<img width="900" height="600" alt="Screenshot 2026-08-09 092818" src="https://github.com/user-attachments/assets/d245c34b-3902-48bb-8a5f-98f3f8fd1470" />
 
 # BackEnd is with docker container
 Live: [https://nikunjsharmadev.github.io/Nix-Showcase/CompressImage/FrontEnd/](https://nikunjsharmadev.github.io/Nix-Showcase/compress-image/)
