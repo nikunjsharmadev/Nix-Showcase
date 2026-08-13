@@ -9,7 +9,7 @@ const fileList = document.getElementById('file-list');
 const serverDown = document.getElementById('server-down');
 const fileUpload = document.getElementById('file-upload');
 const spinner = document.getElementById('spinner');
-const BACKEND = 'https://99.79.49.211:5000';
+const BACKEND = 'https://35.183.155.130:4000';
 let imageCounter = 0;
 const checkApi = async () => {
   const controller = new AbortController();
@@ -80,6 +80,8 @@ imageInput.addEventListener('change', function () {
     this.value = '';
     return;
   }
+  if(files.length > 5) { alert("Only 5 images allowed at a time"); this.value = '';
+ return; }
   imagePreviews.innerHTML = '';
   if (files.length > 0) {
     submitBtn.toggleAttribute('disabled', false);
