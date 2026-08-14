@@ -9,7 +9,7 @@ const fileList = document.getElementById('file-list');
 const serverDown = document.getElementById('server-down');
 const fileUpload = document.getElementById('file-upload');
 const spinner = document.getElementById('spinner');
-const BACKEND = 'https://3.99.131.248:4000';
+const BACKEND = 'https://16.52.51.47:4000';
 let imageCounter = 0;
 const socket = io(`${BACKEND}`, { autoConnect: false, secure: true });
 const checkApi = async () => {
