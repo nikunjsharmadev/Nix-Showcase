@@ -159,6 +159,7 @@ button[disabled] {
   }
 }
 .waiting {
+  color: white;
   animation: softblink 1.2s ease-in-out infinite;
 }
 @keyframes softblink {
