@@ -59,7 +59,7 @@ socket.on('image-progress', (progress) => {
 });
 socket.on('image-completed', (data) => {
   let list = fileList.innerHTML;
-  for (let i = data.length - 1; i > -1; i--) {
+  for (let i = 0; i < data.length; i++) {
     let { fileName, originalSize, compressedSize } = data[i];
     const reduction = (((originalSize - compressedSize) / originalSize) * 100).toFixed(1);
     originalSize = (originalSize / 1024 / 1024).toFixed(2);
