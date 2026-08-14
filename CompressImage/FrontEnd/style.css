@@ -4,7 +4,7 @@ body {
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  background-color: rgb(92, 147, 114);
+  background: linear-gradient(135deg, #0f172a, #312e81, #6d28d9);
   margin: 0;
 }
 h3 {
