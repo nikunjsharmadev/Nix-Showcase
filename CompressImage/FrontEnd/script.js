@@ -11,6 +11,7 @@ const fileUpload = document.getElementById('file-upload');
 const spinner = document.getElementById('spinner');
 const BACKEND = 'https://3.99.131.248:4000';
 let imageCounter = 0;
+const socket = io(`${BACKEND}`, { autoConnect: false, secure: true });
 const checkApi = async () => {
   const controller = new AbortController();
   const timeOut = setTimeout(() => {
@@ -41,13 +42,12 @@ window.addEventListener('DOMContentLoaded', async () => {
   spinner.toggleAttribute('hidden', true);
   serverDown.toggleAttribute('hidden', !!isApiUp.success);
   fileUpload.toggleAttribute('hidden', !isApiUp.success);
+  socket.emit('join', { userId: socket.id });
 });
 function updateProgress(progress) {
   progressFill.style.width = `${progress}%`;
   progressFill.textContent = `${progress}%`;
 }
-const socket = io(`${BACKEND}`, { secure: true });
-socket.emit('join', { userId: socket.id });
 socket.on('image-progress', (progress) => {
   updateProgress(progress.data);
 });
