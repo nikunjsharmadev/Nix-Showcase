@@ -42,12 +42,18 @@ window.addEventListener('DOMContentLoaded', async () => {
   spinner.toggleAttribute('hidden', true);
   serverDown.toggleAttribute('hidden', !!isApiUp.success);
   fileUpload.toggleAttribute('hidden', !isApiUp.success);
-  socket.emit('join', { userId: socket.id });
+  socket.connect();
 });
 function updateProgress(progress) {
   progressFill.style.width = `${progress}%`;
   progressFill.textContent = `${progress}%`;
 }
+socket.on('connect', () => {
+  console.log('Connected:', socket.id);
+  socket.emit('join', {
+    userId: socket.id,
+  });
+});
 socket.on('image-progress', (progress) => {
   updateProgress(progress.data);
 });
