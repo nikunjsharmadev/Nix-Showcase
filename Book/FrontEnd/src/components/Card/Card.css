@@ -1,0 +1,54 @@
+.hl-card {
+  background: rgb(255, 255, 255);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.8);
+  cursor: pointer;
+}
+.hl-card:hover {
+  transform: translateY(-5px);
+}
+.hl-card img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+}
+.hl-card .info {
+  padding: 15px;
+}
+.hl-card .info h3 {
+  margin-bottom: 5px;
+}
+.hl-card .city {
+  color: rgb(128, 128, 128);
+  font-size: 14px;
+}
+.hl-card .desc {
+  font-size: 13px;
+  margin: 10px 0;
+  color: rgb(85, 85, 85);
+}
+.hl-card .bottom {
+  display: flex;
+  justify-content: space-between;
+  margin: 10px 0;
+}
+.hl-card .price {
+  font-weight: bold;
+  color: rgb(26, 115, 232);
+}
+.hl-card .rating {
+  font-size: 14px;
+}
+.hl-card button {
+  width: 100%;
+  padding: 10px;
+  border: none;
+  background: rgb(26, 115, 232);
+  color: rgb(255, 255, 255);
+  border-radius: 8px;
+  cursor: pointer;
+}
+.hl-card button:hover {
+  background: rgb(21, 89, 184);
+}

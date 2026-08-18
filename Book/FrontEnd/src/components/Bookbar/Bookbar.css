@@ -1,0 +1,29 @@
+.hl-book-bar {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr auto;
+  gap: 15px;
+  background: rgb(255, 255, 255);
+  padding: 25px;
+  border-radius: 16px;
+}
+.hl-book-bar input,
+.hl-book-bar select {
+  padding: 15px;
+  font-size: 16px;
+  border: 1px solid rgb(221, 221, 221);
+  border-radius: 8px;
+  outline: none;
+}
+.hl-book-bar button {
+  background: rgb(26, 115, 232);
+  color: rgb(221, 221, 221);
+  border: none;
+  padding: 16px 28px;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+.hl-book-bar button:hover {
+  background: rgb(21, 89, 184);
+}
