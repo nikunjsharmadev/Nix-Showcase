@@ -13,94 +13,94 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
-    # steps:
-    #   - name: Checkout
-    #     uses: actions/checkout@v4
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
     # ================= DynamicUI =================
-    # - name: Setup Node
-    #   uses: actions/setup-node@v4
-    #   with:
-    #     node-version: 22
-    #     cache: npm
-    #     cache-dependency-path: DynamicUI/package-lock.json
-    # - name: Install dependencies
-    #   working-directory: DynamicUI
-    #   run: npm ci
-    # - name: Build
-    #   working-directory: DynamicUI
-    #   run: npm run build -- --configuration production --base-href "/Nix-Showcase/dynamic-controller/"
-    # - name: Copy index to 404 fallback
-    #   run: cp DynamicUI/dist/dynamic-controller/browser/index.html DynamicUI/dist/dynamic-controller/browser/404.html
-    # ================= DigitalBanking =================
-    # - name: Setup Node
-    #   uses: actions/setup-node@v4
-    #   with:
-    #     node-version: 22
-    #     cache: npm
-    #     cache-dependency-path: DigitalBanking/FrontEnd/package-lock.json
-    # - name: Install dependencies
-    #   working-directory: DigitalBanking/FrontEnd
-    #   run: npm ci
-    # - name: Build
-    #   working-directory: DigitalBanking/FrontEnd
-    #   run: npm run build -- --configuration production --base-href "/Nix-Showcase/banking-portal/"
-    # - name: Copy index to 404 fallback
-    #   run: cp DigitalBanking/FrontEnd/dist/banking-portal/browser/index.html DigitalBanking/FrontEnd/dist/banking-portal/browser/404.html
-    # -------- MERGE OUTPUT --------
-    # - name: Prepare Pages folder
-    #   run: |
-    #     mkdir -p public/dynamic-controller
-    #     mkdir -p public/banking-portal
-    #     mkdir -p public/compress-image
-    #     echo "Copying DynamicUI..."
-    #     cp -r DynamicUI/dist/dynamic-controller/browser/* public/dynamic-controller/
-    #     echo "Copying Banking app..."
-    #     cp -r DigitalBanking/FrontEnd/dist/banking-portal/browser/* public/banking-portal/
-    #     echo "Copying CompressImage..."
-    #     cp -r CompressImage/FrontEnd/* public/compress-image/
-    # - name: Upload Pages artifact
-    #   uses: actions/upload-pages-artifact@v3
-    #   with:
-    #     # path: DynamicUI/dist/dynamic-controller/browser
-    #     # path: DigitalBanking/FrontEnd/dist/banking-portal/browser
-    #     path: public
-    # - name: Configure AWS
-    #   uses: aws-actions/configure-aws-credentials@v4
-    #   with:
-    #     aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-    #     aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-    #     aws-region: ${{ secrets.AWS_REGION }}
-    # - name: Login to ECR
-    #   uses: aws-actions/amazon-ecr-login@v2
-    # - name: Build Docker Image For CompressImage
-    #   working-directory: CompressImage/BackEnd
-    #   run: |
-    #     docker build \
-    #     -t ${{ secrets.ECR_REPOSITORY_COMPRESS_IMAGE }}:${{ github.sha }} \
-    #     .
-    # - name: Push Image
-    #   working-directory: CompressImage/BackEnd
-    #   run: |
-    #     docker push \
-    #       ${{ secrets.ECR_REPOSITORY_COMPRESS_IMAGE }}:${{ github.sha }}
-    # - name: Build Docker Image For DigitalBanking
-    #   working-directory: DigitalBanking/BackEnd/user-service
-    #   run: |
-    #     docker build \
-    #     -t ${{ secrets.ECR_REPOSITORY_DIGITAL_BANKING }}:${{ github.sha }} \
-    #     .
-    # - name: Push Image
-    #   working-directory: DigitalBanking/BackEnd/user-service
-    #   run: |
-    #     docker push \
-    #       ${{ secrets.ECR_REPOSITORY_DIGITAL_BANKING }}:${{ github.sha }}
-  # deploy:
-  #   needs: build
-  #   runs-on: ubuntu-latest
-  #   environment:
-  #     name: github-pages
-  #     url: ${{ steps.deployment.outputs.page_url }}
-  #   steps:
-  #     - name: Deploy to GitHub Pages
-  #       id: deployment
-  #       uses: actions/deploy-pages@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: DynamicUI/package-lock.json
+      - name: Install dependencies
+        working-directory: DynamicUI
+        run: npm ci
+      - name: Build
+        working-directory: DynamicUI
+        run: npm run build -- --configuration production --base-href "/Nix-Showcase/dynamic-controller/"
+      - name: Copy index to 404 fallback
+        run: cp DynamicUI/dist/dynamic-controller/browser/index.html DynamicUI/dist/dynamic-controller/browser/404.html
+      # ================= DigitalBanking =================
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: Bank/FrontEnd/package-lock.json
+      - name: Install dependencies
+        working-directory: Bank/FrontEnd
+        run: npm ci
+      - name: Build
+        working-directory: Bank/FrontEnd
+        run: npm run build -- --configuration production --base-href "/Nix-Showcase/banking-portal/"
+      - name: Copy index to 404 fallback
+        run: cp Bank/FrontEnd/dist/banking-portal/browser/index.html Bank/FrontEnd/dist/banking-portal/browser/404.html
+      # -------- MERGE OUTPUT --------
+      - name: Prepare Pages folder
+        run: |
+          mkdir -p public/dynamic-controller
+          mkdir -p public/banking-portal
+          mkdir -p public/compress-image
+          echo "Copying DynamicUI..."
+          cp -r DynamicUI/dist/dynamic-controller/browser/* public/dynamic-controller/
+          echo "Copying Banking app..."
+          cp -r Bank/FrontEnd/dist/banking-portal/browser/* public/banking-portal/
+          echo "Copying CompressImage..."
+          cp -r Compress/FrontEnd/* public/compress-image/
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          # path: DynamicUI/dist/dynamic-controller/browser
+          # path: Bank/FrontEnd/dist/banking-portal/browser
+          path: public
+      # - name: Configure AWS
+      #   uses: aws-actions/configure-aws-credentials@v4
+      #   with:
+      #     aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      #     aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      #     aws-region: ${{ secrets.AWS_REGION }}
+      # - name: Login to ECR
+      #   uses: aws-actions/amazon-ecr-login@v2
+      # - name: Build Docker Image For CompressImage
+      #   working-directory: CompressImage/BackEnd
+      #   run: |
+      #     docker build \
+      #     -t ${{ secrets.ECR_REPOSITORY_COMPRESS_IMAGE }}:${{ github.sha }} \
+      #     .
+      # - name: Push Image
+      #   working-directory: CompressImage/BackEnd
+      #   run: |
+      #     docker push \
+      #       ${{ secrets.ECR_REPOSITORY_COMPRESS_IMAGE }}:${{ github.sha }}
+      # - name: Build Docker Image For Bank
+      #   working-directory: Bank/BackEnd/user-service
+      #   run: |
+      #     docker build \
+      #     -t ${{ secrets.ECR_REPOSITORY_DIGITAL_BANKING }}:${{ github.sha }} \
+      #     .
+      # - name: Push Image
+      #   working-directory: Bank/BackEnd/user-service
+      #   run: |
+      #     docker push \
+      #       ${{ secrets.ECR_REPOSITORY_DIGITAL_BANKING }}:${{ github.sha }}
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
