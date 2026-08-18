@@ -24,10 +24,10 @@ jobs:
           cache: npm
           cache-dependency-path: DynamicUI/FrontEnd/package-lock.json
       - name: Install dependencies
-        working-directory: DynamicUI
+        working-directory: DynamicUI/FrontEnd
         run: npm ci
       - name: Build
-        working-directory: DynamicUI
+        working-directory: DynamicUI/FrontEnd
         run: npm run build -- --configuration production --base-href "/Nix-Showcase/dynamic-controller/"
       - name: Copy index to 404 fallback
         run: cp DynamicUI/dist/dynamic-controller/browser/index.html DynamicUI/dist/dynamic-controller/browser/404.html
