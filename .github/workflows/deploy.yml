@@ -30,7 +30,7 @@ jobs:
         working-directory: DynamicUI/FrontEnd
         run: npm run build -- --configuration production --base-href "/Nix-Showcase/dynamic-controller/"
       - name: Copy index to 404 fallback
-        run: cp DynamicUI/dist/dynamic-controller/browser/index.html DynamicUI/dist/dynamic-controller/browser/404.html
+        run: cp DynamicUI/FrontEnd/dist/dynamic-controller/browser/index.html DynamicUI/FrontEnd/dist/dynamic-controller/browser/404.html
       # ================= DigitalBanking =================
       - name: Setup Node
         uses: actions/setup-node@v4
@@ -53,7 +53,7 @@ jobs:
           mkdir -p public/banking-portal
           mkdir -p public/compress-image
           echo "Copying DynamicUI..."
-          cp -r DynamicUI/dist/dynamic-controller/browser/* public/dynamic-controller/
+          cp -r DynamicUI/FrontEnd/dist/dynamic-controller/browser/* public/dynamic-controller/
           echo "Copying Banking app..."
           cp -r Bank/FrontEnd/dist/banking-portal/browser/* public/banking-portal/
           echo "Copying CompressImage..."
