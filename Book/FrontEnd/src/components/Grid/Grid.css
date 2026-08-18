@@ -1,0 +1,22 @@
+.hl-grid .section-hotels {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 25px;
+}
+.hl-grid .empty-state {
+  text-align: center;
+  margin-top: 25px;
+  color: rgb(128, 128, 128);
+}
+/* Tablet */
+@media (max-width: 1024px) {
+  .hl-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+/* Mobile */
+@media (max-width: 600px) {
+  .hl-grid {
+    grid-template-columns: 1fr;
+  }
+}
