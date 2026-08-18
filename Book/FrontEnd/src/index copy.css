@@ -1,0 +1,225 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family:
+    Inter,
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+html {
+  scroll-behavior: smooth;
+}
+body {
+  background: rgb(244, 246, 251);
+}
+body .center {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+body button {
+  cursor: pointer;
+}
+
+/* NAVBAR */
+.hl-navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 80px;
+  background: rgb(255, 255, 255);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.8);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+.hl-navbar .logo {
+  font-size: 28px;
+  font-weight: bold;
+  color: rgb(26, 115, 232);
+}
+.hl-navbar ul {
+  display: flex;
+  gap: 40px;
+  list-style: none;
+}
+.hl-navbar a {
+  text-decoration: none;
+  color: rgb(51, 51, 51);
+  font-weight: 600;
+  transition: 0.3s;
+}
+.hl-navbar a:hover {
+  color: rgb(26, 115, 232);
+}
+
+/* HERO */
+.hl-hero {
+  height: 85vh;
+  background: url("https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1800&q=80");
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.hl-hero .overlay {
+  background: rgba(0, 0, 0, 0.45);
+  padding: 60px;
+  border-radius: 20px;
+  text-align: center;
+  color: rgb(255, 255, 255);
+}
+.hl-hero .overlay h1 {
+  font-size: 64px;
+  margin-bottom: 20px;
+}
+.hl-hero .overlay p {
+  font-size: 22px;
+  margin-bottom: 30px;
+}
+
+/* Searchbar */
+.hl-search-bar {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr auto;
+  gap: 15px;
+  background: rgb(255, 255, 255);
+  padding: 25px;
+  border-radius: 16px;
+}
+.hl-search-bar input,
+.hl-search-bar select {
+  padding: 15px;
+  font-size: 16px;
+  border: 1px solid rgb(221, 221, 221);
+  border-radius: 8px;
+  outline: none;
+}
+.hl-search-bar button {
+  background: rgb(26, 115, 232);
+  color: rgb(221, 221, 221);
+  border: none;
+  padding: 16px 28px;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+.hl-search-bar button:hover {
+  background: rgb(21, 89, 184);
+}
+
+/* HOTEL SEARCH */
+.hl-search {
+  padding: 40px 80px;
+}
+.hl-search .search-input {
+  width: 100%;
+  max-width: 500px;
+  display: block;
+  margin: 0 auto 30px;
+  padding: 14px 18px;
+  border: 1px solid rgb(221, 221, 221);
+  border-radius: 10px;
+  font-size: 16px;
+  outline: none;
+  transition: 0.3s;
+}
+.hl-search .search-input:focus {
+  border-color: rgb(26, 115, 232);
+  box-shadow: 0 0 0 3px rgba(26, 115, 232, 0.15);
+}
+/* Mobile */
+@media (max-width: 600px) {
+  .hl-search {
+    padding: 20px;
+  }
+}
+
+/* GRID */
+.hl-grid .section-hotels {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 25px;
+}
+.hl-grid .empty-state {
+  text-align: center;
+  margin-top: 25px;
+  color: rgb(128, 128, 128);
+}
+/* Tablet */
+@media (max-width: 1024px) {
+  .hl-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+/* Mobile */
+@media (max-width: 600px) {
+  .hl-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* CARD */
+.hl-card {
+  background: rgb(255, 255, 255);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.8);
+  cursor: pointer;
+}
+.hl-card:hover {
+  transform: translateY(-5px);
+}
+.hl-card img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+}
+.hl-card .info {
+  padding: 15px;
+}
+.hl-card .info h3 {
+  margin-bottom: 5px;
+}
+.hl-card .city {
+  color: rgb(128, 128, 128);
+  font-size: 14px;
+}
+.hl-card .desc {
+  font-size: 13px;
+  margin: 10px 0;
+  color: rgb(85, 85, 85);
+}
+.hl-card .bottom {
+  display: flex;
+  justify-content: space-between;
+  margin: 10px 0;
+}
+.hl-card .price {
+  font-weight: bold;
+  color: rgb(26, 115, 232);
+}
+.hl-card .rating {
+  font-size: 14px;
+}
+.hl-card button {
+  width: 100%;
+  padding: 10px;
+  border: none;
+  background: rgb(26, 115, 232);
+  color: rgb(255, 255, 255);
+  border-radius: 8px;
+  cursor: pointer;
+}
+.hl-card button:hover {
+  background: rgb(21, 89, 184);
+}

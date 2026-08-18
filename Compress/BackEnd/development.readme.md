@@ -1,0 +1,1 @@
+--thread-content-max-width: 100rem;

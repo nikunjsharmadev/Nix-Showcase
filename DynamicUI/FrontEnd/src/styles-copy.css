@@ -1,0 +1,160 @@
+/* Body */
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+html {
+  scroll-behavior: smooth;
+}
+body {
+  font-family: 'Courier New', Courier, monospace;
+}
+/* Container for the entire form */
+form,
+.form-container {
+  max-width: 500px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background-color: #1e293b; /* Deep slate background */
+  border-radius: 8px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+  font-family: 'Courier New', Courier, monospace;
+  border: 1px solid #334155;
+} /* Outer wrapper divs for each form row */
+
+dyn-ui-control {
+  margin-bottom: 1.25rem;
+}
+/* The dynamic control component layout */
+dyn-ui-control {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  color: #f1f5f9; /* Off-white text */
+}
+.not-found {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 20px;
+}
+.not-found h1 {
+  font-size: 96px;
+  margin: 0;
+  color: #3b82f6;
+}
+.not-found h2 {
+  margin: 10px 0;
+  color: #fff;
+}
+.not-found p {
+  color: #aaa;
+  margin-bottom: 25px;
+}
+.not-found button:hover {
+  background: #2563eb;
+}
+button {
+  padding: 12px 24px;
+  border: none;
+  border-radius: 8px;
+  background: #3b82f6;
+  color: #fff;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background 0.2s;
+}
+/* Style the form labels */
+label {
+  font-weight: 600;
+  font-size: 1.2rem;
+  text-transform: capitalize;
+  color: #94a3b8; /* Muted slate for labels */
+}
+/* Standard styling for inputs, select, and textarea */
+input[type='text'],
+input[type='email'],
+input[type='number'],
+select,
+textarea {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #475569;
+  border-radius: 6px;
+  font-size: 1rem;
+  background-color: #0f172a; /* Darker background for form fields */
+  color: #f8fafc;
+  transition: all 0.2s ease-in-out;
+  box-sizing: border-box;
+  font-family: 'Courier New', Courier, monospace;
+}
+/* Focus states with glowing accent color */
+input:focus,
+select:focus,
+textarea:focus {
+  outline: none;
+  border-color: #06b6d4; /* Neon Teal / Cyan accent */
+  background-color: #0f172a;
+  box-shadow: 0 0 0 3px rgba(6, 182, 212, 0.25);
+}
+/* Styling for selected options inside multi-select */
+select option {
+  background-color: #0f172a;
+  color: #f8fafc;
+}
+/* Customizing the multi-select and textarea heights */
+select[multiple] {
+  padding: 0.5rem;
+  height: auto;
+}
+textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+/* Special handling for Radio Buttons layout */
+input[type='radio'] {
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem;
+}
+/* Ensure the radio label stays on its own line block */
+label input[type='radio'] {
+  width: 100%;
+  margin-bottom: -0.25rem;
+}
+/* Custom Radio input styling alignment */
+input[type='radio'] {
+  margin-right: 0.25rem;
+  cursor: pointer;
+  accent-color: #06b6d4; /* Matches the neon focus state */
+}
+div {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  color: #f1f5f9; /* Off-white text */
+}
+div :has(input[type='radio']) {
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem;
+}
+div :has(input[type='radio']) label {
+  width: 100%;
+  margin-bottom: -0.25rem;
+}
+div input[type='radio'] {
+  margin-right: 0.25rem;
+  cursor: pointer;
+  accent-color: #06b6d4; /* Matches the neon focus state */
+}
+div .radio-group .gender-name {
+  margin-left: -10px;
+}
