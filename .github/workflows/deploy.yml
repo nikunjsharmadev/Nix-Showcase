@@ -76,7 +76,7 @@ jobs:
           echo "Copying CompressImage..."
           cp -r Compress/FrontEnd/* public/compress-image/
           echo "Copying Booking..."
-          cp -r Book/FrontEnd/* public/booking/
+          cp -r Book/FrontEnd/dist/* public/booking/
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
