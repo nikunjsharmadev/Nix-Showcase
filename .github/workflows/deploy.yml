@@ -46,18 +46,37 @@ jobs:
         run: npm run build -- --configuration production --base-href "/Nix-Showcase/banking-portal/"
       - name: Copy index to 404 fallback
         run: cp Bank/FrontEnd/dist/banking-portal/browser/index.html Bank/FrontEnd/dist/banking-portal/browser/404.html
+      # ================== Booking =========================
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: Book/FrontEnd/package-lock.json
+      - name: Install dependencies
+        working-directory: Book/FrontEnd
+        run: npm ci
+      - name: Build
+        working-directory: Book/FrontEnd
+        run: npm run build
+      - name: Copy index to 404 fallback
+        run: cp Book/FrontEnd/dist/index.html Book/FrontEnd/dist/404.html
+
       # -------- MERGE OUTPUT --------
       - name: Prepare Pages folder
         run: |
           mkdir -p public/dynamic-controller
           mkdir -p public/banking-portal
           mkdir -p public/compress-image
+          mkdir -p public/booking
           echo "Copying DynamicUI..."
           cp -r DynamicUI/FrontEnd/dist/dynamic-controller/browser/* public/dynamic-controller/
           echo "Copying Banking app..."
           cp -r Bank/FrontEnd/dist/banking-portal/browser/* public/banking-portal/
           echo "Copying CompressImage..."
           cp -r Compress/FrontEnd/* public/compress-image/
+          echo "Copying Booking..."
+          cp -r Book/FrontEnd/* public/booking/
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
