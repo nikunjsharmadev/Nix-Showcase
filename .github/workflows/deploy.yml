@@ -16,7 +16,7 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      # ================= DynamicUI =================
+      # ================= DynamicUI ANGULAR =================
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
@@ -31,7 +31,7 @@ jobs:
         run: npm run build -- --configuration production --base-href "/Nix-Showcase/dynamic-controller/"
       - name: Copy index to 404 fallback
         run: cp DynamicUI/FrontEnd/dist/dynamic-controller/browser/index.html DynamicUI/FrontEnd/dist/dynamic-controller/browser/404.html
-      # ================= DigitalBanking =================
+      # ================= DigitalBanking ANGULAR =================
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
@@ -46,7 +46,7 @@ jobs:
         run: npm run build -- --configuration production --base-href "/Nix-Showcase/banking-portal/"
       - name: Copy index to 404 fallback
         run: cp Bank/FrontEnd/dist/banking-portal/browser/index.html Bank/FrontEnd/dist/banking-portal/browser/404.html
-      # ================== Booking =========================
+      # ================== Booking REACTJS =========================
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
@@ -73,10 +73,12 @@ jobs:
           cp -r DynamicUI/FrontEnd/dist/dynamic-controller/browser/* public/dynamic-controller/
           echo "Copying Banking app..."
           cp -r Bank/FrontEnd/dist/banking-portal/browser/* public/banking-portal/
-          echo "Copying CompressImage..."
-          cp -r Compress/FrontEnd/* public/compress-image/
           echo "Copying Booking..."
           cp -r Book/FrontEnd/dist/* public/booking/
+          echo "Copying CompressImage..."
+          cp -r Compress/FrontEnd/* public/compress-image/
+          echo "Copying VideoUI..."
+          cp -r Video/FrontEnd/* public/video-ui/
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
