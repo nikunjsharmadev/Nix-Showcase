@@ -1,15 +1,18 @@
 {
   "scripts": {
+    "server-copy": "npx tsx watch ./src/server-copy.ts",
     "dev": "npx tsx watch ./src/server.ts",
     "build": "tsc",
     "start": "tsc && node dist/server.js"
   },
   "dependencies": {
+    "cors": "^2.8.6",
     "dotenv": "^17.4.2",
     "express": "^5.2.1",
     "http-proxy-middleware": "^3.0.7"
   },
   "devDependencies": {
+    "@types/cors": "^2.8.19",
     "@types/express": "^5.0.6",
     "@types/http-proxy-middleware": "^0.19.3"
   },

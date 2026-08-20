@@ -1,4 +1,10 @@
 # Logs
+main-copy.ts
+server-copy.ts
+routes-copy.ts
+styles-copy.scss
+certs/
+development.readme.md
 logs
 *.log
 npm-debug.log*
