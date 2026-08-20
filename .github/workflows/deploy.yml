@@ -67,8 +67,10 @@ jobs:
         run: |
           mkdir -p public/dynamic-controller
           mkdir -p public/banking-portal
-          mkdir -p public/compress-image
           mkdir -p public/booking
+          mkdir -p public/compress-image
+          mkdir -p public/video-ui
+
           echo "Copying DynamicUI..."
           cp -r DynamicUI/FrontEnd/dist/dynamic-controller/browser/* public/dynamic-controller/
           echo "Copying Banking app..."
