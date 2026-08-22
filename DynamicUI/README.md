@@ -2,7 +2,7 @@
 # Dynamic UI Controller
 Built a metadata-driven form rendering system in Angular using ngTemplateOutlet-based templates to dynamically generate UI controls from backend-driven schemas.
 
-![alt text](dynamicUIcontollerView.png)
+<img width="1667" height="1074" alt="Screenshot 2026-08-22 060421" src="https://github.com/user-attachments/assets/631c12c0-7a2d-499b-8645-c1f413fbd0af" />
 
 ```json
 [
