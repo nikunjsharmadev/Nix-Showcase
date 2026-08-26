@@ -4,6 +4,6 @@ COPY package*.json ./
 RUN npm ci
 COPY . .
 # RUN npm run build
-EXPOSE 4002
+EXPOSE 4001
 CMD [ "npm","run", "server-copy" ]
 # CMD [ "npm","run", "start" ]

@@ -1,15 +1,14 @@
-import { Component, inject } from '@angular/core';
+import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { ServerDownComponent } from './features/server-down/server-down.component';
-import { AppStateService } from './core/services/service';
-
+import { serviceFactory } from './core/services/service';
 // APP
 @Component({
-  selector: 'bnk-app',
-  imports: [RouterOutlet, ServerDownComponent],
-  templateUrl: './app.component.html',
-  styleUrl: './app.component.scss',
+  selector: `bnk-app`,
+  template: `
+    <!--  -->
+    <router-outlet />
+  `,
+  imports: [RouterOutlet],
 })
-export class AppComponent {
-  protected state = inject(AppStateService);
-}
+export class AppComponent {}

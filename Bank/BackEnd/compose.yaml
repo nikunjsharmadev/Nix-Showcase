@@ -1,18 +1,21 @@
 services:
+  api-gateway:
+    build: ./api-gateway
+    ports:
+      - '4001:4001'
   user-service:
-    build: .
+    build: ./user-service
     ports:
       - '4002:4002'
-    env_file:
-      - .env.docker
     depends_on:
       - mongodb
-
   mongodb:
     image: mongo:8
     ports:
       - '27017:27017'
     volumes:
       - mongo-data:/data/db
+      - mongo-config:/data/configdb
 volumes:
   mongo-data:
+  mongo-config:

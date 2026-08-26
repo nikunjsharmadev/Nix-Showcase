@@ -1,5 +1,9 @@
 // TYPES
 export type httpMethods = 'get' | 'post';
+export enum AuthTab {
+  Login = 'login',
+  Register = 'register',
+}
 export type LoginRequest = {
   email: string;
   password: string;
@@ -12,6 +16,7 @@ export type RegisterRequest = {
   phone: string;
   acceptTerms: boolean;
 };
+export type ApiPayload = LoginRequest | RegisterRequest;
 export type LoginResponse = {
   id?: string;
   firstName?: string;
@@ -19,4 +24,7 @@ export type LoginResponse = {
   email?: string;
   phone?: string;
   role?: string;
+};
+export type TokenResponse = {
+  user: LoginResponse;
 };

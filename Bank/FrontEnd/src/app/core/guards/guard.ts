@@ -1,33 +1,46 @@
 import { CanActivateFn, Router } from '@angular/router';
-import { AppStateService, AuthService } from '../services/service';
 import { inject } from '@angular/core';
 import { catchError, finalize, map, of } from 'rxjs';
-
+import { serviceFactory } from '../services/service';
 // GUARDS
-export function Guards() {
-  const auth: CanActivateFn = () => {
-    const appStateService = inject(AppStateService);
-    if (!appStateService.serverOnline()) return of(false);
+const createGuards = () => {
+  const authGuard: CanActivateFn = (route, state) => {
+    const { AuthService, AppStateService } = serviceFactory;
     const authService = inject(AuthService);
+    const appStateService = inject(AppStateService);
     const router = inject(Router);
-    if (appStateService.initialized()) {
-      const user_ = appStateService.loggedUser();
-      return Object.keys(user_).length > 0;
+    const user_ = appStateService.loggedUser();
+    if (appStateService.initialized() || Object.keys(user_ ?? {}).length > 0) {
+      return true;
     }
     return authService.checkMe().pipe(
       map(() => true),
-      catchError((err) => {
-        if (err.status === 401) {
-          return of(router.createUrlTree(['/auth']));
-        }
-        return of(router.createUrlTree(['/page-not-found']));
+      catchError(() => {
+        return of(router.createUrlTree(['/auth'], { queryParams: { returnUrl: state.url } }));
       }),
       finalize(() => {
         appStateService.initialized.set(true);
       }),
     );
   };
-  return {
-    auth,
+  const serverHealthGuard: CanActivateFn = () => {
+    const { AppStateService } = serviceFactory;
+    const appStateService = inject(AppStateService);
+    const router = inject(Router);
+    if (appStateService.serverOnline()) return true;
+    return router.createUrlTree(['/server-down']);
   };
-}
+  const serverDownGuard: CanActivateFn = () => {
+    const { AppStateService } = serviceFactory;
+    const appStateService = inject(AppStateService);
+    const router = inject(Router);
+    if (!appStateService.serverOnline()) return true;
+    return router.createUrlTree(['/dashboard']);
+  };
+  return {
+    authGuard,
+    serverHealthGuard,
+    serverDownGuard,
+  };
+};
+export const guardFactory = createGuards();
