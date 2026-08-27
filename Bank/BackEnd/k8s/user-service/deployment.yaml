@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: user-service
+  namespace: backend
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: user-service
+  template:
+    metadata:
+      labels:
+        app: user-service
+    spec:
+      containers:
+        - name: user-service
+          image: nikunjsharmade/user-service:1.0.0
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 4002
+          env:
+            - name: PORT
+              value: '4002'
+            - name: DB_DEV
+              value: 'mongodb://mongodb:27017/Nix-Digital-Banking'
