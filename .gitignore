@@ -1,9 +1,7 @@
-main-copy.ts
-main-copy.spec.ts
-server-copy.ts
-routes-copy.ts
-styles-copy.scss
-styles-copy.css
+main-copy.*
+server-copy.*
+routes-copy.*
+styles-copy.*
 certs/
 development.readme.md
 .angular/
