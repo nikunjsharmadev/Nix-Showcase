@@ -1,0 +1,18 @@
+spring:
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/bank
+    username: root
+    password: NewPassword123!
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: true
+  flyway:
+    enabled: true
+  mvc:
+    throw-exception-if-no-handler-found: true
+app:
+  name: user-service
+  jwt: PhHqchQwZFurV2zJnD3rVx5cOyG1boM2/SrHphnp9fc=
+server:
+  port: 4003
