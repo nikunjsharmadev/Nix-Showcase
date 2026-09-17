@@ -23,7 +23,6 @@ import java.util.concurrent.Executor;
 
 import javax.crypto.SecretKey;
 import org.springframework.http.MediaType;
-import org.apache.catalina.connector.Response;
 import org.springframework.aop.interceptor.AsyncUncaughtExceptionHandler;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
@@ -130,7 +129,6 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.OncePerRequestFilter;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.Jwts.KEY;
 import io.jsonwebtoken.security.Keys;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
