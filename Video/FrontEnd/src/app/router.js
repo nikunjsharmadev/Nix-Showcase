@@ -1,4 +1,4 @@
-import { HomePage, FeedPage, LoginPage, PageNotFound } from "../pages/index.js";
+import { FeedPage, LoginPage, PageNotFound } from "../pages/index.js";
 import { AuthService } from "../services/index.js";
 import { NavBar } from "../components/index.js";
 export class Router {

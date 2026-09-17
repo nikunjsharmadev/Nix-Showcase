@@ -7,7 +7,7 @@ development.readme.md
 .angular/
 uploads
 angular-copy.json
-
+Learning/
 # Logs
 logs
 *.log
@@ -151,3 +151,5 @@ dist
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
 .vite/
+Book/FrontEnd/src/main-copy.tsx
+Book/FrontEnd/src/main-copy.tsx

@@ -1,6 +1,6 @@
 import { ApiService } from "../services/index.js";
 import { VideoCard, Skeleton } from "../components/index.js";
-import { debounce, setupObserver } from "../utils/index.js";
+import { setupObserver } from "../utils/index.js";
 import { FEED_STATE } from "../const/index.js";
 export function FeedPage() {
   setTimeout(() => initFeed(), 0);
