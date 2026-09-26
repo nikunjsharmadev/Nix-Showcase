@@ -12,8 +12,10 @@ spring:
   mvc:
     throw-exception-if-no-handler-found: true
   session:
-    store-type: jdbc
-    timeout: 30m
+    redis:
+      namespace: myapp:session
+      store-type: redis
+      timeout: 30m
   data:
     redis:
       host: 127.0.0.1
@@ -25,12 +27,10 @@ spring:
     redis:
       time-to-live: 10m
       cache-null-values: false
-  session:
-    redis:
-      namespace: myapp:session
-    store-type: redis
-    timeout: 30m
   security:
+    user:
+      name: admin
+      password: admin123
     oauth2:
       client:
         registration:
