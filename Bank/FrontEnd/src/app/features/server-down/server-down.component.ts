@@ -1,10 +1,11 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, ChangeDetectionStrategy } from '@angular/core';
 import { Router } from '@angular/router';
 import { serviceFactory } from '../../core/services/service';
 const { ServerHealthService } = serviceFactory;
 // SERVER DOWN
 @Component({
   selector: `bnk-server-down`,
+  changeDetection: ChangeDetectionStrategy.Eager,
   template: ` <!--  -->
     <section class="main-container">
       <section class="container">

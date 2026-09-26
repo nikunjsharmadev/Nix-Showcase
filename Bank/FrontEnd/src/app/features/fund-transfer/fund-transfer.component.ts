@@ -1,9 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { RouterLink } from '@angular/router';
 
 @Component({
   imports: [RouterLink],
   selector: `bnk-fund-transfer`,
+  changeDetection: ChangeDetectionStrategy.Eager,
   template: `<!--  -->
     <div class="app-layout-wrapper">
       <header class="app-top-nav" role="banner">

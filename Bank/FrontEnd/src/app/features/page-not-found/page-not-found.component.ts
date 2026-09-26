@@ -1,9 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { RouterLink } from '@angular/router';
 // PAGE NOT FOUND
 @Component({
   imports: [RouterLink],
   selector: `bnk-page-not-found`,
+  changeDetection: ChangeDetectionStrategy.Eager,
   template: ` <!--  -->
     <section class="not-found">
       <div class="content">

@@ -1,4 +1,4 @@
-import { Component, effect, inject, Input, signal } from '@angular/core';
+import { Component, effect, inject, Input, signal, ChangeDetectionStrategy } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { serviceFactory } from '../../core/services/service';
 import { constantFactory } from '../../core/constants/const';
@@ -9,6 +9,7 @@ const { AuthService, AuthContextService } = serviceFactory;
 //AUTH LAYOUT
 @Component({
   selector: `bnk-auth-layout`,
+  changeDetection: ChangeDetectionStrategy.Eager,
   template: `<!--  -->
     <section class="auth-viewport">
       <section class="auth-sidebar-brand" aria-hidden="true">
@@ -36,6 +37,7 @@ class AuthLayoutComponent {
 @Component({
   selector: `bnk-form`,
   imports: [ReactiveFormsModule],
+  changeDetection: ChangeDetectionStrategy.Eager,
   template: ` <!--  -->
     @switch (useType) {
       @case ('login') {
@@ -228,6 +230,7 @@ class FormControlComponent {
 @Component({
   selector: `bnk-register`,
   imports: [FormControlComponent],
+  changeDetection: ChangeDetectionStrategy.Eager,
   template: `<section [class.active]="registerTab" id="section-register" class="auth-panel" role="tabpanel" aria-labelledby="toggle-register">
     <div class="panel-intro">
       <h3>{{ STRING_LITERALS[0] }}</h3>
@@ -250,6 +253,7 @@ class RegisterComponent {
 @Component({
   selector: `bnk-login`,
   imports: [FormControlComponent],
+  changeDetection: ChangeDetectionStrategy.Eager,
   template: `<!--  -->
     <section [class.active]="fullyRendered() && loginTab" id="section-login" class="auth-panel" role="tabpanel" aria-labelledby="toggle-login">
       <section class="panel-intro">
@@ -279,6 +283,7 @@ class LoginComponent {
 @Component({
   selector: `bnk-tab`,
   imports: [],
+  changeDetection: ChangeDetectionStrategy.Eager,
   template: `<!--  -->
     <section class="auth-tab-row" role="tablist" aria-label="Account Authorization">
       <button (click)="onTabChange(authTab.Login)" [class.active]="activeTab === authTab.Login" role="tab" class="tab-btn" aria-controls="section-login">
@@ -304,6 +309,7 @@ class TabComponent {
 @Component({
   selector: 'bnk-verify-email',
   imports: [RouterLink, AuthLayoutComponent],
+  changeDetection: ChangeDetectionStrategy.Eager,
   template: `<!--  -->
     <bnk-auth-layout>
       <div class="verify-container">
@@ -380,6 +386,7 @@ export class EmailVerificationComponent {
 @Component({
   selector: `bnk-auth`,
   imports: [AuthLayoutComponent, TabComponent, LoginComponent, RegisterComponent],
+  changeDetection: ChangeDetectionStrategy.Eager,
   template: `<!--  -->
     <bnk-auth-layout>
       <bnk-tab />
