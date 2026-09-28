@@ -1,31 +1,29 @@
 {
   // Visit https://aka.ms/tsconfig to read more about this file
-  "include": ["./src", "./server"],
   "compilerOptions": {
-    "esModuleInterop": true,
     // File Layout
     "rootDir": "./src",
     "outDir": "./dist",
+    
     // Environment Settings
     // See also https://aka.ms/tsconfig/module
-    "verbatimModuleSyntax": true,
     "module": "nodenext",
     "target": "esnext",
-    "lib": ["esnext"],
-    // "types": [],
+    "types": ["node"],
     // For nodejs:
+    "lib": ["esnext"],
+    // "types": ["node"],
     // and npm install -D @types/node
-
+    
     // Other Outputs
     "sourceMap": true,
     "declaration": true,
     "declarationMap": true,
-    "typeRoots": ["./src/shared/types"],
 
     // Stricter Typechecking Options
     "noUncheckedIndexedAccess": true,
     "exactOptionalPropertyTypes": false,
-
+    
     // Style Options
     // "noImplicitReturns": true,
     // "noImplicitOverride": true,
@@ -33,14 +31,17 @@
     // "noUnusedParameters": true,
     // "noFallthroughCasesInSwitch": true,
     // "noPropertyAccessFromIndexSignature": true,
-
+    
     // Recommended Options
     "strict": true,
     "jsx": "react-jsx",
+    "verbatimModuleSyntax": true,
     "isolatedModules": true,
     "noUncheckedSideEffectImports": true,
     "moduleDetection": "force",
     "skipLibCheck": true,
-    "noImplicitThis": true
-  }
+    "noImplicitThis": true,
+    "esModuleInterop": true,
+  },
+  "include": ["./src"]
 }
