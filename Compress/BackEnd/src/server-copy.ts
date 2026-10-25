@@ -8,8 +8,9 @@ import sharp from 'sharp';
 import cors, { type CorsOptions } from 'cors';
 import multer from 'multer';
 import { Server } from 'socket.io';
-import { Queue, QueueEvents, Worker } from 'bullmq';
+import { Queue, QueueEvents, Worker, type QueueOptions, type WorkerOptions } from 'bullmq';
 import type { Request, Response, NextFunction, RequestHandler } from 'express';
+import type { TcpSocketConnectOpts } from 'net';
 dotenv.config();
 //---------------------------------------------------------------------
 // CONST
@@ -36,12 +37,24 @@ const createConstants = () => {
     },
   ];
   const CHARS_SET = 'abcdefghijklmnopqrstuvwxyz';
-  const REDIS_CONNECTION = {
-    connection: {
-      host: ENV['REDIS_HOST'],
-      port: Number(ENV['REDIS_PORT']),
-    },
+  const REDIS_CONNECTION: TcpSocketConnectOpts = {
+    host: ENV['REDIS_HOST'],
+    port: Number(ENV['REDIS_PORT']),
   } as const;
+  const QUEUEOPTIONS: QueueOptions = {
+    defaultJobOptions: {
+      attempts: 3,
+      backoff: {
+        type: "exponential",
+        delay: 2000
+      }
+    }, 
+    connection: REDIS_CONNECTION
+  } as const;
+  const WORKEROPTIONS: WorkerOptions = {
+    connection: REDIS_CONNECTION,
+    concurrency: 5
+  }
   const CORS_OPTIONS = {
     cors: {
       origin: FRONTEND,
@@ -63,6 +76,8 @@ const createConstants = () => {
     UPLOAD_DIR,
     UPLOAD_FIELDS,
     CHARS_SET,
+    QUEUEOPTIONS,
+    WORKEROPTIONS,
     REDIS_CONNECTION,
     CORS_OPTIONS,
     HTTPS_CERTIFICATE_CONFIG,
@@ -88,14 +103,14 @@ export class ApiError extends Error {
 //---------------------------------------------------------------------
 //QUEUES
 const createQueue = () => {
-  const { REDIS_CONNECTION } = constantFactory;
+  const { QUEUEOPTIONS } = constantFactory;
   let queue: Queue;
   let queueEvents: QueueEvents;
   const setQueue = (queueName: string) => {
-    queue = new Queue(queueName, REDIS_CONNECTION);
+    queue = new Queue(queueName, QUEUEOPTIONS);
   };
   const setQueueEvent = (queueName: string) => {
-    queueEvents = new QueueEvents(queueName, REDIS_CONNECTION);
+    queueEvents = new QueueEvents(queueName, QUEUEOPTIONS);
   };
   const monitorQueue = async (io: Server) => {
     await queueEvents.waitUntilReady();
@@ -126,7 +141,7 @@ export const queueFactory = createQueue();
 //----------------------------------------------------------------------
 // WORKERS
 const createWorker = () => {
-  const { REDIS_CONNECTION, UPLOAD_DIR } = constantFactory;
+  const { WORKEROPTIONS, UPLOAD_DIR } = constantFactory;
   let worker: Worker;
   const setWorker = (workerName: string) => {
     console.info(`worker has been started with: ${workerName}`);
@@ -146,8 +161,7 @@ const createWorker = () => {
         } catch (error) {
           throw error;
         }
-      },
-      REDIS_CONNECTION,
+      }, WORKEROPTIONS
     );
   };
   const getWorker = () => worker;

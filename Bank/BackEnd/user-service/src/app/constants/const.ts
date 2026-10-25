@@ -26,6 +26,11 @@ export const UPLOAD_FIELDS = [
   { name: 'documents', maxCount: Number(ENV.MAX_DOCUMENT_UPLOAD_COUNT) },
 ] as const;
 export const MONGOOSE_OPTIONS: mongoose.ConnectOptions = {
+  maxPoolSize: 10,
+  minPoolSize: 2,
+  maxIdleTimeMS: 600000,
+  serverSelectionTimeoutMS: 30000,
+  socketTimeoutMS: 45000,
   autoIndex: true,
   serverApi: {
     version: '1',
